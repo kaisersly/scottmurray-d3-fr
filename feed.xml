@@ -6,8 +6,8 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Oct 2014 07:14:59 +0100</pubDate>
-    <lastBuildDate>Tue, 28 Oct 2014 07:14:59 +0100</lastBuildDate>
+    <pubDate>Tue, 28 Oct 2014 07:27:32 +0100</pubDate>
+    <lastBuildDate>Tue, 28 Oct 2014 07:27:32 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -55,8 +55,8 @@
 
 &lt;p&gt;Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;h1&lt;/span&gt;          &lt;span class=&quot;c&quot;&gt;/* Sélectionne les titres de niveau 1  */&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;/* Sélectionne les paragraphes                    */&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;h1&lt;/span&gt;          &lt;span class=&quot;c&quot;&gt;/* Sélectionne les titres de niveau 1 */&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;/* Sélectionne les paragraphe */&lt;/span&gt;
 &lt;span class=&quot;nc&quot;&gt;.caption&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;/* Sélectionne les éléments avec la classe &quot;caption&quot; */&lt;/span&gt;
 &lt;span class=&quot;nf&quot;&gt;#subnav&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;/* Sélectionne l&#39;élément qui à l&#39;ID &quot;subnav&quot; */&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -71,8 +71,8 @@
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;14px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;14px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;D3 utiliser les sélecteurs CSS pour indentifier les éléments sur lequels il opère, il est donc important de comprendre comment les utiliser.&lt;/p&gt;
@@ -204,10 +204,6 @@
 &lt;h3 id=&quot;mise-en-garde&quot;&gt;Mise en garde&lt;/h3&gt;
 
 &lt;p&gt;Par soucis de compréhension, il m’arrivera, dans certains cas, de simplifier à l’extrême certains points techniques ou concepts fondamentaux en informatique, ce qui ne manquera pas de faire bondir les vrais ingénieurs logiciels. Aucun soucis, je m’adresse aux artistes et aux designers, pas aux ingénieurs.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;a href=&quot;2-les-fondamentaux.html&quot;&gt;Suivant : Les fondamentaux –&amp;gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/1-a-propos.html</link>
