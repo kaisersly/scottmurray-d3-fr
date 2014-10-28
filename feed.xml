@@ -6,8 +6,8 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Oct 2014 21:24:01 +0100</pubDate>
-    <lastBuildDate>Tue, 28 Oct 2014 21:24:01 +0100</lastBuildDate>
+    <pubDate>Tue, 28 Oct 2014 21:32:20 +0100</pubDate>
+    <lastBuildDate>Tue, 28 Oct 2014 21:32:20 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -113,7 +113,7 @@
 &lt;p&gt;Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;h1&lt;/span&gt;          &lt;span class=&quot;c&quot;&gt;/* Sélectionne les titres de niveau 1 */&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;/* Sélectionne les paragraphe */&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;/* Sélectionne les paragraphes */&lt;/span&gt;
 &lt;span class=&quot;nc&quot;&gt;.caption&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;/* Sélectionne les éléments avec la classe &quot;caption&quot; */&lt;/span&gt;
 &lt;span class=&quot;nf&quot;&gt;#subnav&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;/* Sélectionne l&#39;élément qui à l&#39;ID &quot;subnav&quot; */&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -132,9 +132,9 @@
   &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;D3 utiliser les sélecteurs CSS pour indentifier les éléments sur lequels il opère, il est donc important de comprendre comment les utiliser.&lt;/p&gt;
+&lt;p&gt;D3 utilise les sélecteurs CSS pour indentifier les éléments sur lequels il opère, il est donc important de comprendre comment les utiliser.&lt;/p&gt;
 
-&lt;p&gt;Les règles CSS peuvent être inclues directement dans le &lt;strong&gt;head&lt;/strong&gt; du document, de cette manière :&lt;/p&gt;
+&lt;p&gt;Les règles CSS peuvent être inclues directement dans la section &lt;strong&gt;head&lt;/strong&gt; du document, de cette manière :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;style &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
@@ -145,7 +145,7 @@
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;ou stockées dans une fichier externe qui a pour extension .css, puis référencé dans le &lt;strong&gt;head&lt;/strong&gt; du document : &lt;/p&gt;
+&lt;p&gt;ou stockées dans une fichier externe qui a pour extension .css, puis référencé dans la section &lt;strong&gt;head&lt;/strong&gt; du document : &lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;style.css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
@@ -176,7 +176,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/20-fundamentals/web_inspector.png&quot; alt=&quot;Safari’s web inspector&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger. &lt;a href=&quot;https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html&quot;&gt;Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web&lt;/a&gt; (&lt;em&gt;lien en anglais&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger votre code. &lt;a href=&quot;https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html&quot;&gt;Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web&lt;/a&gt; (&lt;em&gt;lien en anglais&lt;/em&gt;).&lt;/p&gt;
 
 &lt;h3 id=&quot;svg&quot;&gt;SVG&lt;/h3&gt;
 
@@ -193,9 +193,9 @@
    &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;blue&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/svg&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Allez-y, cliquez droit dessus : ce n’est pas une image !. Zoomer et vous verrez que ça s’adapte à l’échelle sans soucis, comme est sensé le faire un graphique vectoriel.&lt;/p&gt;
+&lt;p&gt;Allez-y, cliquez droit dessus : ce n’est pas une image ! Zoomer (&lt;em&gt;Ctrl + “+” ou Ctrl + la molette&lt;/em&gt;) et vous verrez que ça s’adapte à l’échelle sans soucis, comme est sensé le faire un graphique vectoriel.&lt;/p&gt;
 
-&lt;p&gt;Vous n’êtes pas obligés d’utiliser SVG avec D3 mais vous vous rendrez vite compte que SVG propose une palette de représentations visuelles que n’offre aucun élément HTML.&lt;/p&gt;
+&lt;p&gt;Vous n’êtes pas obligés d’utiliser SVG avec D3, mais vous vous rendrez vite compte que SVG propose une palette de représentations visuelles que n’offre aucun élément HTML.&lt;/p&gt;
 </description>
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/2-les-fondamentaux.html</link>
