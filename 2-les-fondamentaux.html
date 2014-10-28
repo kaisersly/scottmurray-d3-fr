@@ -38,6 +38,10 @@
 	  </li>    
 	
 	
+	  <li class="next">
+	    <a href="/scottmurray-d3-fr/3-mise-en-place.html" class="next">3 - Mise en place →</a>
+	  </li>    
+	
 	</ul>	
 </div>
 <div class="col-md-offset-3 col-md-6">
@@ -82,14 +86,14 @@
 
 <h3 id="css">CSS</h3>
 
-<p>Les feuilles de style en cascade (<em>Cascading Style Sheets</em>) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuillle CSS simple ressemble à ceci :</p>
+<p>Les feuilles de style en cascade (<em>Cascading Style Sheets</em>) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuille CSS simple ressemble à ceci :</p>
 
 <div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">body</span> <span class="p">{</span>
   <span class="nl">background-color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
   <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
 
-<p>Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style:</p>
+<p>Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style :</p>
 
 <div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">h1</span>          <span class="c">/* Sélectionne les titres de niveau 1 */</span>
 <span class="nt">p</span>           <span class="c">/* Sélectionne les paragraphe */</span>
@@ -132,9 +136,9 @@
 
 <h3 id="javascript">JavaScript</h3>
 
-<p>JavaScript is a dynamic scripting language that can instruct the browser to make changes to a page after it has already loaded.</p>
+<p>JavaScript est un langage de scripting dynamique qui peut indiquer au navigateur de modifier une page après qu’elle ait été chargée.</p>
 
-<p>Scripts can be included directly in HTML, between two script tags</p>
+<p>Les scripts peuvent être inclus directement dans le code HTML, entre deux balises <strong>script</strong></p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;body&gt;</span>
   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
@@ -142,35 +146,39 @@
   <span class="nt">&lt;/script&gt;</span>
 <span class="nt">&lt;/body&gt;</span></code></pre></div>
 
-<p>or stored in a separate file, and then referenced somewhere the HTML (commonly in the head):</p>
+<p>ou stockés dans un fichier séparé, référencé quelque part dans le code HTML (la plupart du temps dans la section <strong>head</strong>) :</p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;title&gt;</span>Page Title<span class="nt">&lt;/title&gt;</span>
   <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"myscript.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;/head&gt;</span></code></pre></div>
 
-<h3 id="developer-tools">Developer Tools</h3>
+<h3 id="outils-de-dveloppement">Outils de développement</h3>
 
-<p>Be familiar with your browser’s developer tools. In a WebKit browser (like Safari or Chrome), you can open the web inspector, which looks like this:</p>
+<p>Habituez-vous aux outils de développement de votre navigateur. Dans un navigateur Webkit (comme Safari ou Chrome), vous pouvez ouvrir l’inspecteur web qui ressemble à cela	:</p>
 
-<p>Safari’s web inspector</p>
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/20-fundamentals/web_inspector.png" alt="Safari’s web inspector" /></p>
 
-<p>While “View Source” shows you the original HTML source of the page, the web inspector shows you the current state of the DOM. This is useful because your code will modify DOM elements dynamically. In the web inspector, you can watch elements as they change. You’ll also use the JavaScript console for debugging. See more on debugging HTML, CSS, and JavaScript with the web inspector and console.</p>
+<p>“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger. <a href="https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html">Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web</a> (<em>lien en anglais</em>).</p>
 
 <h3 id="svg">SVG</h3>
 
-<p>D3 is at its best when rendering visuals as Scalable Vector Graphics. SVG is a text-based image format. Meaning, you can specify what an SVG image should look like by writing simple markup code, sort of like HTML tags. In fact, SVG code can be included directly within any HTML document. Web browsers have supported the SVG format for years (except for Internet Explorer), but it never quite caught on, until now.</p>
+<p>D3 est le plus à son avantage lorsque l’on affiche des graphiques vectoriels adaptables (<em>Scalable Vector Graphics / SVG</em>). SVG est un format d’image basé sur XML. Ce qui veut dire qu’une image SVG ressemble à du langage balisé simple, comme du HTML. En fait, un code SVG peut être inclus directement dans n’importe quel document HTML. Les navigateurs le supportent depuis des années (à part Internet Explorer qui a mis plus de temps) mais il n’a été réellement mis en lumière que récemment.</p>
 
-<p>Here’s a little circle that I just coded into this page:</p>
+<p>Voilà un petit cercle que je vous ai codé dans cette page :</p>
+
+<svg width="50" height="50">
+  <circle cx="25" cy="25" r="22" fill="blue" stroke="gray" stroke-width="2" />
+</svg>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;svg</span> <span class="na">width=</span><span class="s">"50"</span> <span class="na">height=</span><span class="s">"50"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;circle</span> <span class="na">cx=</span><span class="s">"25"</span> <span class="na">cy=</span><span class="s">"25"</span> <span class="na">r=</span><span class="s">"22"</span>
    <span class="na">fill=</span><span class="s">"blue"</span> <span class="na">stroke=</span><span class="s">"gray"</span> <span class="na">stroke-width=</span><span class="s">"2"</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/svg&gt;</span></code></pre></div>
 
-<p>Go ahead — right-click on it: it’s not an image! Zoom your browser and you’ll see it scales up and down smoothly, as a vector graphic should.</p>
+<p>Allez-y, cliquez droit dessus : ce n’est pas une image !. Zoomer et vous verrez que ça s’adapte à l’échelle sans soucis, comme est sensé le faire un graphique vectoriel.</p>
 
-<p>You’re not required to use SVG with D3, but you’ll soon find that SVG provides a range of visual opportunities that aren’t possible with regular HTML elements.</p>
+<p>Vous n’êtes pas obligés d’utiliser SVG avec D3 mais vous vous rendrez vite compte que SVG propose une palette de représentations visuelles que n’offre aucun élément HTML.</p>
 
   </article>
 
@@ -183,6 +191,10 @@
 	    <a href="/scottmurray-d3-fr/1-a-propos.html" class="previous">← 1 - À propos</a>
 	  </li>    
 	
+	
+	  <li class="next">
+	    <a href="/scottmurray-d3-fr/3-mise-en-place.html" class="next">3 - Mise en place →</a>
+	  </li>    
 	
 	</ul>	
 </div>

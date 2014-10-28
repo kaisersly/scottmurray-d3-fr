@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>3 - Mise en place</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/3-mise-en-place.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/2-les-fondamentaux.html" class="previous">← 2 - Les fondamentaux</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>3 - Mise en place</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/setup">http://alignedleft.com/tutorials/d3/setup</a></em></p>
+
+<hr />
+
+<h2 id="mise-en-place">Mise en place</h2>
+<p><em>Dernière mise à jour le 22 février 2014</em></p>
+
+<h3 id="tlcharger-d3">Télécharger D3</h3>
+
+<p>Commencer par créer un nouveau répertoire pour votre projet. Dans ce répertoire, je vous recommande de créer un sous-répertoire appelé d3. Ensuite <a href="http://d3js.org/d3.v3.js">télécharger la dernière version de d3.v3.js</a> dans ce sous-répertoire. Au moment de l’écriture de ce tutoriel, la dernière version de D3 est la 3.4.2.</p>
+
+<p>D3 propose aussi une version minifiée, <a href="http://d3js.org/d3.v3.min.js">d3.v3.min.js</a>, dans laquelle les espaces ont été retirés pour parvenir à un fichier plus petit, et donc un téléchargement plus rapide. Les fonctionnalités sont les mêmes, mais d’une manière générale vous utiliserez la version standard lorsque vous travaillerez sur un projet (pour un débuggage plus facile), et vous passerez à la version minifiée lorque vous mettrez votre application en production (pour avoir des temps chargements optimisés). Le choix est votre, mais dans ces tutoriels nous utiliserons la version standard.</p>
+
+<p>Vous avez aussi la possibilité de télécharger le dépôt de D3 en entier. Cela vous donnera non seulement les fichiers JavaScript, mais aussi tout le code source. Vous pouvez <a href="https://github.com/mbostock/d3">naviguer dans le contenu du dépôt</a> ou juste <a href="https://github.com/mbostock/d3/releases">télécharger le tout dans un fichier ZIP compressé</a>.</p>
+
+<h3 id="rfrencer-d3">Référencer D3</h3>
+
+<p>Créer une page HTML simple <strong>index.html</strong> dans votre répertoire de projet. La structure de votre répertoire devrait ressembler à ceci :</p>
+
+<pre><code>project-folder/
+    d3/
+        d3.v3.js
+        d3.v3.min.js (optionnel)
+    index.html
+</code></pre>
+
+<p>Maintenant, copiez ce qui suit dans votre fichier <strong>index.html</strong>, cela référencera D3 dans la section <strong>head</strong> et vous donnera un endroit où mettre votre code JavaScript :</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;title&gt;</span>D3 Test<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"d3/d3.v3.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+            <span class="c1">// Votre joli code D3 viendra se loger ici</span>
+        <span class="nt">&lt;/script&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></code></pre></div>
+
+<h3 id="afficher-votre-page">Afficher votre page</h3>
+
+<p>Dans certains cas, vous pouvez vous contenter d’ouvrir votre fichier HTML dans votre navigateur pour le voir. Cependant, lorque vous charger des ressources externes, il est préférable de lancer un serveur web local et voir votre page depuis l’adresse <strong>http://localhost:8888/</strong>. Vous pouvez utiliser un serveur comme <a href="http://mamp.info/en/">MAMP</a>, ou voir ces <a href="https://github.com/mbostock/d3/wiki">notes sur le wiki de D3</a> (<em>lien en anglais</em>) sur la manière de lancer un serveur web temporaire. </p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/2-les-fondamentaux.html" class="previous">← 2 - Les fondamentaux</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>

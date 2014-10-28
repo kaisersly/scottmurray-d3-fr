@@ -6,9 +6,66 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Oct 2014 07:28:55 +0100</pubDate>
-    <lastBuildDate>Tue, 28 Oct 2014 07:28:55 +0100</lastBuildDate>
+    <pubDate>Tue, 28 Oct 2014 21:06:49 +0100</pubDate>
+    <lastBuildDate>Tue, 28 Oct 2014 21:06:49 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>3 - Mise en place</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/setup&quot;&gt;http://alignedleft.com/tutorials/d3/setup&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;mise-en-place&quot;&gt;Mise en place&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 22 février 2014&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;tlcharger-d3&quot;&gt;Télécharger D3&lt;/h3&gt;
+
+&lt;p&gt;Commencer par créer un nouveau répertoire pour votre projet. Dans ce répertoire, je vous recommande de créer un sous-répertoire appelé d3. Ensuite &lt;a href=&quot;http://d3js.org/d3.v3.js&quot;&gt;télécharger la dernière version de d3.v3.js&lt;/a&gt; dans ce sous-répertoire. Au moment de l’écriture de ce tutoriel, la dernière version de D3 est la 3.4.2.&lt;/p&gt;
+
+&lt;p&gt;D3 propose aussi une version minifiée, &lt;a href=&quot;http://d3js.org/d3.v3.min.js&quot;&gt;d3.v3.min.js&lt;/a&gt;, dans laquelle les espaces ont été retirés pour parvenir à un fichier plus petit, et donc un téléchargement plus rapide. Les fonctionnalités sont les mêmes, mais d’une manière générale vous utiliserez la version standard lorsque vous travaillerez sur un projet (pour un débuggage plus facile), et vous passerez à la version minifiée lorque vous mettrez votre application en production (pour avoir des temps chargements optimisés). Le choix est votre, mais dans ces tutoriels nous utiliserons la version standard.&lt;/p&gt;
+
+&lt;p&gt;Vous avez aussi la possibilité de télécharger le dépôt de D3 en entier. Cela vous donnera non seulement les fichiers JavaScript, mais aussi tout le code source. Vous pouvez &lt;a href=&quot;https://github.com/mbostock/d3&quot;&gt;naviguer dans le contenu du dépôt&lt;/a&gt; ou juste &lt;a href=&quot;https://github.com/mbostock/d3/releases&quot;&gt;télécharger le tout dans un fichier ZIP compressé&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;rfrencer-d3&quot;&gt;Référencer D3&lt;/h3&gt;
+
+&lt;p&gt;Créer une page HTML simple &lt;strong&gt;index.html&lt;/strong&gt; dans votre répertoire de projet. La structure de votre répertoire devrait ressembler à ceci :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;project-folder/
+    d3/
+        d3.v3.js
+        d3.v3.min.js (optionnel)
+    index.html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Maintenant, copiez ce qui suit dans votre fichier &lt;strong&gt;index.html&lt;/strong&gt;, cela référencera D3 dans la section &lt;strong&gt;head&lt;/strong&gt; et vous donnera un endroit où mettre votre code JavaScript :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;D3 Test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;d3/d3.v3.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Votre joli code D3 viendra se loger ici&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;afficher-votre-page&quot;&gt;Afficher votre page&lt;/h3&gt;
+
+&lt;p&gt;Dans certains cas, vous pouvez vous contenter d’ouvrir votre fichier HTML dans votre navigateur pour le voir. Cependant, lorque vous charger des ressources externes, il est préférable de lancer un serveur web local et voir votre page depuis l’adresse &lt;strong&gt;http://localhost:8888/&lt;/strong&gt;. Vous pouvez utiliser un serveur comme &lt;a href=&quot;http://mamp.info/en/&quot;&gt;MAMP&lt;/a&gt;, ou voir ces &lt;a href=&quot;https://github.com/mbostock/d3/wiki&quot;&gt;notes sur le wiki de D3&lt;/a&gt; (&lt;em&gt;lien en anglais&lt;/em&gt;) sur la manière de lancer un serveur web temporaire. &lt;/p&gt;
+</description>
+        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/3-mise-en-place.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/3-mise-en-place.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>2 - Les fondamentaux</title>
@@ -46,14 +103,14 @@
 
 &lt;h3 id=&quot;css&quot;&gt;CSS&lt;/h3&gt;
 
-&lt;p&gt;Les feuilles de style en cascade (&lt;em&gt;Cascading Style Sheets&lt;/em&gt;) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuillle CSS simple ressemble à ceci :&lt;/p&gt;
+&lt;p&gt;Les feuilles de style en cascade (&lt;em&gt;Cascading Style Sheets&lt;/em&gt;) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuille CSS simple ressemble à ceci :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
   &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style:&lt;/p&gt;
+&lt;p&gt;Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;h1&lt;/span&gt;          &lt;span class=&quot;c&quot;&gt;/* Sélectionne les titres de niveau 1 */&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;/* Sélectionne les paragraphe */&lt;/span&gt;
@@ -96,9 +153,9 @@
 
 &lt;h3 id=&quot;javascript&quot;&gt;JavaScript&lt;/h3&gt;
 
-&lt;p&gt;JavaScript is a dynamic scripting language that can instruct the browser to make changes to a page after it has already loaded.&lt;/p&gt;
+&lt;p&gt;JavaScript est un langage de scripting dynamique qui peut indiquer au navigateur de modifier une page après qu’elle ait été chargée.&lt;/p&gt;
 
-&lt;p&gt;Scripts can be included directly in HTML, between two script tags&lt;/p&gt;
+&lt;p&gt;Les scripts peuvent être inclus directement dans le code HTML, entre deux balises &lt;strong&gt;script&lt;/strong&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
@@ -106,35 +163,39 @@
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;or stored in a separate file, and then referenced somewhere the HTML (commonly in the head):&lt;/p&gt;
+&lt;p&gt;ou stockés dans un fichier séparé, référencé quelque part dans le code HTML (la plupart du temps dans la section &lt;strong&gt;head&lt;/strong&gt;) :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Page Title&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;myscript.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;developer-tools&quot;&gt;Developer Tools&lt;/h3&gt;
+&lt;h3 id=&quot;outils-de-dveloppement&quot;&gt;Outils de développement&lt;/h3&gt;
 
-&lt;p&gt;Be familiar with your browser’s developer tools. In a WebKit browser (like Safari or Chrome), you can open the web inspector, which looks like this:&lt;/p&gt;
+&lt;p&gt;Habituez-vous aux outils de développement de votre navigateur. Dans un navigateur Webkit (comme Safari ou Chrome), vous pouvez ouvrir l’inspecteur web qui ressemble à cela	:&lt;/p&gt;
 
-&lt;p&gt;Safari’s web inspector&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/20-fundamentals/web_inspector.png&quot; alt=&quot;Safari’s web inspector&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;While “View Source” shows you the original HTML source of the page, the web inspector shows you the current state of the DOM. This is useful because your code will modify DOM elements dynamically. In the web inspector, you can watch elements as they change. You’ll also use the JavaScript console for debugging. See more on debugging HTML, CSS, and JavaScript with the web inspector and console.&lt;/p&gt;
+&lt;p&gt;“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger. &lt;a href=&quot;https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html&quot;&gt;Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web&lt;/a&gt; (&lt;em&gt;lien en anglais&lt;/em&gt;).&lt;/p&gt;
 
 &lt;h3 id=&quot;svg&quot;&gt;SVG&lt;/h3&gt;
 
-&lt;p&gt;D3 is at its best when rendering visuals as Scalable Vector Graphics. SVG is a text-based image format. Meaning, you can specify what an SVG image should look like by writing simple markup code, sort of like HTML tags. In fact, SVG code can be included directly within any HTML document. Web browsers have supported the SVG format for years (except for Internet Explorer), but it never quite caught on, until now.&lt;/p&gt;
+&lt;p&gt;D3 est le plus à son avantage lorsque l’on affiche des graphiques vectoriels adaptables (&lt;em&gt;Scalable Vector Graphics / SVG&lt;/em&gt;). SVG est un format d’image basé sur XML. Ce qui veut dire qu’une image SVG ressemble à du langage balisé simple, comme du HTML. En fait, un code SVG peut être inclus directement dans n’importe quel document HTML. Les navigateurs le supportent depuis des années (à part Internet Explorer qui a mis plus de temps) mais il n’a été réellement mis en lumière que récemment.&lt;/p&gt;
 
-&lt;p&gt;Here’s a little circle that I just coded into this page:&lt;/p&gt;
+&lt;p&gt;Voilà un petit cercle que je vous ai codé dans cette page :&lt;/p&gt;
+
+&lt;svg width=&quot;50&quot; height=&quot;50&quot;&gt;
+  &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;22&quot; fill=&quot;blue&quot; stroke=&quot;gray&quot; stroke-width=&quot;2&quot; /&gt;
+&lt;/svg&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;svg&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;22&quot;&lt;/span&gt;
    &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;blue&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/svg&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Go ahead — right-click on it: it’s not an image! Zoom your browser and you’ll see it scales up and down smoothly, as a vector graphic should.&lt;/p&gt;
+&lt;p&gt;Allez-y, cliquez droit dessus : ce n’est pas une image !. Zoomer et vous verrez que ça s’adapte à l’échelle sans soucis, comme est sensé le faire un graphique vectoriel.&lt;/p&gt;
 
-&lt;p&gt;You’re not required to use SVG with D3, but you’ll soon find that SVG provides a range of visual opportunities that aren’t possible with regular HTML elements.&lt;/p&gt;
+&lt;p&gt;Vous n’êtes pas obligés d’utiliser SVG avec D3 mais vous vous rendrez vite compte que SVG propose une palette de représentations visuelles que n’offre aucun élément HTML.&lt;/p&gt;
 </description>
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/2-les-fondamentaux.html</link>
@@ -170,7 +231,7 @@
 
 &lt;p&gt;Ces tutoriels sont le fruit de mon propre processus pour apprendre à utiliser D3. Vous savez déjà que D3 est un outil extraordinaire pour cartographier des données (&lt;em&gt;mapping data&lt;/em&gt;) au sein de pages Web, écrite par &lt;a href=&quot;http://bost.ocks.org/mike/&quot;&gt;Mike Bostock&lt;/a&gt;. De nombreuses personnes, moi y compris, viennent à D3 avec un background en design, en cartographie et en visualisation de données, mais pas en programmation ou en informatique.&lt;/p&gt;
 
-&lt;p&gt;Pour autant, D3 utilise des techniques Javascript avancées, donc apprendre D3 signifie souvent en apprendre beaucoup sur Javascript. Pour beaucoup de personnes faisant de la visualisation de données  D3 est leur introduction au Javascript. Il est assez dur d’apprendre un nouveau langage, combien plus un outil créé à partir de ce langage. D3 est stupéfiant, il vous permettra de faire de grandes choses que vous n’auriez jamais tentées. Le temps que vous passerez à apprendre et le langage et l’outil vous procureront un retour sur investissement incroyable.&lt;/p&gt;
+&lt;p&gt;Pour autant, D3 utilise des techniques JavaScript avancées, donc apprendre D3 signifie souvent en apprendre beaucoup sur JavaScript. Pour beaucoup de personnes faisant de la visualisation de données  D3 est leur introduction au JavaScript. Il est assez dur d’apprendre un nouveau langage, combien plus un outil créé à partir de ce langage. D3 est stupéfiant, il vous permettra de faire de grandes choses que vous n’auriez jamais tentées. Le temps que vous passerez à apprendre et le langage et l’outil vous procureront un retour sur investissement incroyable.&lt;/p&gt;
 
 &lt;p&gt;Mon but est de réduire ce temps d’apprentissage, pour que vous puissiez créer des choses impressionnantes au plus tôt.&lt;/p&gt;
 
@@ -181,7 +242,7 @@
 &lt;ul&gt;
   &lt;li&gt;êtes familiés avec HTML, le DOM et CSS&lt;/li&gt;
   &lt;li&gt;avez quelques connaissances en programmation&lt;/li&gt;
-  &lt;li&gt;avez même entendu parler de jQuery ou écrit un peu de Javascript&lt;/li&gt;
+  &lt;li&gt;avez même entendu parler de jQuery ou écrit un peu de JavaScript&lt;/li&gt;
   &lt;li&gt;n’avez pas peur des abréviations comme CSV, SVG ou JSON&lt;/li&gt;
   &lt;li&gt;voulez faire des visualisations interactives et utiles&lt;/li&gt;
 &lt;/ul&gt;
