@@ -6,8 +6,8 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Oct 2014 21:06:49 +0100</pubDate>
-    <lastBuildDate>Tue, 28 Oct 2014 21:06:49 +0100</lastBuildDate>
+    <pubDate>Tue, 28 Oct 2014 21:24:01 +0100</pubDate>
+    <lastBuildDate>Tue, 28 Oct 2014 21:24:01 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -220,7 +220,7 @@
 
 &lt;ul&gt;
   &lt;li&gt;&lt;em&gt;brefs&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;ciblés&lt;/em&gt;, chacun ciblant un sujet précis&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;ciblés&lt;/em&gt;, chacun traitant un sujet précis&lt;/li&gt;
   &lt;li&gt;&lt;em&gt;modulaires&lt;/em&gt;, pour que vous puissiez vous référer seulement à ceux qui vous intéressent&lt;/li&gt;
   &lt;li&gt;&lt;em&gt;complets&lt;/em&gt;, avec des exemples de code illustrant chaque sujet&lt;/li&gt;
   &lt;li&gt;&lt;em&gt;dynamiques&lt;/em&gt;, mis à jour et étendus au besoin&lt;/li&gt;
@@ -229,9 +229,9 @@
 
 &lt;h3 id=&quot;philosophie&quot;&gt;Philosophie&lt;/h3&gt;
 
-&lt;p&gt;Ces tutoriels sont le fruit de mon propre processus pour apprendre à utiliser D3. Vous savez déjà que D3 est un outil extraordinaire pour cartographier des données (&lt;em&gt;mapping data&lt;/em&gt;) au sein de pages Web, écrite par &lt;a href=&quot;http://bost.ocks.org/mike/&quot;&gt;Mike Bostock&lt;/a&gt;. De nombreuses personnes, moi y compris, viennent à D3 avec un background en design, en cartographie et en visualisation de données, mais pas en programmation ou en informatique.&lt;/p&gt;
+&lt;p&gt;Ces tutoriels sont le fruit de mon propre processus pour apprendre à utiliser D3. Vous savez déjà que D3 est un outil extraordinaire, écrit par &lt;a href=&quot;http://bost.ocks.org/mike/&quot;&gt;Mike Bostock&lt;/a&gt;, pour cartographier des données (&lt;em&gt;mapping data&lt;/em&gt;) au sein de pages Web. De nombreuses personnes, moi y compris, viennent à D3 avec un background en design, en cartographie et en visualisation de données, mais pas en programmation ou en informatique.&lt;/p&gt;
 
-&lt;p&gt;Pour autant, D3 utilise des techniques JavaScript avancées, donc apprendre D3 signifie souvent en apprendre beaucoup sur JavaScript. Pour beaucoup de personnes faisant de la visualisation de données  D3 est leur introduction au JavaScript. Il est assez dur d’apprendre un nouveau langage, combien plus un outil créé à partir de ce langage. D3 est stupéfiant, il vous permettra de faire de grandes choses que vous n’auriez jamais tentées. Le temps que vous passerez à apprendre et le langage et l’outil vous procureront un retour sur investissement incroyable.&lt;/p&gt;
+&lt;p&gt;Pour autant, D3 utilise des techniques JavaScript avancées, donc apprendre D3 signifie souvent en apprendre beaucoup sur JavaScript. Pour beaucoup de personnes faisant de la visualisation de données,   D3 est leur introduction au JavaScript. Il est assez dur d’apprendre un nouveau langage, combien plus un outil créé à partir de ce langage. D3 est stupéfiant, il vous permettra de faire de grandes choses que vous n’auriez jamais tentées. Le temps que vous passerez à apprendre et le langage et l’outil vous procureront un retour sur investissement incroyable.&lt;/p&gt;
 
 &lt;p&gt;Mon but est de réduire ce temps d’apprentissage, pour que vous puissiez créer des choses impressionnantes au plus tôt.&lt;/p&gt;
 
@@ -252,7 +252,7 @@
 &lt;p&gt;Chaque tutoriel comprend : &lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;une page d’exemple indépendante (&lt;em&gt;standalone demo page&lt;/em&gt;) lorsqu’il y a matière&lt;/li&gt;
+  &lt;li&gt;une page d’exemple autonome lorsqu’il y a matière&lt;/li&gt;
   &lt;li&gt;du code à copier et à modifier&lt;/li&gt;
   &lt;li&gt;beaucoup de commentaires partout&lt;/li&gt;
   &lt;li&gt;la date de sa dernière mise à jour&lt;/li&gt;
@@ -260,7 +260,7 @@
 
 &lt;h3 id=&quot;licence&quot;&gt;Licence&lt;/h3&gt;
 
-&lt;p&gt;Vous pouvez copier, adapter, modifier et réutiliser les exemples code dans quelques buts que vous désirez, commerciaux ou non. Pour le reste du contenu et du design des tutoriels, je garde les droits (&lt;em&gt;copyright&lt;/em&gt;)  dessus.&lt;/p&gt;
+&lt;p&gt;Vous pouvez copier, adapter, modifier et réutiliser les exemples de code dans quelques buts que vous désirez, commerciaux ou non. Pour le reste du contenu et du design des tutoriels, je garde les droits (&lt;em&gt;copyright&lt;/em&gt;) dessus.&lt;/p&gt;
 
 &lt;h3 id=&quot;mise-en-garde&quot;&gt;Mise en garde&lt;/h3&gt;
 
