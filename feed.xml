@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Traduction des tutoriels de Scott Murray sur D3.js</title>
+    <description>Traduction des tutoriels de Scott Murray sur D3.js.
+</description>
+    <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
+    <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Tue, 28 Oct 2014 07:14:59 +0100</pubDate>
+    <lastBuildDate>Tue, 28 Oct 2014 07:14:59 +0100</lastBuildDate>
+    <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>2 - Les fondamentaux</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/fundamentals&quot;&gt;http://alignedleft.com/tutorials/d3/fundamentals&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;les-fondamentaux&quot;&gt;Les fondamentaux&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Travailler avec D3 requiert une connaissance des concepts suivants.&lt;/p&gt;
+
+&lt;h3 id=&quot;html&quot;&gt;HTML&lt;/h3&gt;
+
+&lt;p&gt;Le  langage de balisage hypertext (&lt;em&gt;Hypertext Markup Language&lt;/em&gt;) est utilisé pour structurer du contenu pour les navigateurs. La page HTML la plus simple ressemble à cela :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Titre de la page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Titre de la page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;C&#39;est un paragraphe vraiment intéressant.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;dom&quot;&gt;DOM&lt;/h3&gt;
+
+&lt;p&gt;Le Document Object Model se réfère à la structure hiérarchique de l’HTML. Chaque balise est un élément, et l’on se réfère aux éléments qui l’entourent en termes humains : parents, enfants, frères / soeurs (&lt;em&gt;siblings&lt;/em&gt;), ancêtres et descendants. Dans le code HTML ci-dessus, &lt;strong&gt;body&lt;/strong&gt; est l’élément parent de ses deux éléments enfants &lt;strong&gt;h1&lt;/strong&gt; et &lt;strong&gt;p&lt;/strong&gt; (qui sont tous les deux des éléments frères). Tous les éléments de la page sont des descendants de &lt;strong&gt;html&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Les navigateurs analysent (&lt;em&gt;parse&lt;/em&gt;) le DOM pour donner du sens au contenu de la page.&lt;/p&gt;
+
+&lt;h3 id=&quot;css&quot;&gt;CSS&lt;/h3&gt;
+
+&lt;p&gt;Les feuilles de style en cascade (&lt;em&gt;Cascading Style Sheets&lt;/em&gt;) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuillle CSS simple ressemble à ceci :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;h1&lt;/span&gt;          &lt;span class=&quot;c&quot;&gt;/* Sélectionne les titres de niveau 1  */&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;           &lt;span class=&quot;c&quot;&gt;/* Sélectionne les paragraphes                    */&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.caption&lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;/* Sélectionne les éléments avec la classe &quot;caption&quot; */&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;#subnav&lt;/span&gt;     &lt;span class=&quot;c&quot;&gt;/* Sélectionne l&#39;élément qui à l&#39;ID &quot;subnav&quot; */&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Les règles sont des propriétés qui, cumulées, composent les styles :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;pink&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;yellow&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;10px&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;25px&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On connecte les sélecteurs et les règles avec des accolades :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;14px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;D3 utiliser les sélecteurs CSS pour indentifier les éléments sur lequels il opère, il est donc important de comprendre comment les utiliser.&lt;/p&gt;
+
+&lt;p&gt;Les règles CSS peuvent être inclues directement dans le &lt;strong&gt;head&lt;/strong&gt; du document, de cette manière :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;style &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;nl&quot;&gt;font-family&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sans-serif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;lime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;ou stockées dans une fichier externe qui a pour extension .css, puis référencé dans le &lt;strong&gt;head&lt;/strong&gt; du document : &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;style.css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;javascript&quot;&gt;JavaScript&lt;/h3&gt;
+
+&lt;p&gt;JavaScript is a dynamic scripting language that can instruct the browser to make changes to a page after it has already loaded.&lt;/p&gt;
+
+&lt;p&gt;Scripts can be included directly in HTML, between two script tags&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;or stored in a separate file, and then referenced somewhere the HTML (commonly in the head):&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Page Title&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;myscript.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;developer-tools&quot;&gt;Developer Tools&lt;/h3&gt;
+
+&lt;p&gt;Be familiar with your browser’s developer tools. In a WebKit browser (like Safari or Chrome), you can open the web inspector, which looks like this:&lt;/p&gt;
+
+&lt;p&gt;Safari’s web inspector&lt;/p&gt;
+
+&lt;p&gt;While “View Source” shows you the original HTML source of the page, the web inspector shows you the current state of the DOM. This is useful because your code will modify DOM elements dynamically. In the web inspector, you can watch elements as they change. You’ll also use the JavaScript console for debugging. See more on debugging HTML, CSS, and JavaScript with the web inspector and console.&lt;/p&gt;
+
+&lt;h3 id=&quot;svg&quot;&gt;SVG&lt;/h3&gt;
+
+&lt;p&gt;D3 is at its best when rendering visuals as Scalable Vector Graphics. SVG is a text-based image format. Meaning, you can specify what an SVG image should look like by writing simple markup code, sort of like HTML tags. In fact, SVG code can be included directly within any HTML document. Web browsers have supported the SVG format for years (except for Internet Explorer), but it never quite caught on, until now.&lt;/p&gt;
+
+&lt;p&gt;Here’s a little circle that I just coded into this page:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;svg&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;22&quot;&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;blue&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/svg&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Go ahead — right-click on it: it’s not an image! Zoom your browser and you’ll see it scales up and down smoothly, as a vector graphic should.&lt;/p&gt;
+
+&lt;p&gt;You’re not required to use SVG with D3, but you’ll soon find that SVG provides a range of visual opportunities that aren’t possible with regular HTML elements.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/2-les-fondamentaux.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/2-les-fondamentaux.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>1 - À propos</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/about&quot;&gt;http://alignedleft.com/tutorials/d3/about&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;propos-de-ces-tutoriels&quot;&gt;À propos de ces tutoriels&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Ces tutoriels visent à être :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;brefs&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;ciblés&lt;/em&gt;, chacun ciblant un sujet précis&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;modulaires&lt;/em&gt;, pour que vous puissiez vous référer seulement à ceux qui vous intéressent&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;complets&lt;/em&gt;, avec des exemples de code illustrant chaque sujet&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;dynamiques&lt;/em&gt;, mis à jour et étendus au besoin&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;libres&lt;/em&gt;, licenciés de manière à ce que vous puissiez utiliser le code de la façon dont vous le souhaitez&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;philosophie&quot;&gt;Philosophie&lt;/h3&gt;
+
+&lt;p&gt;Ces tutoriels sont le fruit de mon propre processus pour apprendre à utiliser D3. Vous savez déjà que D3 est un outil extraordinaire pour cartographier des données (&lt;em&gt;mapping data&lt;/em&gt;) au sein de pages Web, écrite par &lt;a href=&quot;http://bost.ocks.org/mike/&quot;&gt;Mike Bostock&lt;/a&gt;. De nombreuses personnes, moi y compris, viennent à D3 avec un background en design, en cartographie et en visualisation de données, mais pas en programmation ou en informatique.&lt;/p&gt;
+
+&lt;p&gt;Pour autant, D3 utilise des techniques Javascript avancées, donc apprendre D3 signifie souvent en apprendre beaucoup sur Javascript. Pour beaucoup de personnes faisant de la visualisation de données  D3 est leur introduction au Javascript. Il est assez dur d’apprendre un nouveau langage, combien plus un outil créé à partir de ce langage. D3 est stupéfiant, il vous permettra de faire de grandes choses que vous n’auriez jamais tentées. Le temps que vous passerez à apprendre et le langage et l’outil vous procureront un retour sur investissement incroyable.&lt;/p&gt;
+
+&lt;p&gt;Mon but est de réduire ce temps d’apprentissage, pour que vous puissiez créer des choses impressionnantes au plus tôt.&lt;/p&gt;
+
+&lt;h3 id=&quot;vous&quot;&gt;Vous&lt;/h3&gt;
+
+&lt;p&gt;J’espère que vous :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;êtes familiés avec HTML, le DOM et CSS&lt;/li&gt;
+  &lt;li&gt;avez quelques connaissances en programmation&lt;/li&gt;
+  &lt;li&gt;avez même entendu parler de jQuery ou écrit un peu de Javascript&lt;/li&gt;
+  &lt;li&gt;n’avez pas peur des abréviations comme CSV, SVG ou JSON&lt;/li&gt;
+  &lt;li&gt;voulez faire des visualisations interactives et utiles&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;structure&quot;&gt;Structure&lt;/h3&gt;
+
+&lt;p&gt;Chaque tutoriel comprend : &lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;une page d’exemple indépendante (&lt;em&gt;standalone demo page&lt;/em&gt;) lorsqu’il y a matière&lt;/li&gt;
+  &lt;li&gt;du code à copier et à modifier&lt;/li&gt;
+  &lt;li&gt;beaucoup de commentaires partout&lt;/li&gt;
+  &lt;li&gt;la date de sa dernière mise à jour&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;licence&quot;&gt;Licence&lt;/h3&gt;
+
+&lt;p&gt;Vous pouvez copier, adapter, modifier et réutiliser les exemples code dans quelques buts que vous désirez, commerciaux ou non. Pour le reste du contenu et du design des tutoriels, je garde les droits (&lt;em&gt;copyright&lt;/em&gt;)  dessus.&lt;/p&gt;
+
+&lt;h3 id=&quot;mise-en-garde&quot;&gt;Mise en garde&lt;/h3&gt;
+
+&lt;p&gt;Par soucis de compréhension, il m’arrivera, dans certains cas, de simplifier à l’extrême certains points techniques ou concepts fondamentaux en informatique, ce qui ne manquera pas de faire bondir les vrais ingénieurs logiciels. Aucun soucis, je m’adresse aux artistes et aux designers, pas aux ingénieurs.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;a href=&quot;2-les-fondamentaux.html&quot;&gt;Suivant : Les fondamentaux –&amp;gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/1-a-propos.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/1-a-propos.html</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

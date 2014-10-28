@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>2 - Les fondamentaux</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/2-les-fondamentaux.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+
+    <div>
+      <div>
+
+  <ul class="pager">
+
+  <li class="previous">
+    <a href="/scottmurray-d3-fr/1-a-propos.html" class="previous">← 1 - À propos</a>
+  </li>    
+
+
+</ul>
+
+  <header>
+    <h1>2 - Les fondamentaux</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/fundamentals">http://alignedleft.com/tutorials/d3/fundamentals</a></em></p>
+
+<hr />
+
+<h2 id="les-fondamentaux">Les fondamentaux</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>Travailler avec D3 requiert une connaissance des concepts suivants.</p>
+
+<h3 id="html">HTML</h3>
+
+<p>Le  langage de balisage hypertext (<em>Hypertext Markup Language</em>) est utilisé pour structurer du contenu pour les navigateurs. La page HTML la plus simple ressemble à cela :</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Titre de la page<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Titre de la page<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>C'est un paragraphe vraiment intéressant.<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></code></pre></div>
+
+<h3 id="dom">DOM</h3>
+
+<p>Le Document Object Model se réfère à la structure hiérarchique de l’HTML. Chaque balise est un élément, et l’on se réfère aux éléments qui l’entourent en termes humains : parents, enfants, frères / soeurs (<em>siblings</em>), ancêtres et descendants. Dans le code HTML ci-dessus, <strong>body</strong> est l’élément parent de ses deux éléments enfants <strong>h1</strong> et <strong>p</strong> (qui sont tous les deux des éléments frères). Tous les éléments de la page sont des descendants de <strong>html</strong>.</p>
+
+<p>Les navigateurs analysent (<em>parse</em>) le DOM pour donner du sens au contenu de la page.</p>
+
+<h3 id="css">CSS</h3>
+
+<p>Les feuilles de style en cascade (<em>Cascading Style Sheets</em>) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuillle CSS simple ressemble à ceci :</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">body</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style:</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">h1</span>          <span class="c">/* Sélectionne les titres de niveau 1  */</span>
+<span class="nt">p</span>           <span class="c">/* Sélectionne les paragraphes                    */</span>
+<span class="nc">.caption</span>    <span class="c">/* Sélectionne les éléments avec la classe "caption" */</span>
+<span class="nf">#subnav</span>     <span class="c">/* Sélectionne l'élément qui à l'ID "subnav" */</span></code></pre></div>
+
+<p>Les règles sont des propriétés qui, cumulées, composent les styles :</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">color</span><span class="o">:</span> <span class="nt">pink</span><span class="o">;</span>
+<span class="nt">background-color</span><span class="o">:</span> <span class="nt">yellow</span><span class="o">;</span>
+<span class="nt">margin</span><span class="o">:</span> <span class="nt">10px</span><span class="o">;</span>
+<span class="nt">padding</span><span class="o">:</span> <span class="nt">25px</span><span class="o">;</span></code></pre></div>
+
+<p>On connecte les sélecteurs et les règles avec des accolades :</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">p</span> <span class="p">{</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+    <span class="nl">line-height</span><span class="p">:</span> <span class="m">14px</span><span class="p">;</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>D3 utiliser les sélecteurs CSS pour indentifier les éléments sur lequels il opère, il est donc important de comprendre comment les utiliser.</p>
+
+<p>Les règles CSS peuvent être inclues directement dans le <strong>head</strong> du document, de cette manière :</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+    <span class="nt">p</span> <span class="p">{</span>
+      <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="no">lime</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span></code></pre></div>
+
+<p>ou stockées dans une fichier externe qui a pour extension .css, puis référencé dans le <strong>head</strong> du document : </p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"style.css"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/head&gt;</span></code></pre></div>
+
+<h3 id="javascript">JavaScript</h3>
+
+<p>JavaScript is a dynamic scripting language that can instruct the browser to make changes to a page after it has already loaded.</p>
+
+<p>Scripts can be included directly in HTML, between two script tags</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">"Hello, world!"</span><span class="p">);</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span></code></pre></div>
+
+<p>or stored in a separate file, and then referenced somewhere the HTML (commonly in the head):</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Page Title<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"myscript.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span></code></pre></div>
+
+<h3 id="developer-tools">Developer Tools</h3>
+
+<p>Be familiar with your browser’s developer tools. In a WebKit browser (like Safari or Chrome), you can open the web inspector, which looks like this:</p>
+
+<p>Safari’s web inspector</p>
+
+<p>While “View Source” shows you the original HTML source of the page, the web inspector shows you the current state of the DOM. This is useful because your code will modify DOM elements dynamically. In the web inspector, you can watch elements as they change. You’ll also use the JavaScript console for debugging. See more on debugging HTML, CSS, and JavaScript with the web inspector and console.</p>
+
+<h3 id="svg">SVG</h3>
+
+<p>D3 is at its best when rendering visuals as Scalable Vector Graphics. SVG is a text-based image format. Meaning, you can specify what an SVG image should look like by writing simple markup code, sort of like HTML tags. In fact, SVG code can be included directly within any HTML document. Web browsers have supported the SVG format for years (except for Internet Explorer), but it never quite caught on, until now.</p>
+
+<p>Here’s a little circle that I just coded into this page:</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;svg</span> <span class="na">width=</span><span class="s">"50"</span> <span class="na">height=</span><span class="s">"50"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;circle</span> <span class="na">cx=</span><span class="s">"25"</span> <span class="na">cy=</span><span class="s">"25"</span> <span class="na">r=</span><span class="s">"22"</span>
+   <span class="na">fill=</span><span class="s">"blue"</span> <span class="na">stroke=</span><span class="s">"gray"</span> <span class="na">stroke-width=</span><span class="s">"2"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/svg&gt;</span></code></pre></div>
+
+<p>Go ahead — right-click on it: it’s not an image! Zoom your browser and you’ll see it scales up and down smoothly, as a vector graphic should.</p>
+
+<p>You’re not required to use SVG with D3, but you’ll soon find that SVG provides a range of visual opportunities that aren’t possible with regular HTML elements.</p>
+
+  </article>
+
+  <ul class="pager">
+
+  <li class="previous">
+    <a href="/scottmurray-d3-fr/1-a-propos.html" class="previous">← 1 - À propos</a>
+  </li>    
+
+
+</ul>
+
+</div>
+
+    </div>
+    <hr>
+    <footer>
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
