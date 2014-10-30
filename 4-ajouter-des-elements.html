@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>4 - Ajouter des éléments</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/4-ajouter-des-elements.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/3-mise-en-place.html" class="previous">← 3 - Mise en place</a>
+	  </li>    
+	
+	
+	  <li class="next">
+	    <a href="/scottmurray-d3-fr/5-enchainer-les-methodes.html" class="next">5 - Enchaîner les méthodes →</a>
+	  </li>    
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>4 - Ajouter des éléments</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/adding-elements">http://alignedleft.com/tutorials/d3/adding-elements</a></em></p>
+
+<hr />
+
+<h2 id="ajouter-des-lments">Ajouter des éléments</h2>
+
+<p><em>Dernière mise à jour le 1er janvier 2013</em></p>
+
+<p>Notre premier pas sera d’utiliser D3 pour créer un nouvel élément DOM. En général, pour faire de la visualisation de données, on utilisera plutôt un objet SVG, mais on va commencer simple et créer juste un paragraphe <strong>p</strong>.</p>
+
+<p>Commençons avec cette page HTML :</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;title&gt;</span>D3 Test<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"d3/d3.v3.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+            <span class="c1">// Your beautiful D3 code will go here</span>
+        <span class="nt">&lt;/script&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></code></pre></div>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.html">Voir la page de démonstration</a></p>
+
+<p>Ok, ça à l’air de rien, mais ouvrez votre inspecteur web et vous devriez voir quelque chose comme ça :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.png" alt="Web inspector" /></p>
+
+<p>Dans votre fichier HTML, remplacez le commentaire entre les balises <strong>script</strong> par :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">"p"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">"New paragraph!"</span><span class="p">);</span></code></pre></div>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.html">Voir la page de démonstration</a></p>
+
+<p>Enregistrer et rafraîchissez, et voilà ! Il y a du texte là où notre page était vide, et dans l’inspecteur web :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.png" alt="Web inspector" /></p>
+
+<p>Vous voyez la différence ? Il y a, maintenant, un nouvel élément paragraphe <strong>p</strong> qui a été généré à la volée ! Ça paraît pas excitant de prime abord, mais on utilisera bientôt une technique similaire pour générer des dizaines, voire des centaines, d’éléments, chacun correspondant à une partie de votre ensemble de données.</p>
+
+<p>Essayons de comprendre ce qu’il s’est passé. Dans l’ordre, on a :</p>
+
+<ol>
+  <li>Appelé la méthode <strong>select</strong> de D3. Elle sélectionne un seul élément du DOM à partir d’un sélecteur CSS. (On a sélectionné l’élément <strong>body</strong>.)</li>
+  <li>Créer un nouvel élément <strong>p</strong>, et on l’a ajouté à la fin de notre sélection, donc juste <em>avant</em> la balise fermante <strong>&lt;/body&gt;</strong>.</li>
+  <li>Définit le texte de ce nouveau paragraphe vide à “Nouveau paraphe !”</li>
+  <li>Tous ces petits points qui font partie de la <em>syntaxe en chaîne de D3</em>.</li>
+</ol>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/3-mise-en-place.html" class="previous">← 3 - Mise en place</a>
+	  </li>    
+	
+	
+	  <li class="next">
+	    <a href="/scottmurray-d3-fr/5-enchainer-les-methodes.html" class="next">5 - Enchaîner les méthodes →</a>
+	  </li>    
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>

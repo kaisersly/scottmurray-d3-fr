@@ -6,9 +6,142 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 28 Oct 2014 21:32:20 +0100</pubDate>
-    <lastBuildDate>Tue, 28 Oct 2014 21:32:20 +0100</lastBuildDate>
+    <pubDate>Thu, 30 Oct 2014 06:40:49 +0100</pubDate>
+    <lastBuildDate>Thu, 30 Oct 2014 06:40:49 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>5 - Enchaîner les méthodes</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/chaining-methods&quot;&gt;http://alignedleft.com/tutorials/d3/chaining-methods&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;enchaner-les-mthodes&quot;&gt;Enchaîner les méthodes&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;D3 utilise une technique appelée &lt;strong&gt;syntaxe en chaîne&lt;/strong&gt;, que vous avec peut-être déjà vu en jQuery. En “enchaînant” les méthodes avec des point, vous pouvez effectuer plusieurs actions en une seule ligne de code. Ça peut paraître simple et rapide, mais il est important de comprendre comment ça fonctionne, pour vous éviter, plus tard, des heures de maux de têtes à débugger.&lt;/p&gt;
+
+&lt;p&gt;Soit dit en passant, &lt;strong&gt;fonctions&lt;/strong&gt; et &lt;strong&gt;méthodes&lt;/strong&gt; sont justes deux mots différents qui exprime le même concept : un bout de code qui accepte un argument en entrée, effectue quelques actions, et retourne quelques données en sortie.&lt;/p&gt;
+
+&lt;p&gt;Retournons à notre première ligne de code en D3.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/50-chaining-methods/index.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On diraît que c’est la pagaille, surtout si vous êtes nouveau en programmation. La première chose à savoir c’est que JavaScrîpt, comme HTML, ne s’intéresse pas aux espaces ni aux sauts de lignes, donc vous pouvez mettre chaque méthode sur sa propre ligne, pour plus de lisibilité :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Tout le monde à son propre style de programmation. Utilisez ce qui vous sied le mieux : indentations, sauts de ligne et espaces (tabulations ou espaces simples).&lt;/p&gt;
+
+&lt;h3 id=&quot;un-lien--la-fois&quot;&gt;Un lien à la fois&lt;/h3&gt;
+
+&lt;p&gt;Analysons chaque morceau de code.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;d3&lt;/strong&gt; — Références l’objet D3, pour que nous puissions accéder à ses méthodes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.select(“body”)&lt;/strong&gt; — Donnez à &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-d3_select&quot;&gt;select()&lt;/a&gt;&lt;/strong&gt; un sélecteur CSS en entrée, et elle vous retournera la référence du premier élément du DOM qui y correspond. (Utilisez &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-d3_selectAll&quot;&gt;selectAll()&lt;/a&gt;&lt;/strong&gt; lorsque vous avez besoin de plus d’un élément.) Dans notre cas on veut juste l’élément &lt;strong&gt;body&lt;/strong&gt;, donc une référence à cet élément est passée à la prochaine méthode dans notre chaîne.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.append(“p”)&lt;/strong&gt; — &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-append&quot;&gt;append()&lt;/a&gt;&lt;/strong&gt; crée l’élément DOM que vous indiquez et l’ajouter à la fin (mais bien &lt;em&gt;à l’intérieur&lt;/em&gt;) de la sélection sur laquelle elle opère. Dans notre cas on veut créer un nouvel élément &lt;strong&gt;p&lt;/strong&gt; dans notre élément &lt;strong&gt;body&lt;/strong&gt;. On indique &lt;strong&gt;“p”&lt;/strong&gt; en argument, mais cette méthode voit aussi la référence à l’élément &lt;strong&gt;body&lt;/strong&gt; qui lui a été transmise par la chaîne depuis la méthode &lt;strong&gt;select()&lt;/strong&gt;. Enfin, &lt;strong&gt;append()&lt;/strong&gt;, à son tour, transmet la référence au nouvel élément qui vient juste d’être créé.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.text(“New paragraph!”)&lt;/strong&gt; — &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-text&quot;&gt;text&lt;/a&gt;&lt;/strong&gt; prend une chaîne de caractères en argument et l’insère entre les balises ouvrantes et fermantes de la selection actuelle. Comme la méthode précédente a transmis une référence au nouvel élément &lt;strong&gt;p&lt;/strong&gt;, ce code va juste insérer le nouveau texte entre &lt;strong&gt;&amp;lt;p&amp;gt;&lt;/strong&gt; et &lt;strong&gt;&amp;lt;/p&amp;gt;&lt;/strong&gt;. (Dans le cas où il y aurait déjà du texte, il serait écrasé.)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;;&lt;/strong&gt; — L’indispensable (&lt;em&gt;all-important&lt;/em&gt;) point-virgule indique la fin de cette ligne de code.&lt;/p&gt;
+
+&lt;h3 id=&quot;la-transmission&quot;&gt;La transmission&lt;/h3&gt;
+
+&lt;p&gt;Beaucoup de méthodes de D3, mais pas toutes, retourne une sélection (dans la réalité, une référence à une sélection), ce qui permet d’utiliser l’enchaînement bien pratique de méthodes. D’une manière générale, une méthode retourne la référence à l’élément sur lequel elle vient d’agir, mais ce n’est pas systématique.&lt;/p&gt;
+
+&lt;p&gt;Rappelez-vous : Lorque vous enchaînez des méthodes, l’order est compte. Le type du retour d’une méthode doit coincider avec le type d’entrée de la prochaine méthode dans la chaîne. Si la sortie et l’entrée ne correspondent pas, la transmission ressemblera à un bâton, dans une course de relais, qui tombe lors de l’échange.&lt;/p&gt;
+
+&lt;p&gt;Lorsque vous vous demander ce que chaque fonction attend en entrée et retourne en sortie,  When sussing out what each function expects and returns, la &lt;a href=&quot;https://github.com/mbostock/d3/wiki/API-Reference&quot;&gt;référence de l’API (en)&lt;/a&gt; est votre ami. Elle contient des informations détaillées sur chaque méthode, notamment si la méthode retourne une sélection ou non.&lt;/p&gt;
+
+&lt;h3 id=&quot;sans-les-chanes&quot;&gt;Sans les chaînes&lt;/h3&gt;
+
+&lt;p&gt;On pourrait réécrire notre code d’example sans la syntaxe de chaîne comme suit :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Beurk ! Quel désorde ! Et pourtant, il y aura des moments où vous serez obligés de casser la chaîne. Par exemple, lorsque vous appellerez tellement de fonctions à la suite que ça n’aura pas de sens de les lier. Ou simplement parceque vous voudrez organiser votre code de manière à ce qu’il soit plus lisible.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/5-enchainer-les-methodes.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/5-enchainer-les-methodes.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>4 - Ajouter des éléments</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/adding-elements&quot;&gt;http://alignedleft.com/tutorials/d3/adding-elements&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;ajouter-des-lments&quot;&gt;Ajouter des éléments&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 1er janvier 2013&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Notre premier pas sera d’utiliser D3 pour créer un nouvel élément DOM. En général, pour faire de la visualisation de données, on utilisera plutôt un objet SVG, mais on va commencer simple et créer juste un paragraphe &lt;strong&gt;p&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Commençons avec cette page HTML :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;D3 Test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;d3/d3.v3.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Your beautiful D3 code will go here&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ok, ça à l’air de rien, mais ouvrez votre inspecteur web et vous devriez voir quelque chose comme ça :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.png&quot; alt=&quot;Web inspector&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Dans votre fichier HTML, remplacez le commentaire entre les balises &lt;strong&gt;script&lt;/strong&gt; par :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enregistrer et rafraîchissez, et voilà ! Il y a du texte là où notre page était vide, et dans l’inspecteur web :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.png&quot; alt=&quot;Web inspector&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Vous voyez la différence ? Il y a, maintenant, un nouvel élément paragraphe &lt;strong&gt;p&lt;/strong&gt; qui a été généré à la volée ! Ça paraît pas excitant de prime abord, mais on utilisera bientôt une technique similaire pour générer des dizaines, voire des centaines, d’éléments, chacun correspondant à une partie de votre ensemble de données.&lt;/p&gt;
+
+&lt;p&gt;Essayons de comprendre ce qu’il s’est passé. Dans l’ordre, on a :&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Appelé la méthode &lt;strong&gt;select&lt;/strong&gt; de D3. Elle sélectionne un seul élément du DOM à partir d’un sélecteur CSS. (On a sélectionné l’élément &lt;strong&gt;body&lt;/strong&gt;.)&lt;/li&gt;
+  &lt;li&gt;Créer un nouvel élément &lt;strong&gt;p&lt;/strong&gt;, et on l’a ajouté à la fin de notre sélection, donc juste &lt;em&gt;avant&lt;/em&gt; la balise fermante &lt;strong&gt;&amp;lt;/body&amp;gt;&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Définit le texte de ce nouveau paragraphe vide à “Nouveau paraphe !”&lt;/li&gt;
+  &lt;li&gt;Tous ces petits points qui font partie de la &lt;em&gt;syntaxe en chaîne de D3&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/4-ajouter-des-elements.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/4-ajouter-des-elements.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>3 - Mise en place</title>
@@ -19,6 +152,7 @@
 &lt;hr /&gt;
 
 &lt;h2 id=&quot;mise-en-place&quot;&gt;Mise en place&lt;/h2&gt;
+
 &lt;p&gt;&lt;em&gt;Dernière mise à jour le 22 février 2014&lt;/em&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;tlcharger-d3&quot;&gt;Télécharger D3&lt;/h3&gt;
@@ -43,7 +177,7 @@
 &lt;p&gt;Maintenant, copiez ce qui suit dans votre fichier &lt;strong&gt;index.html&lt;/strong&gt;, cela référencera D3 dans la section &lt;strong&gt;head&lt;/strong&gt; et vous donnera un endroit où mettre votre code JavaScript :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;D3 Test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
@@ -58,7 +192,7 @@
 
 &lt;h3 id=&quot;afficher-votre-page&quot;&gt;Afficher votre page&lt;/h3&gt;
 
-&lt;p&gt;Dans certains cas, vous pouvez vous contenter d’ouvrir votre fichier HTML dans votre navigateur pour le voir. Cependant, lorque vous charger des ressources externes, il est préférable de lancer un serveur web local et voir votre page depuis l’adresse &lt;strong&gt;http://localhost:8888/&lt;/strong&gt;. Vous pouvez utiliser un serveur comme &lt;a href=&quot;http://mamp.info/en/&quot;&gt;MAMP&lt;/a&gt;, ou voir ces &lt;a href=&quot;https://github.com/mbostock/d3/wiki&quot;&gt;notes sur le wiki de D3&lt;/a&gt; (&lt;em&gt;lien en anglais&lt;/em&gt;) sur la manière de lancer un serveur web temporaire. &lt;/p&gt;
+&lt;p&gt;Dans certains cas, vous pouvez vous contenter d’ouvrir votre fichier HTML dans votre navigateur pour le voir. Cependant, lorque vous charger des ressources externes, il est préférable de lancer un serveur web local et voir votre page depuis l’adresse &lt;strong&gt;http://localhost:8888/&lt;/strong&gt;. Vous pouvez utiliser un serveur comme &lt;a href=&quot;http://mamp.info/en/&quot;&gt;MAMP&lt;/a&gt;, ou voir ces &lt;a href=&quot;https://github.com/mbostock/d3/wiki&quot;&gt;notes sur le wiki de D3 &lt;em&gt;(en)&lt;/em&gt;&lt;/a&gt; sur la manière de lancer un serveur web temporaire. &lt;/p&gt;
 </description>
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/3-mise-en-place.html</link>
@@ -86,13 +220,13 @@
 &lt;p&gt;Le  langage de balisage hypertext (&lt;em&gt;Hypertext Markup Language&lt;/em&gt;) est utilisé pour structurer du contenu pour les navigateurs. La page HTML la plus simple ressemble à cela :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Titre de la page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Titre de la page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;C&#39;est un paragraphe vraiment intéressant.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Titre de la page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Titre de la page&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;C&#39;est un paragraphe vraiment intéressant.&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;dom&quot;&gt;DOM&lt;/h3&gt;
@@ -106,8 +240,8 @@
 &lt;p&gt;Les feuilles de style en cascade (&lt;em&gt;Cascading Style Sheets&lt;/em&gt;) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuille CSS simple ressemble à ceci :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style :&lt;/p&gt;
@@ -127,9 +261,9 @@
 &lt;p&gt;On connecte les sélecteurs et les règles avec des accolades :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;14px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;line-height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;14px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;D3 utilise les sélecteurs CSS pour indentifier les éléments sur lequels il opère, il est donc important de comprendre comment les utiliser.&lt;/p&gt;
@@ -137,18 +271,18 @@
 &lt;p&gt;Les règles CSS peuvent être inclues directement dans la section &lt;strong&gt;head&lt;/strong&gt; du document, de cette manière :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;style &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;nl&quot;&gt;font-family&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sans-serif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-      &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;lime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;style &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nl&quot;&gt;font-family&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sans-serif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;nl&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;lime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;ou stockées dans une fichier externe qui a pour extension .css, puis référencé dans la section &lt;strong&gt;head&lt;/strong&gt; du document : &lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;style.css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;link&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rel=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stylesheet&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;href=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;style.css&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;javascript&quot;&gt;JavaScript&lt;/h3&gt;
@@ -158,16 +292,16 @@
 &lt;p&gt;Les scripts peuvent être inclus directement dans le code HTML, entre deux balises &lt;strong&gt;script&lt;/strong&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Hello, world!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;ou stockés dans un fichier séparé, référencé quelque part dans le code HTML (la plupart du temps dans la section &lt;strong&gt;head&lt;/strong&gt;) :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Page Title&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;myscript.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Page Title&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;myscript.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;outils-de-dveloppement&quot;&gt;Outils de développement&lt;/h3&gt;
@@ -176,7 +310,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/20-fundamentals/web_inspector.png&quot; alt=&quot;Safari’s web inspector&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger votre code. &lt;a href=&quot;https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html&quot;&gt;Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web&lt;/a&gt; (&lt;em&gt;lien en anglais&lt;/em&gt;).&lt;/p&gt;
+&lt;p&gt;“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger votre code. &lt;a href=&quot;https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html&quot;&gt;Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web &lt;em&gt;(en)&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;svg&quot;&gt;SVG&lt;/h3&gt;
 
@@ -185,12 +319,12 @@
 &lt;p&gt;Voilà un petit cercle que je vous ai codé dans cette page :&lt;/p&gt;
 
 &lt;svg width=&quot;50&quot; height=&quot;50&quot;&gt;
-  &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;22&quot; fill=&quot;blue&quot; stroke=&quot;gray&quot; stroke-width=&quot;2&quot; /&gt;
+    &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;22&quot; fill=&quot;blue&quot; stroke=&quot;gray&quot; stroke-width=&quot;2&quot; /&gt;
 &lt;/svg&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;svg&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;22&quot;&lt;/span&gt;
-   &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;blue&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;22&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;blue&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/svg&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Allez-y, cliquez droit dessus : ce n’est pas une image ! Zoomer (&lt;em&gt;Ctrl + “+” ou Ctrl + la molette&lt;/em&gt;) et vous verrez que ça s’adapte à l’échelle sans soucis, comme est sensé le faire un graphique vectoriel.&lt;/p&gt;

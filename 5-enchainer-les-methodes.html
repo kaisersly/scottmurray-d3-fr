@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>5 - Enchaîner les méthodes</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/5-enchainer-les-methodes.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/4-ajouter-des-elements.html" class="previous">← 4 - Ajouter des éléments</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>5 - Enchaîner les méthodes</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/chaining-methods">http://alignedleft.com/tutorials/d3/chaining-methods</a></em></p>
+
+<hr />
+
+<h2 id="enchaner-les-mthodes">Enchaîner les méthodes</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>D3 utilise une technique appelée <strong>syntaxe en chaîne</strong>, que vous avec peut-être déjà vu en jQuery. En “enchaînant” les méthodes avec des point, vous pouvez effectuer plusieurs actions en une seule ligne de code. Ça peut paraître simple et rapide, mais il est important de comprendre comment ça fonctionne, pour vous éviter, plus tard, des heures de maux de têtes à débugger.</p>
+
+<p>Soit dit en passant, <strong>fonctions</strong> et <strong>méthodes</strong> sont justes deux mots différents qui exprime le même concept : un bout de code qui accepte un argument en entrée, effectue quelques actions, et retourne quelques données en sortie.</p>
+
+<p>Retournons à notre première ligne de code en D3.</p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/50-chaining-methods/index.html">Voir la page de démonstration</a></p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">"p"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">"New paragraph!"</span><span class="p">);</span></code></pre></div>
+
+<p>On diraît que c’est la pagaille, surtout si vous êtes nouveau en programmation. La première chose à savoir c’est que JavaScrîpt, comme HTML, ne s’intéresse pas aux espaces ni aux sauts de lignes, donc vous pouvez mettre chaque méthode sur sa propre ligne, pour plus de lisibilité :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="s2">"New paragraph!"</span><span class="p">);</span></code></pre></div>
+
+<p>Tout le monde à son propre style de programmation. Utilisez ce qui vous sied le mieux : indentations, sauts de ligne et espaces (tabulations ou espaces simples).</p>
+
+<h3 id="un-lien--la-fois">Un lien à la fois</h3>
+
+<p>Analysons chaque morceau de code.</p>
+
+<p><strong>d3</strong> — Références l’objet D3, pour que nous puissions accéder à ses méthodes.</p>
+
+<p><strong>.select(“body”)</strong> — Donnez à <strong><a href="https://github.com/mbostock/d3/wiki/Selections#wiki-d3_select">select()</a></strong> un sélecteur CSS en entrée, et elle vous retournera la référence du premier élément du DOM qui y correspond. (Utilisez <strong><a href="https://github.com/mbostock/d3/wiki/Selections#wiki-d3_selectAll">selectAll()</a></strong> lorsque vous avez besoin de plus d’un élément.) Dans notre cas on veut juste l’élément <strong>body</strong>, donc une référence à cet élément est passée à la prochaine méthode dans notre chaîne.</p>
+
+<p><strong>.append(“p”)</strong> — <strong><a href="https://github.com/mbostock/d3/wiki/Selections#wiki-append">append()</a></strong> crée l’élément DOM que vous indiquez et l’ajouter à la fin (mais bien <em>à l’intérieur</em>) de la sélection sur laquelle elle opère. Dans notre cas on veut créer un nouvel élément <strong>p</strong> dans notre élément <strong>body</strong>. On indique <strong>“p”</strong> en argument, mais cette méthode voit aussi la référence à l’élément <strong>body</strong> qui lui a été transmise par la chaîne depuis la méthode <strong>select()</strong>. Enfin, <strong>append()</strong>, à son tour, transmet la référence au nouvel élément qui vient juste d’être créé.</p>
+
+<p><strong>.text(“New paragraph!”)</strong> — <strong><a href="https://github.com/mbostock/d3/wiki/Selections#wiki-text">text</a></strong> prend une chaîne de caractères en argument et l’insère entre les balises ouvrantes et fermantes de la selection actuelle. Comme la méthode précédente a transmis une référence au nouvel élément <strong>p</strong>, ce code va juste insérer le nouveau texte entre <strong>&lt;p&gt;</strong> et <strong>&lt;/p&gt;</strong>. (Dans le cas où il y aurait déjà du texte, il serait écrasé.)</p>
+
+<p><strong>;</strong> — L’indispensable (<em>all-important</em>) point-virgule indique la fin de cette ligne de code.</p>
+
+<h3 id="la-transmission">La transmission</h3>
+
+<p>Beaucoup de méthodes de D3, mais pas toutes, retourne une sélection (dans la réalité, une référence à une sélection), ce qui permet d’utiliser l’enchaînement bien pratique de méthodes. D’une manière générale, une méthode retourne la référence à l’élément sur lequel elle vient d’agir, mais ce n’est pas systématique.</p>
+
+<p>Rappelez-vous : Lorque vous enchaînez des méthodes, l’order est compte. Le type du retour d’une méthode doit coincider avec le type d’entrée de la prochaine méthode dans la chaîne. Si la sortie et l’entrée ne correspondent pas, la transmission ressemblera à un bâton, dans une course de relais, qui tombe lors de l’échange.</p>
+
+<p>Lorsque vous vous demander ce que chaque fonction attend en entrée et retourne en sortie,  When sussing out what each function expects and returns, la <a href="https://github.com/mbostock/d3/wiki/API-Reference">référence de l’API (en)</a> est votre ami. Elle contient des informations détaillées sur chaque méthode, notamment si la méthode retourne une sélection ou non.</p>
+
+<h3 id="sans-les-chanes">Sans les chaînes</h3>
+
+<p>On pourrait réécrire notre code d’example sans la syntaxe de chaîne comme suit :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"p"</span><span class="p">);</span>
+<span class="nx">p</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="s2">"New paragraph!"</span><span class="p">);</span></code></pre></div>
+
+<p>Beurk ! Quel désorde ! Et pourtant, il y aura des moments où vous serez obligés de casser la chaîne. Par exemple, lorsque vous appellerez tellement de fonctions à la suite que ça n’aura pas de sens de les lier. Ou simplement parceque vous voudrez organiser votre code de manière à ce qu’il soit plus lisible.</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/4-ajouter-des-elements.html" class="previous">← 4 - Ajouter des éléments</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>

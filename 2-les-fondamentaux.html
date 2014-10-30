@@ -69,13 +69,13 @@
 <p>Le  langage de balisage hypertext (<em>Hypertext Markup Language</em>) est utilisé pour structurer du contenu pour les navigateurs. La page HTML la plus simple ressemble à cela :</p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;html&gt;</span>
-  <span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;title&gt;</span>Titre de la page<span class="nt">&lt;/title&gt;</span>
-  <span class="nt">&lt;/head&gt;</span>
-  <span class="nt">&lt;body&gt;</span>
-    <span class="nt">&lt;h1&gt;</span>Titre de la page<span class="nt">&lt;/h1&gt;</span>
-    <span class="nt">&lt;p&gt;</span>C'est un paragraphe vraiment intéressant.<span class="nt">&lt;/p&gt;</span>
-  <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Titre de la page<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Titre de la page<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;p&gt;</span>C'est un paragraphe vraiment intéressant.<span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span></code></pre></div>
 
 <h3 id="dom">DOM</h3>
@@ -89,8 +89,8 @@
 <p>Les feuilles de style en cascade (<em>Cascading Style Sheets</em>) sont utilisées pour styliser la présentation visuelle des pages HTML. Une feuille CSS simple ressemble à ceci :</p>
 
 <div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">body</span> <span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
-  <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
 
 <p>Les styles CSS se composent de sélecteurs et de règles. Les sélecteurs identifient les éléments spécifiques auxquels on applique un style :</p>
@@ -110,9 +110,9 @@
 <p>On connecte les sélecteurs et les règles avec des accolades :</p>
 
 <div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">p</span> <span class="p">{</span>
-  <span class="nl">font-size</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
-  <span class="nl">line-height</span><span class="p">:</span> <span class="m">14px</span><span class="p">;</span>
-  <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+    <span class="nl">line-height</span><span class="p">:</span> <span class="m">14px</span><span class="p">;</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
 
 <p>D3 utilise les sélecteurs CSS pour indentifier les éléments sur lequels il opère, il est donc important de comprendre comment les utiliser.</p>
@@ -120,18 +120,18 @@
 <p>Les règles CSS peuvent être inclues directement dans la section <strong>head</strong> du document, de cette manière :</p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
-  <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
-    <span class="nt">p</span> <span class="p">{</span>
-      <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>
-      <span class="nl">color</span><span class="p">:</span> <span class="no">lime</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="nt">&lt;/style&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+        <span class="nt">p</span> <span class="p">{</span>
+            <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>
+            <span class="nl">color</span><span class="p">:</span> <span class="no">lime</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
 <span class="nt">&lt;/head&gt;</span></code></pre></div>
 
 <p>ou stockées dans une fichier externe qui a pour extension .css, puis référencé dans la section <strong>head</strong> du document : </p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
-  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"style.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"style.css"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/head&gt;</span></code></pre></div>
 
 <h3 id="javascript">JavaScript</h3>
@@ -141,16 +141,16 @@
 <p>Les scripts peuvent être inclus directement dans le code HTML, entre deux balises <strong>script</strong></p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;body&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
-    <span class="nx">alert</span><span class="p">(</span><span class="s2">"Hello, world!"</span><span class="p">);</span>
-  <span class="nt">&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span><span class="nt">&gt;</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">"Hello, world!"</span><span class="p">);</span>
+    <span class="nt">&lt;/script&gt;</span>
 <span class="nt">&lt;/body&gt;</span></code></pre></div>
 
 <p>ou stockés dans un fichier séparé, référencé quelque part dans le code HTML (la plupart du temps dans la section <strong>head</strong>) :</p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
-  <span class="nt">&lt;title&gt;</span>Page Title<span class="nt">&lt;/title&gt;</span>
-  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"myscript.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Page Title<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"myscript.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;/head&gt;</span></code></pre></div>
 
 <h3 id="outils-de-dveloppement">Outils de développement</h3>
@@ -159,7 +159,7 @@
 
 <p><img src="http://alignedleft.com/content/03-tutorials/01-d3/20-fundamentals/web_inspector.png" alt="Safari’s web inspector" /></p>
 
-<p>“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger votre code. <a href="https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html">Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web</a> (<em>lien en anglais</em>).</p>
+<p>“Afficher le code source de la page” vous permet de voir le code HTML original alors que l’inspecteur web vous permet de voir l’état actuel du DOM. C’est utile car votre code va modifier dynamiquement des éléments du DOM. Dans l’inspecteur web vous pouvez voir les éléments au fur et à mesure qu’ils changent. Vous utiliserez aussi la console JavaScript pour débugger votre code. <a href="https://developer.apple.com/library/safari/documentation/AppleApplications/Conceptual/Safari_Developer_Guide/Introduction/Introduction.html">Apprenez en plus sur le débuggage HTML, CSS et JavaScript à l’aide de l’inspecteur web <em>(en)</em></a>.</p>
 
 <h3 id="svg">SVG</h3>
 
@@ -168,12 +168,12 @@
 <p>Voilà un petit cercle que je vous ai codé dans cette page :</p>
 
 <svg width="50" height="50">
-  <circle cx="25" cy="25" r="22" fill="blue" stroke="gray" stroke-width="2" />
+    <circle cx="25" cy="25" r="22" fill="blue" stroke="gray" stroke-width="2" />
 </svg>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;svg</span> <span class="na">width=</span><span class="s">"50"</span> <span class="na">height=</span><span class="s">"50"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;circle</span> <span class="na">cx=</span><span class="s">"25"</span> <span class="na">cy=</span><span class="s">"25"</span> <span class="na">r=</span><span class="s">"22"</span>
-   <span class="na">fill=</span><span class="s">"blue"</span> <span class="na">stroke=</span><span class="s">"gray"</span> <span class="na">stroke-width=</span><span class="s">"2"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;circle</span> <span class="na">cx=</span><span class="s">"25"</span> <span class="na">cy=</span><span class="s">"25"</span> <span class="na">r=</span><span class="s">"22"</span>
+        <span class="na">fill=</span><span class="s">"blue"</span> <span class="na">stroke=</span><span class="s">"gray"</span> <span class="na">stroke-width=</span><span class="s">"2"</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/svg&gt;</span></code></pre></div>
 
 <p>Allez-y, cliquez droit dessus : ce n’est pas une image ! Zoomer (<em>Ctrl + “+” ou Ctrl + la molette</em>) et vous verrez que ça s’adapte à l’échelle sans soucis, comme est sensé le faire un graphique vectoriel.</p>
