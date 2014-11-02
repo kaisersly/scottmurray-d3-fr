@@ -86,7 +86,7 @@
 
 <p><a href="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.html">Voir la page de démonstration</a></p>
 
-<p>Ok, ça à l’air de rien, mais ouvrez votre inspecteur web et vous devriez voir quelque chose comme ça :</p>
+<p>Ok, ça a l’air de rien, mais ouvrez votre inspecteur web et vous devriez voir quelque chose comme ça :</p>
 
 <p><img src="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.png" alt="Web inspector" /></p>
 
@@ -96,18 +96,18 @@
 
 <p><a href="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.html">Voir la page de démonstration</a></p>
 
-<p>Enregistrer et rafraîchissez, et voilà ! Il y a du texte là où notre page était vide, et dans l’inspecteur web :</p>
+<p>Enregistrez et rafraîchissez, et voilà ! Il y a du texte là où notre page était vide, et dans l’inspecteur web :</p>
 
 <p><img src="http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.png" alt="Web inspector" /></p>
 
-<p>Vous voyez la différence ? Il y a, maintenant, un nouvel élément paragraphe <strong>p</strong> qui a été généré à la volée ! Ça paraît pas excitant de prime abord, mais on utilisera bientôt une technique similaire pour générer des dizaines, voire des centaines, d’éléments, chacun correspondant à une partie de votre ensemble de données.</p>
+<p>Vous voyez la différence ? Il y a, maintenant, un nouvel élément paragraphe <strong>p</strong> qui a été généré à la volée ! Ça paraît pas très excitant de prime abord, mais on utilisera bientôt une technique similaire pour générer des dizaines, voire des centaines, d’éléments, chacun correspondant à une partie de votre ensemble de données.</p>
 
 <p>Essayons de comprendre ce qu’il s’est passé. Dans l’ordre, on a :</p>
 
 <ol>
   <li>Appelé la méthode <strong>select</strong> de D3. Elle sélectionne un seul élément du DOM à partir d’un sélecteur CSS. (On a sélectionné l’élément <strong>body</strong>.)</li>
-  <li>Créer un nouvel élément <strong>p</strong>, et on l’a ajouté à la fin de notre sélection, donc juste <em>avant</em> la balise fermante <strong>&lt;/body&gt;</strong>.</li>
-  <li>Définit le texte de ce nouveau paragraphe vide à “Nouveau paraphe !”</li>
+  <li>Créé un nouvel élément <strong>p</strong>, et on l’a ajouté à la fin de notre sélection, donc juste <em>avant</em> la balise fermante <strong>&lt;/body&gt;</strong>.</li>
+  <li>Défini le texte de ce nouveau paragraphe vide à “Nouveau paraphe !”</li>
   <li>Tous ces petits points qui font partie de la <em>syntaxe en chaîne de D3</em>.</li>
 </ol>
 
