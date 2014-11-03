@@ -6,9 +6,113 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 02 Nov 2014 08:56:41 +0100</pubDate>
-    <lastBuildDate>Sun, 02 Nov 2014 08:56:41 +0100</lastBuildDate>
+    <pubDate>Mon, 03 Nov 2014 06:54:07 +0100</pubDate>
+    <lastBuildDate>Mon, 03 Nov 2014 06:54:07 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>6 - Lier les données</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/binding-data&quot;&gt;http://alignedleft.com/tutorials/d3/binding-data&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;lier-les-donnes&quot;&gt;Lier les données&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Qu’est-ce que le binding, et pourquoi je voudrais l’appliquer à mes données ?&lt;/p&gt;
+
+&lt;p&gt;La visualisation de données est un processus qui consiste à lier des données (&lt;em&gt;mapping data&lt;/em&gt;) à une représentation graphique. Des données en entrée, des propriétés visuelles en sortie. Les nombres plus grand donneront peut-être des barres plus grandes, ou des catégories spéciales donneront des couleurs plus claires. C’est vous qui définissez les règles de liaison (&lt;em&gt;mapping rules&lt;/em&gt;).&lt;/p&gt;
+
+&lt;p&gt;Avec D3, on lie les valeurs de nos données en entrée aux éléments du DOM. Le binding c’est comme “attacher” ou associer des données à des éléments spécifiques, pour que vous puissiez y faire référence, plus tard, dans des règles de liaison. Sans l’étape du binding, on aurait un ensemble d’éléments DOM sans données attachées. Personne ne veut de ça.&lt;/p&gt;
+
+&lt;h3 id=&quot;dans-une-liaison&quot;&gt;Dans une liaison&lt;/h3&gt;
+
+&lt;p&gt;On utilise la méthode &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-data&quot;&gt;selection.data()&lt;/a&gt;&lt;/strong&gt; de D3 pour lier des données à des éléments DOM. Mais il y a deux choses à mettre en place, avant que l’on puisse lier des données :&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Les données&lt;/li&gt;
+  &lt;li&gt;Une sélection d’éléments DOM&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Une chose à la fois.&lt;/p&gt;
+
+&lt;h3 id=&quot;les-donnes&quot;&gt;Les données&lt;/h3&gt;
+
+&lt;p&gt;D3 est intelligent lorsqu’il s’agit de gérer différents types de données. Il acceptera tous les tableaux de nombres, de chaînes de caractères ou d’objets (eux-mêmes pouvant contenir d’autres tableaux ou des paires clé/valeur). Il peut gérer du JSON (et du GeoJSON) sans aucun soucis, et possède même une méthode intégrée (&lt;em&gt;built-in&lt;/em&gt;) pour vous aider à charger des fichiers CSV.&lt;/p&gt;
+
+&lt;p&gt;Mais pour garder les choses simples, on va débuter avec un tableau de nombres. Voilà notre ensemble de données :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;faites-votre-slection&quot;&gt;Faites votre sélection&lt;/h3&gt;
+
+&lt;p&gt;D’abord, vous devez décider ce que vous voulez sélectionner. À quels éléments vos données seront associées ? Encore une fois, on va rester super simple et dire que l’on veut un nouveau paragraphe pour chaque élément de notre ensemble de données. Vous vous imaginerez donc que quelque chose dans ce genre pourrait vous être utile&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et vous auriez raison, mais y’a un hic : Les paragraphes que l’on veut créer &lt;em&gt;n’existent pas encore&lt;/em&gt;. Ça nous amène à un des causes courrantes de confusion avec D3 : Comment peut-on sélectionner des éléments qui n’existent pas encore ? Restez avec moi, car la réponse requiert que vous vous tordiez un peu l’esprit.&lt;/p&gt;
+
+&lt;p&gt;La réponse se trouve dans &lt;strong&gt;enter()&lt;/strong&gt;, une méthode vraiment magique. Voilà le code final pour notre exemple, que je vais expliquer :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/index.html&quot;&gt;Jetez un oeil à cette page de démo&lt;/a&gt;. Vous verrez cinq nouveaux paragraphes, chacun avec le même contenu. Voilà ce qui se passe.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;d3.select(“body”)&lt;/strong&gt; — Trouve l’élément &lt;strong&gt;body&lt;/strong&gt; dans le DOM et transmet sa référence au prochain maillon de la chaîne.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.selectAll(“p”)&lt;/strong&gt; — Sélectionne tous les paragraphes dans le DOM. Comme aucun paragraphe n’existe pour l’instant, ça retourne une sélection vide. Voyez cette sélection vide comme représentant les paragraphes &lt;em&gt;qui vont bientôt exister&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.data(dataset)&lt;/strong&gt; — Compte et analyse les valeurs des données. Il y a cinq valeurs dans notre ensemble de données, donc à partir de là, tout ce qui se passe sera exécuté cinq fois, une fois par valeur.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.enter()&lt;/strong&gt; — Pour créer de nouveaux éléments liés à des données, on doit utiliser la méthode &lt;strong&gt;enter()&lt;/strong&gt;. Cette méthode jète un oeil au DOM, puis aux données qui lui ont été transmises. S’il y a plus de données que d’éléments DOM correspondants, alors &lt;strong&gt;enter()&lt;/strong&gt; &lt;em&gt;crée un nouvel élément placeholder&lt;/em&gt; sur lequel vous pourrez faire jouer votre magie. Elle transmet ensuite une référence à ce nouveau placeholder au prochain maillon de la chaîne.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.append(“p”)&lt;/strong&gt; — Prend la sélection placeholder créée par &lt;strong&gt;enter()&lt;/strong&gt; et insert un élément &lt;strong&gt;p&lt;/strong&gt; dans le DOM. Hourra ! Elle transmet ensuite une référence de l’élément qu’elle vient de créer au prochain maillon de la chaîne.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;.text(“New paragraph!”)&lt;/strong&gt; — Prend la référence au nouvellement créé &lt;strong&gt;p&lt;/strong&gt; et insert un texte.&lt;/p&gt;
+
+&lt;h3 id=&quot;li-et-dtermin&quot;&gt;Lié et déterminé&lt;/h3&gt;
+
+&lt;p&gt;Ok ! Toutes nos données ont été lues, analysées, et liées aux nouveaux éléments &lt;strong&gt;p&lt;/strong&gt; que l’on a créés dans le DOM. Vous ne me croyez pas ? Retournez voir &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/index.html&quot;&gt;la page de démo&lt;/a&gt; et ouvrez l’inspecteur web.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/1.png&quot; alt=&quot;Web inspector&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Okay, je vois cinq paragraphes, mais où sont les données ?  Cliquez sur &lt;em&gt;Console&lt;/em&gt;, tapez la ligne de code suivante et appuyez sur entrée :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/2.png&quot; alt=&quot;JS console&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Un tableau ! Cliquez sur le petit triangle gris, qui permet d’en révéler plus :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/3.png&quot; alt=&quot;JS console&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Notez les cinq paragraphes &lt;strong&gt;HTMLParagraphElements&lt;/strong&gt;, numérotés de 0 à 4. Cliquez sur le triangle révélateur à côté du premier (numéro zéro).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/4.png&quot; alt=&quot;JS console&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Vous voyez ? Est-ce que vous le voyez ? J’ai du mal à contenir mon excitation. Et voilà :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/5.png&quot; alt=&quot;JS console highlight&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Notre première valeur, le nombre 5, apparaît dans la propriété &lt;strong&gt;__data__&lt;/strong&gt; du premier paragraphe. Cliquez sur les autres paragraphes, et vous verrez qu’ils contiennent eux aussi une propriété &lt;strong&gt;__data__&lt;/strong&gt; qui a pour valeur : 10, 15, 20, et 25,  comme on vient de le spécifier.&lt;/p&gt;
+
+&lt;p&gt;Lorsque D3 lie des données à un élément, cette donnée n’existe pas dans le DOM, mais elle existe en mémoire comme une propriété &lt;strong&gt;__data__&lt;/strong&gt; de cet élément. Et la console vous permet de confirmer si vos données ont été liées ou pas.&lt;/p&gt;
+
+&lt;p&gt;Vos données sont prêtes. Faisons quelque chose avec.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/6-lier-les-donnees.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/6-lier-les-donnees.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>5 - Enchaîner les méthodes</title>
@@ -64,7 +168,7 @@
 
 &lt;h3 id=&quot;sans-les-chanes&quot;&gt;Sans les chaînes&lt;/h3&gt;
 
-&lt;p&gt;On pourrait réécrire notre code d’example sans la syntaxe de chaîne comme suit :&lt;/p&gt;
+&lt;p&gt;On pourrait réécrire notre code d’exemple sans la syntaxe de chaîne comme suit :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
