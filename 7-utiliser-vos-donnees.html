@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>7 - Utiliser vos données</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/7-utiliser-vos-donnees.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+    
+    <hr>
+<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
+<hr>
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/6-lier-les-donnees.html" class="previous">← 6 - Lier les données</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>7 - Utiliser vos données</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/using-your-data">http://alignedleft.com/tutorials/d3/using-your-data</a></em></p>
+
+<hr />
+
+<h2 id="utiliser-vos-donnes">Utiliser vos données</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>Une fois que vous avez chargé vos données et que vous les avez liées aux éléments nouvellement créés dans le DOM, comment pouvez-vous les <em>utiliser</em> ? Voilà notre code de la dernière fois :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span> <span class="p">];</span>
+
+<span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="s2">"New paragraph!"</span><span class="p">);</span></code></pre></div>
+
+<p>Changeons la dernière ligne :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">d</span><span class="p">;</span> <span class="p">});</span></code></pre></div>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/70-using-your-data/1.html">Regardez ce que ce code fait sur cette page de démo.</a></p>
+
+<p>Whoa ! On a utilisé nos données pour remplir le contenu de chaque paragraphe, tout ça grace à la magie de la méthode <strong>data()</strong>. Vous voyez, lorsque vous enchaînez des méthodes ensemble, après que vous ayez appelé <strong>data()</strong>, vous pouvez créer une fonction anonyme qui acceptera <strong>d</strong> en entrée. La méthode magique <strong>data()</strong> s’assure que <strong>d</strong> concorde avec la valeur correspondante dans votre ensemble de données original, en fonction de l’élément courant.</p>
+
+<p>La valeur de “l’élément courant” change à mesure que D3 itère chaque élément. Par exemple, lorsqu’il itère pour la troisième fois, notre code crée la troisième balise <strong>p</strong>, et <strong>d</strong> correspond alors à la troisième valeur de notre ensemble de données (ou <strong>dataset[2]</strong>). Donc le troisième paragraphe voit son contenu texte défini à “15”.</p>
+
+<h3 id="hautement-fonctionnel">Hautement fonctionnel</h3>
+
+<p>Dans le cas où vous seriez nouveau pour ce qui est d’écrire des fonctions (ou méthodes), la définition basique d’une fonction est :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span><span class="p">(</span><span class="nx">input_value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Calculate something here</span>
+    <span class="k">return</span> <span class="nx">output_value</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>La fonction utilisée plus haut est super simple, rien d’extraordinaire</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>et elle est contenue dans la fonction <strong>text()</strong> de D3, donc tout ce que retourne notre fonction est remonté à <strong>text()</strong>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p>Mais on peut (et on le fera) être bien plus imaginatif, car vous pouvez personnaliser ces fonctions comme vous le souhaitez. Eh oui, c’est le plaisir et la douleur d’écrire votre propre JavaScript. On peut définir nos propres fonctions comme on veut. Peut-être voudrez-vous ajouter un peu plus de texte, ce qui <a href="http://alignedleft.com/content/03-tutorials/01-d3/70-using-your-data/2.html">produira ce résultat</a>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">"I can count up to "</span> <span class="o">+</span> <span class="nx">d</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<h3 id="les-donnes-veulent-tre-entoures">Les données veulent être entourées</h3>
+
+<p>Vous vous demandez peut-être pourquoi on est obligé d’écrire <strong>function(d)</strong> … plutôt que juste <strong>d</strong> tout seul. Par exemple, ceci ne fonctionnera pas :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="s2">"I can count up to "</span> <span class="o">+</span> <span class="nx">d</span><span class="p">);</span></code></pre></div>
+
+<p>Dans ce contexte, sans entourer <strong>d</strong> dans une fonction anonyme, <strong>d</strong> n’aura pas de valeur. Pensez à <strong>d</strong> comme à une petite valeur placeholder qui a juste besoin d’un gros câlin de la part des parenthèses. (Si on va plus loin dans la métaphore, je vous l’accorde, c’est un peu terrifiant que ce câlin soit donné par une fonction <em>anonyme</em> — attention aux inconnus ! — mais ça ne fait qu’embrouiller les choses.)</p>
+
+<p>Ici <strong>d</strong> est entouré, gentiment et de manière appropriée, par une fonction :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// &lt;-- Note tender embrace at left</span>
+    <span class="k">return</span> <span class="s2">"I can count up to "</span> <span class="o">+</span> <span class="nx">d</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p>La raison de cette syntaxe est que <strong>text()</strong>, <strong>attr()</strong>, et plusieurs autres méthodes de D3 acceptent une fonction en argument. Par exemple, <strong>text()</strong> peut prendre soit une simple chaîne de caractères :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="s2">"someString"</span><span class="p">)</span></code></pre></div>
+
+<p>… <em>ou</em> le résultat d’une fonction :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="nx">someFunction</span><span class="p">())</span></code></pre></div>
+
+<p>… <em>ou</em> une fonction anonyme :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+<span class="p">})</span></code></pre></div>
+
+<p>Au-dessus, vous définissez une fonction anonyme. Si D3 voit une fonction à cet endroit, il <em>appellera</em> cette fonction, en lui transmettant l’élément de donnée <strong>d</strong> en argument. Sans cette fonction, D3 ne peut pas savoir à qui transmettre l’argument <strong>d</strong>.</p>
+
+<p>Au premier abord, ça peut paraître un peu idiot et beaucoup de travail en plus, juste pour avoir accès à <strong>d</strong>, mais l’intérêt de cette approche deviendra plus clair à mesure que l’on travaillera sur des morceaux plus complexes.</p>
+
+<h3 id="au-del-du-texte">Au-delà du texte</h3>
+
+<p>Les choses deviennent bien plus intéressantes lorsque l’on explore les autres méthodes de D3, comme <strong>attr()</strong> et <strong>style()</strong>, qui permettent, respectivement, de définir les attributs HTML et les propriétés CSS sur des sélections.</p>
+
+<p>Par exemple, ajouter une ligne de plus à notre code <a href="http://alignedleft.com/content/03-tutorials/01-d3/70-using-your-data/3.html">produit de résultat</a>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">style</span><span class="p">(</span><span class="s2">"color"</span><span class="p">,</span> <span class="s2">"red"</span><span class="p">);</span></code></pre></div>
+
+<p>Tout le texte est maintenant rouge. Pas très impressionant, mais on pourrait utiliser une fonction personnalisée pour rendre le texte rouge <em>seulement</em> si l’élément courant dépasse un certain seuil. Réécrivons notre dernière ligne de code pour utiliser une fonction :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">style</span><span class="p">(</span><span class="s2">"color"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">d</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="p">{</span>   <span class="c1">//Threshold of 15</span>
+        <span class="k">return</span> <span class="s2">"red"</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s2">"black"</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/70-using-your-data/4.html">Voir ce code en action.</a> Notez que les trois premières lignes sont en noir, mais dès que <strong>d</strong> dépasse le seuil arbitraire de 15, le texte devient rouge.</p>
+
+<p>Dans le prochain tutoriel, on utilisera <strong>attr()</strong> et <strong>style()</strong> pour manipuler des <strong>divs</strong>, et ainsi générer un simple graphique à barres — notre première visualisation !</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/6-lier-les-donnees.html" class="previous">← 6 - Lier les données</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
