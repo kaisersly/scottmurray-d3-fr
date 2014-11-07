@@ -6,9 +6,148 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Nov 2014 05:59:55 +0100</pubDate>
-    <lastBuildDate>Wed, 05 Nov 2014 05:59:55 +0100</lastBuildDate>
+    <pubDate>Fri, 07 Nov 2014 06:52:05 +0100</pubDate>
+    <lastBuildDate>Fri, 07 Nov 2014 06:52:05 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>8 - Dessiner des divs</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/drawing-divs&quot;&gt;http://alignedleft.com/tutorials/d3/drawing-divs&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;dessiner-des-divs&quot;&gt;Dessiner des divs&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Il est temps de se mettre à dessiner avec des données.&lt;/p&gt;
+
+&lt;p&gt;Continuons de travailler avec notre ensemble de données de la dernière fois :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nous l’utiliserons pour générer un graphique à barres super simple. Les graphiques à barres sont essentiellement de simples rectangles et un élément HTML &lt;strong&gt;&amp;lt;div&amp;gt;&lt;/strong&gt; est la manière la plus facile de dessiner un rectangle. (Encore une fois, pour un navigateur, &lt;em&gt;tout&lt;/em&gt; est un rectangle, donc vous pourriez facilement adapter cette exemple pour utiliser des &lt;strong&gt;span&lt;/strong&gt;s ou n’importe quel élément que vous préféreriez.)&lt;/p&gt;
+
+&lt;p&gt;Ce &lt;strong&gt;div&lt;/strong&gt; fonctionnerait bien comme barre de données :&lt;/p&gt;
+
+&lt;div style=&quot;display: inline-block;
+        width: 20px;
+        height: 75px;
+        background-color: teal;&quot;&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;display: inline-block;
+        width: 20px;
+        height: 75px;
+        background-color: teal;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;(Pour les standardistes du web, cet un contre-sens sémantique. Normallement, on ne devrait pas utiliser un &lt;strong&gt;div&lt;/strong&gt; vide juste pour l’effet visuel, mais les tutoriels de programmation font partie des exceptions.)&lt;/p&gt;
+
+&lt;p&gt;Comme c’est un &lt;strong&gt;div&lt;/strong&gt;, sa largeur &lt;strong&gt;width&lt;/strong&gt; et sa hauteur &lt;strong&gt;height&lt;/strong&gt; sont définies par des styles CSS. Chaque barre dans notre graphique partagera les mêmes propriétés d’affichage (exceptée la hauteur &lt;strong&gt;height&lt;/strong&gt;), donc je vais mettre ces styles partagés dans une classe appelée bar :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.bar&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inline-block&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;20px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;75px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;/* We&#39;ll override this later */&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;teal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Maintenant chaque &lt;strong&gt;div&lt;/strong&gt; doit se voir assigner la classe &lt;strong&gt;bar&lt;/strong&gt;, pour que notre règle CSS s’applique. Si vous écriviez le code HTML à la main, ça donnerait :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bar&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;En utilisant D3, pour ajouter une classe à un élément, on utilise la méthode &lt;strong&gt;selection.attr()&lt;/strong&gt;. Il est important de comprendre la différence entre &lt;strong&gt;attr()&lt;/strong&gt; et sa proche cousine, &lt;strong&gt;style()&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;dfinir-des-attributs&quot;&gt;Définir des attributs&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;attr()&lt;/strong&gt; est utilisée pour définir un attribut HTML et sa valeur à un élément. Un attribut HTML est n’importe paire clé/valeur que vous pourriez inclure entre les balises &lt;strong&gt;&amp;lt;&amp;gt;&lt;/strong&gt; d’un élément. Par exemple, ces éléments HTML&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;select&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;country&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;img&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;logo.png&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;100px&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;alt=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Logo&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;contiennent un total de cinq attributs (et valeurs correspondantes), chacun pouvant être défini avec &lt;strong&gt;attr()&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;class&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;caption&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;      &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;country&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;logo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;png&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;width&lt;/span&gt;   &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;px&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;alt&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;   &lt;span class=&quot;nx&quot;&gt;Logo&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pour donner à nos &lt;strong&gt;div&lt;/strong&gt;s une classe &lt;strong&gt;bar&lt;/strong&gt;, on peut utiliser :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;propos-des-classes&quot;&gt;À propos des classes&lt;/h3&gt;
+
+&lt;p&gt;Notez que la &lt;em&gt;classe&lt;/em&gt; d’un élément est stockée dans un attribut HTML. La classe, à son tour, est utilisée pour référencer une règle de style CSS. Cela peut causer un peu de confusion car il y a une différence entre définir une &lt;em&gt;classe&lt;/em&gt; (à partir de laquelle on déduit les styles à appliquer) et appliquer un &lt;em&gt;style&lt;/em&gt; directement sur l’élément. Vous pouvez faire les deux avec D3. Bien que vous devriez utiliser l’approche qui a le plus de sens pour vous, je vous recommande d’utiliser des &lt;em&gt;classes&lt;/em&gt; pour les propriétés qui sont partagées par plusieurs éléments, et appliquer des règles de &lt;em&gt;style&lt;/em&gt; directement sur l’élément seulement lorsque vous déviez de la norme. (En fait, c’est ce que nous ferons dans un instant.)&lt;/p&gt;
+
+&lt;p&gt;Je tenais aussi à mentionner brièvement une autre méthode de D3, &lt;strong&gt;classed()&lt;/strong&gt;, qui peut être utilisée pour ajouter ou supprimer des classes d’un élément. La ligne de code du dessus peut être réécrite comme cela :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;classed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;retour-aux-barres&quot;&gt;Retour aux barres&lt;/h3&gt;
+
+&lt;p&gt;Au final, voilà notre code D3 :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;div&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;div&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/1.png&quot; alt=&quot;Cinq **div**s qui se font passer pour un seul&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/1.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Regardez bien le code source, ouvrez votre inspecteur web pour voir ce qui se passe. Vous devriez voir cinq barres verticales, une générée pour chaque point dans notre ensemble de données, mais sans espace entre elles, elles ressemblent juste à un gros rectangle.&lt;/p&gt;
+
+&lt;h3 id=&quot;dfinir-des-styles&quot;&gt;Définir des styles&lt;/h3&gt;
+
+&lt;p&gt;La méthode &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-style&quot;&gt;&lt;strong&gt;style()&lt;/strong&gt;&lt;/a&gt; est utilisée pour appliquer une propriété CSS directement à un élément HTML. Ça équivaut à inclure des régles CSS à l’intérieur d’un attribut &lt;strong&gt;style&lt;/strong&gt; directement dans votre HTML, comme ça :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;height: 75px;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Dans un graphique à barres, la hauteur de chaque barre doit être fonction de la valeur qu’elle doit représenter. Alors ajoutons cela à la fin de notre code D3 :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;px&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/2.png&quot; alt=&quot;Un petit graphique à barres !&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/2.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Vous devriez voir un tout petit graphique à barres !&lt;/p&gt;
+
+&lt;p&gt;Lorsque D3 itère chaque élément de données, la valeur de &lt;strong&gt;d&lt;/strong&gt; correspondra à cet élément. Donc on définit la hauteur &lt;strong&gt;height&lt;/strong&gt; à une valeur de &lt;strong&gt;d&lt;/strong&gt; (l’élément de données courant) plus &lt;strong&gt;px&lt;/strong&gt; (pour spécifier que l’on parle en pixels). Les hauteurs résultantes seront 5px, 10px, 15px, 20px, and 25px.&lt;/p&gt;
+
+&lt;p&gt;Ça ressemble pas à grand chose, agrandissons nos barres&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;barHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//Scale up by factor of 5&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;barHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;px&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et ajoutons de l’espace à la droite de chaque barre, pour leur donner un peu d’air :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;margin-right&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;2px&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/3.png&quot; alt=&quot;Le graphique à barres final&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Classe ! On pourrait aller au SIGGRAPH avec ce graphique. (&lt;em&gt;NDT : le &lt;a href=&quot;http://fr.wikipedia.org/wiki/Special_Interest_Group_in_Graphics&quot;&gt;SIGGRAPH&lt;/a&gt; est un séminaire américain sur l’infographie qui à lieu tous les ans.&lt;/em&gt;)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/3.html&quot;&gt;Voilà la page de démo pour notre code final.&lt;/a&gt; Encore une fois, regardez les sources et ouvrez votre inspecteur web pour voir la différence entre le code HTML original et le DOM final.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/8-dessiner-des-divs.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/8-dessiner-des-divs.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>7 - Utiliser vos données</title>

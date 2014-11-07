@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>8 - Dessiner des divs</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/8-dessiner-des-divs.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+    
+    <hr>
+<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
+<hr>
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/7-utiliser-vos-donnees.html" class="previous">← 7 - Utiliser vos données</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>8 - Dessiner des divs</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/drawing-divs">http://alignedleft.com/tutorials/d3/drawing-divs</a></em></p>
+
+<hr />
+
+<h2 id="dessiner-des-divs">Dessiner des divs</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>Il est temps de se mettre à dessiner avec des données.</p>
+
+<p>Continuons de travailler avec notre ensemble de données de la dernière fois :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span> <span class="p">];</span></code></pre></div>
+
+<p>Nous l’utiliserons pour générer un graphique à barres super simple. Les graphiques à barres sont essentiellement de simples rectangles et un élément HTML <strong>&lt;div&gt;</strong> est la manière la plus facile de dessiner un rectangle. (Encore une fois, pour un navigateur, <em>tout</em> est un rectangle, donc vous pourriez facilement adapter cette exemple pour utiliser des <strong>span</strong>s ou n’importe quel élément que vous préféreriez.)</p>
+
+<p>Ce <strong>div</strong> fonctionnerait bien comme barre de données :</p>
+
+<div style="display: inline-block;
+        width: 20px;
+        height: 75px;
+        background-color: teal;"></div>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"display: inline-block;
+        width: 20px;
+        height: 75px;
+        background-color: teal;"</span><span class="nt">&gt;&lt;/div&gt;</span></code></pre></div>
+
+<p>(Pour les standardistes du web, cet un contre-sens sémantique. Normallement, on ne devrait pas utiliser un <strong>div</strong> vide juste pour l’effet visuel, mais les tutoriels de programmation font partie des exceptions.)</p>
+
+<p>Comme c’est un <strong>div</strong>, sa largeur <strong>width</strong> et sa hauteur <strong>height</strong> sont définies par des styles CSS. Chaque barre dans notre graphique partagera les mêmes propriétés d’affichage (exceptée la hauteur <strong>height</strong>), donc je vais mettre ces styles partagés dans une classe appelée bar :</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">div</span><span class="nc">.bar</span> <span class="p">{</span>
+    <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">height</span><span class="p">:</span> <span class="m">75px</span><span class="p">;</span>   <span class="c">/* We'll override this later */</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="no">teal</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Maintenant chaque <strong>div</strong> doit se voir assigner la classe <strong>bar</strong>, pour que notre règle CSS s’applique. Si vous écriviez le code HTML à la main, ça donnerait :</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"bar"</span><span class="nt">&gt;&lt;/div&gt;</span></code></pre></div>
+
+<p>En utilisant D3, pour ajouter une classe à un élément, on utilise la méthode <strong>selection.attr()</strong>. Il est important de comprendre la différence entre <strong>attr()</strong> et sa proche cousine, <strong>style()</strong>.</p>
+
+<h3 id="dfinir-des-attributs">Définir des attributs</h3>
+
+<p><strong>attr()</strong> est utilisée pour définir un attribut HTML et sa valeur à un élément. Un attribut HTML est n’importe paire clé/valeur que vous pourriez inclure entre les balises <strong>&lt;&gt;</strong> d’un élément. Par exemple, ces éléments HTML</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"caption"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"country"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"logo.png"</span> <span class="na">width=</span><span class="s">"100px"</span> <span class="na">alt=</span><span class="s">"Logo"</span> <span class="nt">/&gt;</span></code></pre></div>
+
+<p>contiennent un total de cinq attributs (et valeurs correspondantes), chacun pouvant être défini avec <strong>attr()</strong>:</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">class</span>   <span class="o">|</span>   <span class="nx">caption</span>
+<span class="nx">id</span>      <span class="o">|</span>   <span class="nx">country</span>
+<span class="nx">src</span>     <span class="o">|</span>   <span class="nx">logo</span><span class="p">.</span><span class="nx">png</span>
+<span class="nx">width</span>   <span class="o">|</span>   <span class="mi">100</span><span class="nx">px</span>
+<span class="nx">alt</span>     <span class="o">|</span>   <span class="nx">Logo</span></code></pre></div>
+
+<p>Pour donner à nos <strong>div</strong>s une classe <strong>bar</strong>, on peut utiliser :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">)</span></code></pre></div>
+
+<h3 id="propos-des-classes">À propos des classes</h3>
+
+<p>Notez que la <em>classe</em> d’un élément est stockée dans un attribut HTML. La classe, à son tour, est utilisée pour référencer une règle de style CSS. Cela peut causer un peu de confusion car il y a une différence entre définir une <em>classe</em> (à partir de laquelle on déduit les styles à appliquer) et appliquer un <em>style</em> directement sur l’élément. Vous pouvez faire les deux avec D3. Bien que vous devriez utiliser l’approche qui a le plus de sens pour vous, je vous recommande d’utiliser des <em>classes</em> pour les propriétés qui sont partagées par plusieurs éléments, et appliquer des règles de <em>style</em> directement sur l’élément seulement lorsque vous déviez de la norme. (En fait, c’est ce que nous ferons dans un instant.)</p>
+
+<p>Je tenais aussi à mentionner brièvement une autre méthode de D3, <strong>classed()</strong>, qui peut être utilisée pour ajouter ou supprimer des classes d’un élément. La ligne de code du dessus peut être réécrite comme cela :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">classed</span><span class="p">(</span><span class="s2">"bar"</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span></code></pre></div>
+
+<h3 id="retour-aux-barres">Retour aux barres</h3>
+
+<p>Au final, voilà notre code D3 :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span> <span class="p">];</span>
+
+<span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">);</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/1.png" alt="Cinq **div**s qui se font passer pour un seul" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/1.html">Voir la page de démonstration</a></p>
+
+<p>Regardez bien le code source, ouvrez votre inspecteur web pour voir ce qui se passe. Vous devriez voir cinq barres verticales, une générée pour chaque point dans notre ensemble de données, mais sans espace entre elles, elles ressemblent juste à un gros rectangle.</p>
+
+<h3 id="dfinir-des-styles">Définir des styles</h3>
+
+<p>La méthode <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style"><strong>style()</strong></a> est utilisée pour appliquer une propriété CSS directement à un élément HTML. Ça équivaut à inclure des régles CSS à l’intérieur d’un attribut <strong>style</strong> directement dans votre HTML, comme ça :</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"height: 75px;"</span><span class="nt">&gt;&lt;/div&gt;</span></code></pre></div>
+
+<p>Dans un graphique à barres, la hauteur de chaque barre doit être fonction de la valeur qu’elle doit représenter. Alors ajoutons cela à la fin de notre code D3 :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">style</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span> <span class="o">+</span> <span class="s2">"px"</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/2.png" alt="Un petit graphique à barres !" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/2.html">Voir la page de démonstration</a></p>
+
+<p>Vous devriez voir un tout petit graphique à barres !</p>
+
+<p>Lorsque D3 itère chaque élément de données, la valeur de <strong>d</strong> correspondra à cet élément. Donc on définit la hauteur <strong>height</strong> à une valeur de <strong>d</strong> (l’élément de données courant) plus <strong>px</strong> (pour spécifier que l’on parle en pixels). Les hauteurs résultantes seront 5px, 10px, 15px, 20px, and 25px.</p>
+
+<p>Ça ressemble pas à grand chose, agrandissons nos barres</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">style</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">barHeight</span> <span class="o">=</span> <span class="nx">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>  <span class="c1">//Scale up by factor of 5</span>
+    <span class="k">return</span> <span class="nx">barHeight</span> <span class="o">+</span> <span class="s2">"px"</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p>et ajoutons de l’espace à la droite de chaque barre, pour leur donner un peu d’air :</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">margin-right</span><span class="o">:</span> <span class="nt">2px</span><span class="o">;</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/3.png" alt="Le graphique à barres final" /></p>
+
+<p>Classe ! On pourrait aller au SIGGRAPH avec ce graphique. (<em>NDT : le <a href="http://fr.wikipedia.org/wiki/Special_Interest_Group_in_Graphics">SIGGRAPH</a> est un séminaire américain sur l’infographie qui à lieu tous les ans.</em>)</p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/80-drawing-divs/3.html">Voilà la page de démo pour notre code final.</a> Encore une fois, regardez les sources et ouvrez votre inspecteur web pour voir la différence entre le code HTML original et le DOM final.</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/7-utiliser-vos-donnees.html" class="previous">← 7 - Utiliser vos données</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
