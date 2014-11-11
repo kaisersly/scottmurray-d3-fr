@@ -90,9 +90,9 @@
 
 <p>Dans le cas où vous seriez nouveau pour ce qui est d’écrire des fonctions (ou méthodes), la définition basique d’une fonction est :</p>
 
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span><span class="p">(</span><span class="nx">input_value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">//Calculate something here</span>
-    <span class="k">return</span> <span class="nx">output_value</span><span class="p">;</span>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span><span class="p">(</span><span class="nx">valeur_en_entree</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Calcule quelque chose ici</span>
+    <span class="k">return</span> <span class="nx">valeur_en_sortie</span><span class="p">;</span>
 <span class="p">}</span></code></pre></div>
 
 <p>La fonction utilisée plus haut est super simple, rien d’extraordinaire</p>
@@ -123,7 +123,7 @@
 
 <p>Ici <strong>d</strong> est entouré, gentiment et de manière appropriée, par une fonction :</p>
 
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// &lt;-- Note tender embrace at left</span>
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// &lt;-- Notez la tendre embrassade à gauche</span>
     <span class="k">return</span> <span class="s2">"I can count up to "</span> <span class="o">+</span> <span class="nx">d</span><span class="p">;</span>
 <span class="p">});</span></code></pre></div>
 
@@ -156,7 +156,7 @@
 <p>Tout le texte est maintenant rouge. Pas très impressionant, mais on pourrait utiliser une fonction personnalisée pour rendre le texte rouge <em>seulement</em> si l’élément courant dépasse un certain seuil. Réécrivons notre dernière ligne de code pour utiliser une fonction :</p>
 
 <div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">style</span><span class="p">(</span><span class="s2">"color"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">d</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="p">{</span>   <span class="c1">//Threshold of 15</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">d</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="p">{</span>   <span class="c1">// Seuil de 15</span>
         <span class="k">return</span> <span class="s2">"red"</span><span class="p">;</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
         <span class="k">return</span> <span class="s2">"black"</span><span class="p">;</span>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>9 - La puissance de data()</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/9-la-puissance-de-data.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+    
+    <hr>
+<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
+<hr>
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/8-dessiner-des-divs.html" class="previous">← 8 - Dessiner des divs</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>9 - La puissance de data()</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/the-power-of-data">http://alignedleft.com/tutorials/d3/the-power-of-data</a></em></p>
+
+<hr />
+
+<h2 id="la-puissance-de-data">La puissance de data()</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>On s’est quitté la dernière fois avec un <a href="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/1.html">simple graphique à barres</a>, dessiné avec des <strong>div</strong>s et généré à partir d’un ensemble de données lui-même assez simple.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span> <span class="p">];</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/1.png" alt="Un simple graphique à barres" /></p>
+
+<p>C’est cool, mais dans le monde réel les données ne ressemble jamais à cela. <a href="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/2.html">Modifions nos données</a>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">11</span> <span class="p">];</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/2.png" alt="Graphique à barres" /></p>
+
+<p>On est pas limité à cinq éléments de données, bien sûr. <a href="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/3.html">Ajoutons en plus</a>!</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span>
+                <span class="mi">14</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span>
+                <span class="mi">24</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span> <span class="p">];</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/3.png" alt="Graphique à barres" /></p>
+
+<p>Vingt-cinq éléments de données à la place de cinq ! Comment est-ce que D3 arrive à étendre notre graphique lorsque c’est nécessaire ?</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>  <span class="c1">// &lt;-- La réponse se trouve ici !</span>
+    <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">style</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">barHeight</span> <span class="o">=</span> <span class="nx">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">barHeight</span> <span class="o">+</span> <span class="s2">"px"</span><span class="p">;</span>
+    <span class="p">});</span></code></pre></div>
+
+<p>Donnez à <strong>data()</strong> dix valeurs, et elle itèrera dix fois. Donnez lui en un million, elle itèrera un million de fois. (Il faut juste être patient.)</p>
+
+<p>C’est la puissance de <strong>data()</strong> — être assez intelligente pour itérer sur toute la taille de l’ensemble de données que vous lui donnez, exécutant chaque méthode qui la suive dans la chaîne, en mettant à jour le contexte dans lequel la méthode opère, de manière à ce que <strong>d</strong> référence toujours l’élément de données courant à ce moment de la boucle.</p>
+
+<p>Cela peut sembler un peu ardu, mais si ça n’a pas encore de sens pour vous, ça en aura bientôt. Je vous encourage à copier le code HTML des pages d’exemple du dessus, et à modifier les valeurs de <strong>dataset</strong>, puis notez comment le graphique réagit.</p>
+
+<p>Rappelez-vous, les <em>données</em> mènent (<em>drive</em>) la visualisation — pas l’inverse.</p>
+
+<h3 id="donnes-alatoires">Données aléatoires</h3>
+
+<p>Il est quelquefois marrant de générer des données aléatoires, pour tester ou juste pour faire son geek. <a href="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/4.html">C’est ce que je viens de faire ici.</a> Rechargez plusieurs fois et voyez comment les barres changent à chaque fois.</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/4.png" alt="Graphique à barres avec des données aléatoires" />
+<img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/5.png" alt="Graphique à barres avec des données aléatoires" />
+<img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/6.png" alt="Graphique à barres avec des données aléatoires" /></p>
+
+<p>Regardez les sources, vous verrez ce code :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[];</span>                        <span class="c1">// Crée un tableau vide</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">25</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>           <span class="c1">// Itère 25 fois</span>
+    <span class="kd">var</span> <span class="nx">newNumber</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">30</span><span class="p">;</span>  <span class="c1">// Nouveau nombre aléatoire (0-30)</span>
+    <span class="nx">dataset</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">newNumber</span><span class="p">);</span>             <span class="c1">// Ajoute le nouveau nombre au tableau</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Ce code n’utilise aucune méthode de D3 ; c’est juste du JavaScript. Sans rentrer dans les détails, ce code :</p>
+
+<ol>
+  <li>Crée un tableau vide appelé <strong>dataset</strong>.</li>
+  <li>Démarre une boucle <strong>for</strong>, qui s’execute 25 fois.</li>
+  <li>Chaque fois, elle génère un nombre aléatoire qui a une valeur comprise entre 0 et 30.</li>
+  <li>Ce nouveau nombre est ajouté au tableau <strong>dataset</strong>. (<strong>push()</strong> est une méthode de tableau qui ajoute une valeur à la fin d’un tableau.)
+Juste pour voir, ouvrez la console JavaScript et tapez <strong>console.log(dataset)</strong>. Vous devriez voir le tableau avec ses 25 valeurs.</li>
+</ol>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/7.png" alt="Données aléatoires dans la console" /></p>
+
+<p>Notez que ce sont tous des nombres décimaux ou valeurs flottantes (14.793717765714973), et non des nombres entiers  (14) comme on avait à l’origine. Pour cet exemple, les décimales ne posent pas de problème, mais si vous avez besoin de nombres entiers, vous pouvez utiliser la méthode JavaScript <strong>Math.round()</strong>. Par exemple, vous pouvez entourer le générateur de nombres aléatoires</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">newNumber</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">30</span><span class="p">;</span></code></pre></div>
+
+<p>comme suit :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">newNumber</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">30</span><span class="p">);</span></code></pre></div>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/5.html">Essayez-le ici</a>, et utilisez la console pour vérifier que les nombres ont bien été arrondis en entier :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/90-the-power-of-data/8.png" alt="Valeurs entières aléatoires dans la console" /></p>
+
+<p>Pour la suite, on s’étendra sur les possibilités visuelles qu’offre SVG.</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/8-dessiner-des-divs.html" class="previous">← 8 - Dessiner des divs</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
