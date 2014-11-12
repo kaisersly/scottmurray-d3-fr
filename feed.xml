@@ -6,9 +6,319 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 11 Nov 2014 11:09:07 +0100</pubDate>
-    <lastBuildDate>Tue, 11 Nov 2014 11:09:07 +0100</lastBuildDate>
+    <pubDate>Wed, 12 Nov 2014 06:30:00 +0100</pubDate>
+    <lastBuildDate>Wed, 12 Nov 2014 06:30:00 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>10 - Introduction à SVG</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/an-svg-primer&quot;&gt;http://alignedleft.com/tutorials/d3/an-svg-primer&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;introduction--svg&quot;&gt;Introduction à SVG&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 20 mai 2014&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;D3 se montre vraiment utile lorsqu’il s’agit de manipuler des graphiques vectoriels SVG. Dessiner avec des &lt;strong&gt;div&lt;/strong&gt;s et d’autres éléments natifs HTML est possible, mais un peu maladroit et sujet aux incohérences habituelles entre différents navigateurs. Utiliser SVG est plus fiable, visuellement cohérent, et plus rapide.&lt;/p&gt;
+
+&lt;p&gt;Des logiciels de dessin vectoriels comme Illustrator peuvent être utilisés pour générer des fichiers SVG, mais nous devons apprendre à les générer avec du code.&lt;/p&gt;
+
+&lt;h3 id=&quot;llment-svg&quot;&gt;L’élément SVG&lt;/h3&gt;
+
+&lt;p&gt;Scalable Vector Graphics (&lt;em&gt;SVG, ou graphique vectoriel adaptable, selon &lt;a href=&quot;http://fr.wikipedia.org/wiki/Scalable_Vector_Graphics&quot;&gt;Wikipedia&lt;/a&gt;&lt;/em&gt;) est un format d’image basé sur du texte. Chaque image SVG est définie en utilisant un langage balisé similaire à HTML. Le code SVG peut être inclus directement dans un document HTML. Chaque navigateur supporte SVG &lt;em&gt;à l’exception d’&lt;/em&gt; &lt;a href=&quot;http://caniuse.com/#feat=svg&quot;&gt;Internet Explorer versions 8 et plus anciennes&lt;/a&gt;. SVG est basé sur XML, donc vous verrez que les éléments qui n’ont pas de balises fermantes doivent être auto-fermant. Par exemple :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;element&amp;gt;&amp;lt;/element&amp;gt;&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Utilise une balise fermante --&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;element/&amp;gt;&lt;/span&gt;            &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Balise auto-fermante --&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Avant de pouvoir dessiner quoi que ce soit, vous devez créer un élément SVG. Pensez à l’élément SVG comme à un canevas (&lt;em&gt;ou une toile, en anglais : canvas&lt;/em&gt;) sur lequel nos visuels vont être dessinés. (À cet égard, SVG est conceptuellement similaire à l’élément HTML canvas.) Au minimum, il est bon de spécifier les valeurs de largeur &lt;strong&gt;width&lt;/strong&gt; et de longueur &lt;strong&gt;height&lt;/strong&gt;. Si vous ne les spécifiez pas, SVG prendra autant de place qu’il pourra dans l’élément qui le contient.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;svg&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;500&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/svg&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Voilà le SVG généré par ce code :&lt;/p&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Vous le voyez pas ? Cliquez-droit sur l’espace vide au-dessus et choisissez “Right-click on the empty space above and choose “Inspecter l’élément”. Votre inspecteur web devrait ressembler à ça :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/100-an-svg-primer/1.png&quot; alt=&quot;Inspection d&#39;un SVG vide&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Notez qu’il y a un élément &lt;strong&gt;svg&lt;/strong&gt; (ouais !), et qu’il occupe  500 pixels en horizontal et 50 pixels en vertical. C’est juste qu’il a pas l’air de grand chose, pour l’instant (ouh !).&lt;/p&gt;
+
+&lt;p&gt;Notez également que le navigateur assume que l’unité de mesure par défaut est le pixel. On a spécifié des dimensions de &lt;strong&gt;500&lt;/strong&gt; et &lt;strong&gt;50&lt;/strong&gt;, pas &lt;strong&gt;500px&lt;/strong&gt; et &lt;strong&gt;50px&lt;/strong&gt;. On aurait pu spécifier &lt;strong&gt;px&lt;/strong&gt; de manière explicite, ou n’importe quel nombre dans les unités supportées, qui comprennent notamment &lt;strong&gt;em&lt;/strong&gt;, &lt;strong&gt;pt&lt;/strong&gt;, &lt;strong&gt;in&lt;/strong&gt;, &lt;strong&gt;cm&lt;/strong&gt;, et &lt;strong&gt;mm&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;formes-simples&quot;&gt;Formes simples&lt;/h3&gt;
+
+&lt;p&gt;Il existe un certain nombre d’éléments visuels que vous pouvez inclure entre ces balises &lt;strong&gt;svg&lt;/strong&gt;, par exemple &lt;strong&gt;rect&lt;/strong&gt;, &lt;strong&gt;circle&lt;/strong&gt;, &lt;strong&gt;ellipse&lt;/strong&gt;, &lt;strong&gt;line&lt;/strong&gt;, &lt;strong&gt;text&lt;/strong&gt;, et &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Si vous êtes familiés avec la programmation de visuels sur ordinateur, vous reconnaîtrez le système usuel de coordonnées basé sur le pixel, dans lequel &lt;strong&gt;0,0&lt;/strong&gt; correspond au coin en haut à gauche du canevas. En augmentant la valeur &lt;strong&gt;x&lt;/strong&gt; on va vers la droite, tandis qu’en augmentant la valeur &lt;strong&gt;y&lt;/strong&gt; on va vers le bas.&lt;/p&gt;
+
+&lt;svg width=&quot;505&quot; height=&quot;65&quot;&gt;
+    &lt;line x1=&quot;5&quot; y1=&quot;5&quot; x2=&quot;5&quot; y2=&quot;50&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;line x1=&quot;5&quot; y1=&quot;50&quot; x2=&quot;0&quot; y2=&quot;45&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;line x1=&quot;5&quot; y1=&quot;50&quot; x2=&quot;10&quot; y2=&quot;45&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;line x1=&quot;5&quot; y1=&quot;5&quot; x2=&quot;500&quot; y2=&quot;5&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;line x1=&quot;500&quot; y1=&quot;5&quot; x2=&quot;495&quot; y2=&quot;0&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;line x1=&quot;500&quot; y1=&quot;5&quot; x2=&quot;495&quot; y2=&quot;10&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;circle cx=&quot;5&quot; cy=&quot;5&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;10&quot; y=&quot;20&quot;&gt;0,0&lt;/text&gt;
+    &lt;circle cx=&quot;105&quot; cy=&quot;25&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;110&quot; y=&quot;40&quot;&gt;100,20&lt;/text&gt;
+    &lt;circle cx=&quot;205&quot; cy=&quot;45&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;210&quot; y=&quot;60&quot;&gt;200,40&lt;/text&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;&lt;strong&gt;rect&lt;/strong&gt; dessine un rectangle. Utilisez &lt;strong&gt;x&lt;/strong&gt; et &lt;strong&gt;y&lt;/strong&gt; pour spécifier les coordonnées du coin haut-gauche, et &lt;strong&gt;width&lt;/strong&gt; et &lt;strong&gt;height&lt;/strong&gt; pour spécifier ses dimensions (&lt;em&gt;respectivement largeur et hauteur&lt;/em&gt;). Ce rectangle remplit l’espace de notre SVG :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;rect&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;500&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;500&quot; height=&quot;50&quot;&gt;&lt;/rect&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;&lt;strong&gt;circle&lt;/strong&gt; dessine un cercle. Utilisez &lt;strong&gt;cx&lt;/strong&gt; et &lt;strong&gt;cy&lt;/strong&gt; pour spécifier les coordonnées de son centre, et &lt;strong&gt;r&lt;/strong&gt; pour spécifier son rayon. Ce cercle est centré au milieu de notre SVG large de 500 pixels, car sa coordonée &lt;strong&gt;cx&lt;/strong&gt; (“centre-x”) est 250.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;250&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;circle cx=&quot;250&quot; cy=&quot;25&quot; r=&quot;25&quot;&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;&lt;strong&gt;ellipse&lt;/strong&gt; est similaire, mais requiert deux valeurs de rayon pour chaque axe. À la place de &lt;strong&gt;r&lt;/strong&gt;, utilisez &lt;strong&gt;rx&lt;/strong&gt; et &lt;strong&gt;ry&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;ellipse&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;250&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;rx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;100&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;ry=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;ellipse cx=&quot;250&quot; cy=&quot;25&quot; rx=&quot;100&quot; ry=&quot;25&quot;&gt;&lt;/ellipse&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;&lt;strong&gt;line&lt;/strong&gt; dessine une ligne. Utilisez &lt;strong&gt;x1&lt;/strong&gt; et &lt;strong&gt;y1&lt;/strong&gt; pour spécifier les coordonnées d’un bout de la ligne, et &lt;strong&gt;x2&lt;/strong&gt; et &lt;strong&gt;y2&lt;/strong&gt; pour l’autre bout. Une couleur de trait &lt;strong&gt;stroke&lt;/strong&gt; doit être spécifiée pour que la ligne soit visible.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;line&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x1=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y1=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x2=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;500&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y2=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;black&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;line x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;500&quot; y2=&quot;50&quot; stroke=&quot;black&quot;&gt;&lt;/line&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;&lt;strong&gt;text&lt;/strong&gt; dessine un texte. Utilisez &lt;strong&gt;x&lt;/strong&gt; pour spécifier la position du bord gauche, et &lt;strong&gt;y&lt;/strong&gt;  pour spécifier la position verticale de la ligne de base (&lt;em&gt;baseline&lt;/em&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;text&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;250&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Trop facile&lt;span class=&quot;nt&quot;&gt;&amp;lt;/text&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;text x=&quot;250&quot; y=&quot;25&quot;&gt;Trop facile&lt;/text&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;&lt;strong&gt;text&lt;/strong&gt; héritera des styles CSS de fonte de son élément parent à moins que l’on ne spécifie autre chose. (On s’étendra plus sur la manière de formater le texte dans un instant.) Notez comment le style du texte ci-dessus correspond à celui de ce paragraphe. On pourrait écraser ce format comme cela :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;text&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;250&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;font-family=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sans-serif&quot;&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;font-size=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Trop facile&lt;span class=&quot;nt&quot;&gt;&amp;lt;/text&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;text x=&quot;250&quot; y=&quot;25&quot; font-family=&quot;sans-serif&quot; font-size=&quot;25&quot; fill=&quot;gray&quot;&gt;Trop facile&lt;/text&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Notez également que lorsqu’un élément visuel s’étale au-dela d’un bord du SVG, il est coupé. Faites attention, lorsque vous utilisez &lt;strong&gt;text&lt;/strong&gt;, que vos descendeurs (&lt;em&gt;les parties d’un charactère qui dépassent&lt;/em&gt;) ne soient pas coupés (ouille !). Vous pouvez voir ce que ça se produit lorsqu’on place la ligne de base (&lt;strong&gt;y&lt;/strong&gt;) à 50, la même que la hauteur de notre SVG :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;text&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;250&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;font-family=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sans-serif&quot;&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;font-size=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Trop facile&lt;span class=&quot;nt&quot;&gt;&amp;lt;/text&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;text x=&quot;250&quot; y=&quot;50&quot; font-family=&quot;sans-serif&quot; font-size=&quot;25&quot; fill=&quot;gray&quot;&gt;Trop facile&lt;/text&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;&lt;strong&gt;path&lt;/strong&gt; permet de dessiner des formes plus complexes que celles au-dessus (comme les frontières d’un pays dans les cartes (&lt;em&gt;geomaps&lt;/em&gt;)), et sera expliqué séparément. Pour l’instant, on travaillera avec des formes simples.&lt;/p&gt;
+
+&lt;h3 id=&quot;styliser-les-lments-svg&quot;&gt;Styliser les éléments SVG&lt;/h3&gt;
+
+&lt;p&gt;Le style par défaut de SVG est un remplissage noir sans contour. Si vous voulez quoi que ce soit d’autre, vous devrez appliquer un style à vos éléments. Les propriétés SVG les plus courantes sont :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;fill&lt;/strong&gt; — Le remplissage, une valeur de couleur. Comme avec CSS, les couleurs peuvent être spécifiées comme suit&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;couleurs nommées — &lt;strong&gt;orange&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;valeurs hexadécimales — &lt;strong&gt;#3388aa&lt;/strong&gt; ou &lt;strong&gt;#38a&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;valeurs RGB — &lt;strong&gt;rgb(10, 150, 20)&lt;/strong&gt;&lt;/li&gt;
+      &lt;li&gt;valeurs RGB avec transparence alpha — &lt;strong&gt;rgba(10, 150, 20, 0.5)&lt;/strong&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;stroke&lt;/strong&gt; — Le trait (ou contour), une valeur de couleur.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;stroke-width&lt;/strong&gt; — La largeur du trait, une valeur numérique de mesure (typiquement en pixels).&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;opacity&lt;/strong&gt; — L’opacité, une valeur numérique comprise entre 0.0 (complètement transparent) et 1.0 (complètement opaque).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Avec &lt;strong&gt;text&lt;/strong&gt;, vous pouvez aussi utiliser ces propriétés, qui fonctionnent comme avec CSS :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;font-family&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;font-size&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Comme avec CSS, il y a deux moyens d’appliquer un style à un élément SVG : soit directement en ligne (&lt;em&gt;inline&lt;/em&gt;) comme un attribut de l’élément, soit avec une règle CSS.&lt;/p&gt;
+
+&lt;p&gt;Voilà quelques propriétés de style appliquées directement sur un cercle &lt;strong&gt;circle&lt;/strong&gt; comme attributs :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;22&quot;&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;yellow&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;orange&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;22&quot; fill=&quot;yellow&quot; stroke=&quot;orange&quot; stroke-width=&quot;5&quot;&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Alternativement, on pourrait enlever tous les attributs de style, et assigner une classe à &lt;strong&gt;circle&lt;/strong&gt; (comme si c’était un élément HTML normal)&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;22&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pumpkin&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et mettre les règles &lt;strong&gt;fill&lt;/strong&gt;, &lt;strong&gt;stroke&lt;/strong&gt;, et &lt;strong&gt;stroke-width&lt;/strong&gt; dans un style CSS qui ciblerait une nouvelle classe :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nc&quot;&gt;.pumpkin&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;py&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;yellow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;py&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;orange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;py&quot;&gt;stroke-width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;L’approche CSS à des avantages évidents :&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Vous pouvez spécifier un style une fois et l’appliquer à plusieurs éléments.&lt;/li&gt;
+  &lt;li&gt;Le code CSS est générallement plus facile à lire que les attributs en ligne.&lt;/li&gt;
+  &lt;li&gt;Pour ces raisons, l’approche CSS est plus maintenable et permet d’implémenter plus rapidement des changements de style. 
+Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. &lt;strong&gt;fill&lt;/strong&gt;, &lt;strong&gt;stroke&lt;/strong&gt;, et &lt;strong&gt;stroke-width&lt;/strong&gt;, ne sont, après tout, &lt;em&gt;pas&lt;/em&gt; des propriétés CSS. (Les équivalents CSS les plus proches sont &lt;strong&gt;background-color&lt;/strong&gt; et &lt;strong&gt;border&lt;/strong&gt;.) Si ça peut vous aider à vous rappeler quelles règles sont spécifiques à SVG dans votre feuille de style, vous pouvez les inclure &lt;strong&gt;svg&lt;/strong&gt; dans ces sélecteurs :&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.pumpkin&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;/* ... */&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;calques-layers-et-ordre-de-dessin&quot;&gt;Calques (&lt;em&gt;layers&lt;/em&gt;) et ordre de dessin&lt;/h3&gt;
+
+&lt;p&gt;Il n’y a pas de “calques” en SVG, et pas de vrai concept de profondeur. SVG ne supporte pas la propriété CSS &lt;strong&gt;z-index&lt;/strong&gt;, donc les formes sont organisées automatiquement dans un plan bi-dimensionnel x/y.&lt;/p&gt;
+
+&lt;p&gt;Et pourtant, si on dessine plusieurs formes, elles se superposent :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;rect&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;purple&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;rect&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;5&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;blue&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;rect&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;40&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;green&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;rect&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;60&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;15&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;yellow&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;rect&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;80&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;30&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;red&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;rect x=&quot;0&quot; y=&quot;0&quot; width=&quot;30&quot; height=&quot;30&quot; fill=&quot;purple&quot;&gt;&lt;/rect&gt;
+    &lt;rect x=&quot;20&quot; y=&quot;5&quot; width=&quot;30&quot; height=&quot;30&quot; fill=&quot;blue&quot;&gt;&lt;/rect&gt;
+    &lt;rect x=&quot;40&quot; y=&quot;10&quot; width=&quot;30&quot; height=&quot;30&quot; fill=&quot;green&quot;&gt;&lt;/rect&gt;
+    &lt;rect x=&quot;60&quot; y=&quot;15&quot; width=&quot;30&quot; height=&quot;30&quot; fill=&quot;yellow&quot;&gt;&lt;/rect&gt;
+    &lt;rect x=&quot;80&quot; y=&quot;20&quot; width=&quot;30&quot; height=&quot;30&quot; fill=&quot;red&quot;&gt;&lt;/rect&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;L’ordre dans lequel les éléments sont codés détermine leur profondeur. Le carré violet apparait en premier dans le code, donc il est dessiné en premier. Ensuite, le carré bleu est dessiné “par dessus” le violet, puis le carré vert et ainsi de suite.&lt;/p&gt;
+
+&lt;p&gt;Pensez aux formes SVG comme à des formes peintes sur une toile. La peinture-pixel qui est appliquée plus tard masque ce qui aurait été peint avant, et par là apparait comme étant “devant.”&lt;/p&gt;
+
+&lt;p&gt;Cet aspect d’ordre de dessin est important lorsque vous avez des éléments visuels qui ne devraient pas être cachés par d’autres. Par exemple, vous pourriez avoir des axes ou des étiquettes qui apparaissent sur un nuage de point (&lt;em&gt;scatterplot&lt;/em&gt;). Les axes ainsi que les étiquettes devraient être ajoutés au SVG en dernier, pour qu’ils apparaissent devant tous les autres éléments.&lt;/p&gt;
+
+&lt;h3 id=&quot;transparence&quot;&gt;Transparence&lt;/h3&gt;
+
+&lt;p&gt;La transparence peut être utile lorsque des éléments de votre visualisation se superposent mais qu’ils doivent rester visibles, ou lorsque vous voulez désaccentuer (&lt;em&gt;de-emphasize&lt;/em&gt;) certains éléments pour en mettre d’autres en valeur.&lt;/p&gt;
+
+&lt;p&gt;Il y a deux moyens d’appliquer une transparence : utilisez une couleur RGB avec alpha, ou définir une valeur d’opacité &lt;strong&gt;opacity&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Vous pouvez utiliser &lt;strong&gt;rgba()&lt;/strong&gt; n’importe où pour spécifier une couleur, comme avec &lt;strong&gt;fill&lt;/strong&gt; ou &lt;strong&gt;stroke&lt;/strong&gt;. &lt;strong&gt;rgba()&lt;/strong&gt; attends trois valeurs entre 0 et 255 pour le rouge, le vert et le bleu, plus une valeur alpha (transparence) entre 0.0 et 1.0.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(128, 0, 128, 1.0)&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 0, 255, 0.75)&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;75&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 255, 0, 0.5)&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;100&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(255, 255, 0, 0.25)&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;125&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(255, 0, 0, 0.1)&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(128, 0, 128, 1.0)&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;50&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(0, 0, 255, 0.75)&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;75&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(0, 255, 0, 0.5)&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;100&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(255, 255, 0, 0.25)&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;125&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(255, 0, 0, 0.1)&quot;&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Notez qu’avec &lt;strong&gt;rgba()&lt;/strong&gt;, la transparence est appliquée à &lt;strong&gt;fill&lt;/strong&gt; et &lt;strong&gt;stroke&lt;/strong&gt; indépendamment. Les cercles qui suivent ont une valeur de remplissage &lt;strong&gt;fill&lt;/strong&gt; opaque à 75%, tandis que leur couleur de contour &lt;strong&gt;stroke&lt;/strong&gt;s est opaque à seulement 25%.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(128, 0, 128, 0.75)&quot;&lt;/span&gt; 
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 255, 0, 0.25)&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;75&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 255, 0, 0.75)&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 0, 255, 0.25)&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;125&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(255, 255, 0, 0.75)&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(255, 0, 0, 0.25)&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(128, 0, 128, 0.75)&quot; stroke=&quot;rgba(0, 255, 0, 0.25)&quot; stroke-width=&quot;10&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;75&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(0, 255, 0, 0.75)&quot; stroke=&quot;rgba(0, 0, 255, 0.25)&quot; stroke-width=&quot;10&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;125&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(255, 255, 0, 0.75)&quot; stroke=&quot;rgba(255, 0, 0, 0.25)&quot; stroke-width=&quot;10&quot;&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Pour appliquer une transparence à tout un élément, définissez un attribut &lt;strong&gt;opacity&lt;/strong&gt;. Voilà quelques cercles complètement opaques&lt;/p&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;purple&quot; stroke=&quot;green&quot; stroke-width=&quot;10&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;65&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;green&quot; stroke=&quot;blue&quot; stroke-width=&quot;10&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;105&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;yellow&quot; stroke=&quot;red&quot; stroke-width=&quot;10&quot;&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;suivis par les mêmes cercles, avec des valeurs d’opacité :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;purple&quot;&lt;/span&gt; 
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;green&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;opacity=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0.9&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;65&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;green&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;blue&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;opacity=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0.5&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;105&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;yellow&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;red&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;opacity=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0.1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;purple&quot; stroke=&quot;green&quot; stroke-width=&quot;10&quot; opacity=&quot;0.9&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;65&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;green&quot; stroke=&quot;blue&quot; stroke-width=&quot;10&quot; opacity=&quot;0.5&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;105&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;yellow&quot; stroke=&quot;red&quot; stroke-width=&quot;10&quot; opacity=&quot;0.1&quot;&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Vous pouvez utiliser &lt;strong&gt;opacity&lt;/strong&gt; sur un élément qui a déjà des couleurs définies avec &lt;strong&gt;rgba()&lt;/strong&gt;. Lorsque vous faites cela, les transparences se multiplient. Les cercles qui suivent utilisent les mêmes valeurs RGBA pour &lt;strong&gt;fill&lt;/strong&gt; et &lt;strong&gt;stroke&lt;/strong&gt;. Le premier cercle ci-dessous n’a pas d’attribut &lt;strong&gt;opacity&lt;/strong&gt; de défini, mais les deux autres l’ont :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(128, 0, 128, 0.75)&quot;&lt;/span&gt; 
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 255, 0, 0.25)&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;65&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(128, 0, 128, 0.75)&quot;&lt;/span&gt; 
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 255, 0, 0.25)&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;opacity=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0.5&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;105&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(128, 0, 128, 0.75)&quot;&lt;/span&gt; 
+        &lt;span class=&quot;na&quot;&gt;stroke=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 255, 0, 0.25)&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;stroke-width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;10&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;opacity=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0.2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;svg width=&quot;500&quot; height=&quot;50&quot;&gt;
+    &lt;circle cx=&quot;25&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(128, 0, 128, 0.75)&quot; stroke=&quot;rgba(0, 255, 0, 0.25)&quot; stroke-width=&quot;10&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;65&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(128, 0, 128, 0.75)&quot; stroke=&quot;rgba(0, 255, 0, 0.25)&quot; stroke-width=&quot;10&quot; opacity=&quot;0.5&quot;&gt;&lt;/circle&gt;
+    &lt;circle cx=&quot;105&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(128, 0, 128, 0.75)&quot; stroke=&quot;rgba(0, 255, 0, 0.25)&quot; stroke-width=&quot;10&quot; opacity=&quot;0.2&quot;&gt;&lt;/circle&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Notez que l’opacité &lt;strong&gt;opacity&lt;/strong&gt; du troisième cercle est égale à &lt;strong&gt;0.2&lt;/strong&gt; or 20%. Et pourtant son remplissage violet a déjà une valeur alpha de &lt;strong&gt;0.75&lt;/strong&gt; ou 75%. La zone violette a donc une transparence finale de 0.2 fois 0.75 = 0.15 ou 15%.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Pour plus d’informations sur SVG — notamment les chemins paths, clip-paths, masks, et filters — voir “&lt;a href=&quot;http://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html&quot;&gt;An SVG Primer for Today’s Browsers&lt;/a&gt;” de &lt;a href=&quot;http://srufaculty.sru.edu/david.dailey/&quot;&gt;David Dailey&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/10-introduction-a-svg.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/10-introduction-a-svg.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>9 - La puissance de data()</title>
