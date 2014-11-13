@@ -6,9 +6,157 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 12 Nov 2014 06:30:00 +0100</pubDate>
-    <lastBuildDate>Wed, 12 Nov 2014 06:30:00 +0100</lastBuildDate>
+    <pubDate>Thu, 13 Nov 2014 06:52:38 +0100</pubDate>
+    <lastBuildDate>Thu, 13 Nov 2014 06:52:38 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>11 - Dessiner des SVGs</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/drawing-svgs&quot;&gt;http://alignedleft.com/tutorials/d3/drawing-svgs&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;dessiner-des-svgs&quot;&gt;Dessiner des SVGs&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Maintenant que l’on est familié avec la structure de base d’une image SVG et ses éléments, comment peut-on générer des formes à partir de nos données ?&lt;/p&gt;
+
+&lt;p&gt;Vous avez peut-être remarqué que toutes les propriétés des éléments SVG sont spécifiées comme &lt;em&gt;attributs&lt;/em&gt;. Ce qui veut dire qu’elles sont inclues comme des paires propriété/valeur, comme ça :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;element&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;property=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;value&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Hum, ça ressemble étrangement à de l’HTML !&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;eureka&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On a déjà utilisé les méthodes, bien pratiques, de D3 &lt;strong&gt;append()&lt;/strong&gt; et &lt;strong&gt;attr()&lt;/strong&gt; pour créer de nouveaux éléments HTML et définir leurs attributs. Comme les éléments SVG existent dans le DOM, comme les éléments HTML, on peut utiliser &lt;strong&gt;append()&lt;/strong&gt; et &lt;strong&gt;attr()&lt;/strong&gt; exactement de la même manière pour générer une image SVG !&lt;/p&gt;
+
+&lt;h3 id=&quot;crer-le-svg&quot;&gt;Créer le SVG&lt;/h3&gt;
+
+&lt;p&gt;D’abord, on doit créer l’élément SVG dans lequel on placera toutes nos formes.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;svg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ça trouvera l’élément &lt;strong&gt;body&lt;/strong&gt; et y ajoutera un nouvel élément &lt;strong&gt;svg&lt;/strong&gt; juste avant la balise fermante &lt;strong&gt;&amp;lt;/body&amp;gt;&lt;/strong&gt;. Même si ça fonctionnerait, je recommande plutôt :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;svg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vous vous rappelez que la plupart des méthodes D3 retournent une référence à l’élément DOM sur lequel elles agissent ? En créant une nouvelle variable &lt;strong&gt;svg&lt;/strong&gt;, on peut garder une trace de la référence transmise par &lt;strong&gt;append()&lt;/strong&gt;. Pensez à &lt;strong&gt;svg&lt;/strong&gt; non comme à une “variable” mais comme à une “référence pointant vers l’objet SVG que l’on vient juste de créer.” Cette référence nous permettra de ne pas répéter notre code plus tard. Plutôt qu’avoir à chercher ce SVG à chaque fois — comme avec &lt;strong&gt;d3.select(“svg”)&lt;/strong&gt; — on dira juste &lt;strong&gt;svg&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;width&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On peut aussi tout écrire en une ligne de code :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;svg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;width&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/1.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Inspectez le DOM et voyez qu’il y a, effectivement, un élément SVG vide.&lt;/p&gt;
+
+&lt;p&gt;Pour vous simplifier la vie, je vous recommande de stocker les valeurs de largeur et de hauteur dans des variables en haut de votre code, &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/2.html&quot;&gt;comme ça&lt;/a&gt; (voir la source) :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Largeur et hauteur&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//  width == largeur&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// height == hauteur&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Je ferai cela pour tous les prochains exemples. En mettant en variables les valeurs de taille, elles peuvent être facilement référencées dans tout notre code, comme suit :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;svg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;width&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// &amp;lt;-- Ici&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;-- et ici !&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;des-formes-dfinies-par-des-donnes&quot;&gt;Des formes définies par des données&lt;/h3&gt;
+
+&lt;p&gt;Il est l’heure d’ajouter quelques formes. Retrouvons notre bon vieux ensemble de données&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et utilisons &lt;strong&gt;data()&lt;/strong&gt; pour itérer sur chaque élément de données, en créant un cercle &lt;strong&gt;circle&lt;/strong&gt; pour chacun :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;circle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;circle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Rappelez-vous, &lt;strong&gt;selectAll()&lt;/strong&gt; retournera des références vides pour chacun des cercles &lt;strong&gt;circle&lt;/strong&gt; (qui n’existent pas encore), &lt;strong&gt;data()&lt;/strong&gt; liera nos données aux éléments que l’on s’apprête à créer, &lt;strong&gt;enter()&lt;/strong&gt; retournera une référence placeholder au nouvel élément, et &lt;strong&gt;append()&lt;/strong&gt; ajoutera finalement un cercle &lt;strong&gt;circle&lt;/strong&gt; au DOM.&lt;/p&gt;
+
+&lt;p&gt;Pour référencer facilement tous les cercles &lt;strong&gt;circle&lt;/strong&gt; plus tard, créons une nouvelle variable pour stocker toutes ces références :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;circles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;circle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                 &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                 &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                 &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;circle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Super, mais ces cercles ont encore besoin de positions et de tailles. Soyez prévenus : Le code qui suit pourrait vous retourner le cerveau.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;circles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+       &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/1.png&quot; alt=&quot;Rangée de cercles de données&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/3.html&quot;&gt;Régalez vos yeux de cette démo.&lt;/a&gt; Avançons pas à pas dans ce code.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;circles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Prend la référence de tous les cercles &lt;strong&gt;circle&lt;/strong&gt; et définit l’attribut cx pour chacun. Nos données ont déjà été liées aux éléments &lt;strong&gt;circle&lt;/strong&gt;, donc pour chaque &lt;strong&gt;circle&lt;/strong&gt;, la valeur de &lt;strong&gt;d&lt;/strong&gt; correspond à la valeur équivalente dans notre ensemble de données (5, 10, 15, 20, ou 25). Une autre valeur, &lt;strong&gt;i&lt;/strong&gt;, est automatiquement définie pour nous. &lt;strong&gt;i&lt;/strong&gt; est une valeur d’index numérique de l’élément courant. En partant de 0, donc pour notre “premier” cercle &lt;strong&gt;i == 0&lt;/strong&gt;, pour le second cercle &lt;strong&gt;i == 1&lt;/strong&gt; et ainsi de suite. On utilise &lt;strong&gt;i&lt;/strong&gt; pour pousser chaque élément qui suit un peu plus vers la droite, car à chaque itération la valeur de &lt;strong&gt;i&lt;/strong&gt; est incrémentée.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;75&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;125&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;175&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;225&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pour être sûr que &lt;strong&gt;i&lt;/strong&gt; est disponible dans votre fonction, vous devez l’inclure en argument dans la définition de votre fonction (&lt;strong&gt;function(d, i)&lt;/strong&gt;). Vous devez aussi inclure &lt;strong&gt;d&lt;/strong&gt;, même si vous ne comptez pas l’utiliser dans votre fonction (comme c’est le cas ci-dessus).&lt;/p&gt;
+
+&lt;p&gt;Ligne suivante.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;h&lt;/strong&gt; est la hauteur de notre SVG en entier, donc &lt;strong&gt;h/2&lt;/strong&gt; est la moitié de sa hauteur. Ça a pour effet d’aligner tous les cercles &lt;strong&gt;circle&lt;/strong&gt; de manière verticale.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Enfin, le rayon &lt;strong&gt;r&lt;/strong&gt; de chaque cercle est défini simplement à &lt;strong&gt;d&lt;/strong&gt;, la valeur correspondante.&lt;/p&gt;
+
+&lt;h3 id=&quot;oh-les-jolies-couleurs-&quot;&gt;Oh, les jolies couleurs !&lt;/h3&gt;
+
+&lt;p&gt;Les couleurs de remplissage et de contour sont d’autres attributs que vous pouvez définir en utilisant les mêmes méthodes. En ajoutant juste ce code&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;fill&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;yellow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;stroke&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;orange&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;stroke-width&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;vous pouvez obtenir (&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/4.html&quot;&gt;ce résultat.&lt;/a&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/2.png&quot; alt=&quot;Cercles de données colorés&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Bien sûr, vous pouvez écrire des fonctions pour faire correspondre n’importe quelle combinaison propriété/attribut. Le truc avec la visualisation de données est de bien choisir les cartographies (&lt;em&gt;mappings&lt;/em&gt;), pour que l’expression visuelle de vos données soit compréhensible et utile à celui qui la regarde.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/11-dessiner-des-svgs.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/11-dessiner-des-svgs.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>10 - Introduction à SVG</title>
@@ -1108,75 +1256,6 @@ Juste pour voir, ouvrez la console JavaScript et tapez &lt;strong&gt;console.log
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/2-les-fondamentaux.html</link>
         <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/2-les-fondamentaux.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>1 - À propos</title>
-        <description>&lt;hr /&gt;
-
-&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/about&quot;&gt;http://alignedleft.com/tutorials/d3/about&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;propos-de-ces-tutoriels&quot;&gt;À propos de ces tutoriels&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Ces tutoriels visent à être :&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;em&gt;brefs&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;ciblés&lt;/em&gt;, chacun traitant un sujet précis&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;modulaires&lt;/em&gt;, pour que vous puissiez vous référer seulement à ceux qui vous intéressent&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;complets&lt;/em&gt;, avec des exemples de code illustrant chaque sujet&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;dynamiques&lt;/em&gt;, mis à jour et étendus au besoin&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;libres&lt;/em&gt;, licenciés de manière à ce que vous puissiez utiliser le code de la façon dont vous le souhaitez&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;philosophie&quot;&gt;Philosophie&lt;/h3&gt;
-
-&lt;p&gt;Ces tutoriels sont le fruit de mon propre processus pour apprendre à utiliser D3. Vous savez déjà que D3 est un outil extraordinaire, écrit par &lt;a href=&quot;http://bost.ocks.org/mike/&quot;&gt;Mike Bostock&lt;/a&gt;, pour cartographier des données (&lt;em&gt;mapping data&lt;/em&gt;) au sein de pages Web. De nombreuses personnes, moi y compris, viennent à D3 avec un background en design, en cartographie et en visualisation de données, mais pas en programmation ou en informatique.&lt;/p&gt;
-
-&lt;p&gt;Pour autant, D3 utilise des techniques JavaScript avancées, donc apprendre D3 signifie souvent en apprendre beaucoup sur JavaScript. Pour beaucoup de personnes faisant de la visualisation de données,   D3 est leur introduction au JavaScript. Il est assez dur d’apprendre un nouveau langage, combien plus un outil créé à partir de ce langage. D3 est stupéfiant, il vous permettra de faire de grandes choses que vous n’auriez jamais tentées. Le temps que vous passerez à apprendre et le langage et l’outil vous procureront un retour sur investissement incroyable.&lt;/p&gt;
-
-&lt;p&gt;Mon but est de réduire ce temps d’apprentissage, pour que vous puissiez créer des choses impressionnantes au plus tôt.&lt;/p&gt;
-
-&lt;h3 id=&quot;vous&quot;&gt;Vous&lt;/h3&gt;
-
-&lt;p&gt;J’espère que vous :&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;êtes familiés avec HTML, le DOM et CSS&lt;/li&gt;
-  &lt;li&gt;avez quelques connaissances en programmation&lt;/li&gt;
-  &lt;li&gt;avez même entendu parler de jQuery ou écrit un peu de JavaScript&lt;/li&gt;
-  &lt;li&gt;n’avez pas peur des abréviations comme CSV, SVG ou JSON&lt;/li&gt;
-  &lt;li&gt;voulez faire des visualisations interactives et utiles&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;structure&quot;&gt;Structure&lt;/h3&gt;
-
-&lt;p&gt;Chaque tutoriel comprend : &lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;une page d’exemple autonome lorsqu’il y a matière&lt;/li&gt;
-  &lt;li&gt;du code à copier et à modifier&lt;/li&gt;
-  &lt;li&gt;beaucoup de commentaires partout&lt;/li&gt;
-  &lt;li&gt;la date de sa dernière mise à jour&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;licence&quot;&gt;Licence&lt;/h3&gt;
-
-&lt;p&gt;Vous pouvez copier, adapter, modifier et réutiliser les exemples de code dans quelques buts que vous désirez, commerciaux ou non. Pour le reste du contenu et du design des tutoriels, je garde les droits (&lt;em&gt;copyright&lt;/em&gt;) dessus.&lt;/p&gt;
-
-&lt;h3 id=&quot;mise-en-garde&quot;&gt;Mise en garde&lt;/h3&gt;
-
-&lt;p&gt;Par soucis de compréhension, il m’arrivera, dans certains cas, de simplifier à l’extrême certains points techniques ou concepts fondamentaux en informatique, ce qui ne manquera pas de faire bondir les vrais ingénieurs logiciels. Aucun soucis, je m’adresse aux artistes et aux designers, pas aux ingénieurs.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
-        <link>http://kaisersly.github.io/scottmurray-d3-fr/1-a-propos.html</link>
-        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/1-a-propos.html</guid>
         
         
       </item>

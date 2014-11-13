@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>11 - Dessiner des SVGs</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/11-dessiner-des-svgs.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+    
+    <hr>
+<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
+<hr>
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/10-introduction-a-svg.html" class="previous">← 10 - Introduction à SVG</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>11 - Dessiner des SVGs</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/drawing-svgs">http://alignedleft.com/tutorials/d3/drawing-svgs</a></em></p>
+
+<hr />
+
+<h2 id="dessiner-des-svgs">Dessiner des SVGs</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>Maintenant que l’on est familié avec la structure de base d’une image SVG et ses éléments, comment peut-on générer des formes à partir de nos données ?</p>
+
+<p>Vous avez peut-être remarqué que toutes les propriétés des éléments SVG sont spécifiées comme <em>attributs</em>. Ce qui veut dire qu’elles sont inclues comme des paires propriété/valeur, comme ça :</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;element</span> <span class="na">property=</span><span class="s">"value"</span><span class="nt">/&gt;</span></code></pre></div>
+
+<p>Hum, ça ressemble étrangement à de l’HTML !</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"eureka"</span><span class="nt">&gt;</span></code></pre></div>
+
+<p>On a déjà utilisé les méthodes, bien pratiques, de D3 <strong>append()</strong> et <strong>attr()</strong> pour créer de nouveaux éléments HTML et définir leurs attributs. Comme les éléments SVG existent dans le DOM, comme les éléments HTML, on peut utiliser <strong>append()</strong> et <strong>attr()</strong> exactement de la même manière pour générer une image SVG !</p>
+
+<h3 id="crer-le-svg">Créer le SVG</h3>
+
+<p>D’abord, on doit créer l’élément SVG dans lequel on placera toutes nos formes.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">);</span></code></pre></div>
+
+<p>Ça trouvera l’élément <strong>body</strong> et y ajoutera un nouvel élément <strong>svg</strong> juste avant la balise fermante <strong>&lt;/body&gt;</strong>. Même si ça fonctionnerait, je recommande plutôt :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">);</span></code></pre></div>
+
+<p>Vous vous rappelez que la plupart des méthodes D3 retournent une référence à l’élément DOM sur lequel elles agissent ? En créant une nouvelle variable <strong>svg</strong>, on peut garder une trace de la référence transmise par <strong>append()</strong>. Pensez à <strong>svg</strong> non comme à une “variable” mais comme à une “référence pointant vers l’objet SVG que l’on vient juste de créer.” Cette référence nous permettra de ne pas répéter notre code plus tard. Plutôt qu’avoir à chercher ce SVG à chaque fois — comme avec <strong>d3.select(“svg”)</strong> — on dira juste <strong>svg</strong>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span></code></pre></div>
+
+<p>On peut aussi tout écrire en une ligne de code :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span></code></pre></div>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/1.html">Voir la page de démonstration</a></p>
+
+<p>Inspectez le DOM et voyez qu’il y a, effectivement, un élément SVG vide.</p>
+
+<p>Pour vous simplifier la vie, je vous recommande de stocker les valeurs de largeur et de hauteur dans des variables en haut de votre code, <a href="http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/2.html">comme ça</a> (voir la source) :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Largeur et hauteur</span>
+<span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span> <span class="c1">//  width == largeur</span>
+<span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>  <span class="c1">// height == hauteur</span></code></pre></div>
+
+<p>Je ferai cela pour tous les prochains exemples. En mettant en variables les valeurs de taille, elles peuvent être facilement référencées dans tout notre code, comme suit :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span>   <span class="c1">// &lt;-- Ici</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span> <span class="c1">// &lt;-- et ici !</span></code></pre></div>
+
+<h3 id="des-formes-dfinies-par-des-donnes">Des formes définies par des données</h3>
+
+<p>Il est l’heure d’ajouter quelques formes. Retrouvons notre bon vieux ensemble de données</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span> <span class="p">];</span></code></pre></div>
+
+<p>et utilisons <strong>data()</strong> pour itérer sur chaque élément de données, en créant un cercle <strong>circle</strong> pour chacun :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"circle"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"circle"</span><span class="p">);</span></code></pre></div>
+
+<p>Rappelez-vous, <strong>selectAll()</strong> retournera des références vides pour chacun des cercles <strong>circle</strong> (qui n’existent pas encore), <strong>data()</strong> liera nos données aux éléments que l’on s’apprête à créer, <strong>enter()</strong> retournera une référence placeholder au nouvel élément, et <strong>append()</strong> ajoutera finalement un cercle <strong>circle</strong> au DOM.</p>
+
+<p>Pour référencer facilement tous les cercles <strong>circle</strong> plus tard, créons une nouvelle variable pour stocker toutes ces références :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">circles</span> <span class="o">=</span> <span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"circle"</span><span class="p">)</span>
+                 <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+                 <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+                 <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"circle"</span><span class="p">);</span></code></pre></div>
+
+<p>Super, mais ces cercles ont encore besoin de positions et de tailles. Soyez prévenus : Le code qui suit pourrait vous retourner le cerveau.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">circles</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"cx"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span><span class="p">;</span>
+        <span class="p">})</span>
+       <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"cy"</span><span class="p">,</span> <span class="nx">h</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+       <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"r"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+       <span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/1.png" alt="Rangée de cercles de données" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/3.html">Régalez vos yeux de cette démo.</a> Avançons pas à pas dans ce code.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">circles</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"cx"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nx">i</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span><span class="p">;</span>
+        <span class="p">})</span></code></pre></div>
+
+<p>Prend la référence de tous les cercles <strong>circle</strong> et définit l’attribut cx pour chacun. Nos données ont déjà été liées aux éléments <strong>circle</strong>, donc pour chaque <strong>circle</strong>, la valeur de <strong>d</strong> correspond à la valeur équivalente dans notre ensemble de données (5, 10, 15, 20, ou 25). Une autre valeur, <strong>i</strong>, est automatiquement définie pour nous. <strong>i</strong> est une valeur d’index numérique de l’élément courant. En partant de 0, donc pour notre “premier” cercle <strong>i == 0</strong>, pour le second cercle <strong>i == 1</strong> et ainsi de suite. On utilise <strong>i</strong> pour pousser chaque élément qui suit un peu plus vers la droite, car à chaque itération la valeur de <strong>i</strong> est incrémentée.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span> <span class="nx">retourne</span> <span class="mi">25</span>
+<span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span> <span class="nx">retourne</span> <span class="mi">75</span>
+<span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span> <span class="nx">retourne</span> <span class="mi">125</span>
+<span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span> <span class="nx">retourne</span> <span class="mi">175</span>
+<span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mi">25</span> <span class="nx">retourne</span> <span class="mi">225</span></code></pre></div>
+
+<p>Pour être sûr que <strong>i</strong> est disponible dans votre fonction, vous devez l’inclure en argument dans la définition de votre fonction (<strong>function(d, i)</strong>). Vous devez aussi inclure <strong>d</strong>, même si vous ne comptez pas l’utiliser dans votre fonction (comme c’est le cas ci-dessus).</p>
+
+<p>Ligne suivante.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"cy"</span><span class="p">,</span> <span class="nx">h</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span></code></pre></div>
+
+<p><strong>h</strong> est la hauteur de notre SVG en entier, donc <strong>h/2</strong> est la moitié de sa hauteur. Ça a pour effet d’aligner tous les cercles <strong>circle</strong> de manière verticale.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"r"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p>Enfin, le rayon <strong>r</strong> de chaque cercle est défini simplement à <strong>d</strong>, la valeur correspondante.</p>
+
+<h3 id="oh-les-jolies-couleurs-">Oh, les jolies couleurs !</h3>
+
+<p>Les couleurs de remplissage et de contour sont d’autres attributs que vous pouvez définir en utilisant les mêmes méthodes. En ajoutant juste ce code</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span> <span class="s2">"yellow"</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"stroke"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"stroke-width"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p>vous pouvez obtenir (<a href="http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/4.html">ce résultat.</a>):</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/110-drawing-svgs/2.png" alt="Cercles de données colorés" /></p>
+
+<p>Bien sûr, vous pouvez écrire des fonctions pour faire correspondre n’importe quelle combinaison propriété/attribut. Le truc avec la visualisation de données est de bien choisir les cartographies (<em>mappings</em>), pour que l’expression visuelle de vos données soit compréhensible et utile à celui qui la regarde.</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/10-introduction-a-svg.html" class="previous">← 10 - Introduction à SVG</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
