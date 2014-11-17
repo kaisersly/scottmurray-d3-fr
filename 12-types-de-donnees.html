@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>12 - Types de données</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/12-types-de-donnees.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+    
+    <hr>
+<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
+<hr>
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/11-dessiner-des-svgs.html" class="previous">← 11 - Dessiner des SVGs</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>12 - Types de données</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/data-types">http://alignedleft.com/tutorials/d3/data-types</a></em></p>
+
+<hr />
+
+<h2 id="types-de-donnes">Types de données</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>D3 est vraiment flexible pour ce qui est des données en entrée. Cet article introduit les structures de D3 communément utilisées avec JavaScript et D3.</p>
+
+<h3 id="variables">Variables</h3>
+
+<p>Une variable est le plus petit élément de données. La variable est le fondement de toutes les autres structures de données, qui sont juste différentes configurations de variables.</p>
+
+<p>Si vous êtes nouveau en JavaScript, sachez que c’est un langage <em>faiblement typé</em>, ce qui veut dire que vous n’avez pas besoin de spécifier quel <em>type</em> d’information sera stocké dans une variable à l’avance. Beaucoup d’autres langages, comme Java (qui est complètement différent de JavaScript !), requièrent que vous déclariez un type de données, comme <strong>int</strong>, <strong>float</strong>, <strong>boolean</strong>, ou <strong>String</strong>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Déclarer des variables en Java</span>
+<span class="kr">int</span> <span class="nx">number</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="kr">float</span> <span class="nx">value</span> <span class="o">=</span> <span class="mf">12.3467</span><span class="p">;</span>
+<span class="kr">boolean</span> <span class="nx">active</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="nb">String</span> <span class="nx">text</span> <span class="o">=</span> <span class="s2">"Crystal clear"</span><span class="p">;</span></code></pre></div>
+
+<p>JavaScript, au contraire, <em>assigne automatiquement un type</em> à une variable, en fonction de l’information que vous lui assignez. (Notez que <strong>’‘</strong> ou <strong>”“</strong> indique une chaîne de caractères. Je préfère les guillemets doubles <strong>”“</strong>, mais d’autres préfèrent les guillemets simples <strong>’‘</strong>.)</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Déclarer des variables en JavaScript</span>
+<span class="kd">var</span> <span class="nx">number</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="mf">12.3467</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">active</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="s2">"Crystal clear"</span><span class="p">;</span></code></pre></div>
+
+<p>Fastidieux — <strong>var</strong>, <strong>var</strong>, <strong>var</strong>, <strong>var</strong> ! — et pourtant utile, car on peut déclarer et nommer des variables avant même de savoir quels types de données elles vont stocker. Vous pouvez changer le type d’une variable à la volée sans que JavaScript ne flippe (<em>without JavaScript freaking on you</em>).</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">value</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="nx">value</span> <span class="o">=</span> <span class="mf">99.9999</span><span class="p">;</span>
+<span class="nx">value</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="nx">value</span> <span class="o">=</span> <span class="s2">"This can't possibly work."</span><span class="p">;</span>
+<span class="nx">value</span> <span class="o">=</span> <span class="s2">"Argh, it does work! No errorzzzz!"</span><span class="p">;</span></code></pre></div>
+
+<h3 id="tableaux">Tableaux</h3>
+
+<p>Un tableau est une séquence de valeurs, stockée de manière bien pratique dans une simple variable.</p>
+
+<p>Garder une trace de valeurs qui sont apparentées dans des variables séparées n’est pas efficace :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">numberA</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">numberB</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">numberC</span> <span class="o">=</span> <span class="mi">15</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">numberD</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">numberE</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span></code></pre></div>
+
+<p>Réécrit en tableau, ces valeurs sont bien plus simples. Les crochets <strong>[]</strong> indique un tableau, tandis que les valeurs sont séparées par des virgules :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">numbers</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span> <span class="p">];</span></code></pre></div>
+
+<p>Les tableaux sont partout en visualisation de données, donc vous devriez devenir plus à l’aise avec eux. Vous pouvez accéder (récupérer) une valeur dans un tableau en utilisant la notation crochets :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">numbers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="c1">// Retourne 15</span></code></pre></div>
+
+<p>Le nombre dans les crochets correspond à une position dans le tableau. Rappelez-vous bien cela, les positions dans un tableau démarrent à zéro, donc la première position est <strong>0</strong>, la seconde est <strong>1</strong>, et ainsi de suite.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">numbers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">// Retourne 5</span>
+<span class="nx">numbers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1">// Retourne 10</span>
+<span class="nx">numbers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="c1">// Retourne 15</span>
+<span class="nx">numbers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>  <span class="c1">// Retourne 20</span>
+<span class="nx">numbers</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>  <span class="c1">// Retourne 25</span></code></pre></div>
+
+<p>Certaines personnes pourraient trouver utile de penser aux tableaux en termes spaciaux, comme s’ils avaient des lignes et des colonnes, comme dans un tableur :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">ID</span> <span class="o">|</span> <span class="nx">Valeur</span>
+<span class="o">------------</span>
+ <span class="mi">0</span>  <span class="o">|</span>  <span class="mi">5</span>
+ <span class="mi">1</span>  <span class="o">|</span>  <span class="mi">10</span>
+ <span class="mi">2</span>  <span class="o">|</span>  <span class="mi">15</span>
+ <span class="mi">3</span>  <span class="o">|</span>  <span class="mi">20</span>
+ <span class="mi">4</span>  <span class="o">|</span>  <span class="mi">25</span></code></pre></div>
+
+<p>Les tableaux peuvent contenir n’importe quel type de données, et pas seulement des entiers.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">percentages</span> <span class="o">=</span> <span class="p">[</span> <span class="mf">0.55</span><span class="p">,</span> <span class="mf">0.32</span><span class="p">,</span> <span class="mf">0.91</span> <span class="p">];</span>
+<span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"Ernie"</span><span class="p">,</span> <span class="s2">"Bert"</span><span class="p">,</span> <span class="s2">"Oscar"</span> <span class="p">];</span>
+
+<span class="nx">percentages</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1">// Retourne 0.32</span>
+<span class="nx">names</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>        <span class="c1">// Retourne "Bert"</span></code></pre></div>
+
+<h3 id="what-arrays-are-made-for">What Arrays Are Made for()</h3>
+
+<p><em>Le titre ci-dessus est un jeu de mots entre l’expression “Ce pourquoi les tableaux sont faits” et la fonction <strong>for()</strong>.</em></p>
+
+<p>La visualisation de données basée sur du code ne serait pas possible sans tableaux et sans la puissante boucle <strong>for()</strong>. Ensemble, ils forment le duo dynamique des geeks des données. (Si vous ne vous considérez pas comme un “geek des données,” alors je dois vous rappelez que vous êtes en train de lire un document intitulé “Types de données.”)</p>
+
+<p>Un tableau organise un grand nombre de valeurs dans un seul endroit. Puis <strong>for()</strong> peut rapidement “itérer” sur chaque valeur dans un tableau et effectuer quelques actions dessus — comme exprimer la valeur dans une forme visuelle. D3 s’occupe souvent de ces boucles pour nous, avec sa méthode magique <strong>data()</strong>, mais il est important de pouvoir écrire vos propres boucles.</p>
+
+<p>Je n’irai pas dans les détails du fonctionnement des boucles <strong>for()</strong> ici ; c’est un tutoriel complètement différent. Mais considérez cet exemple, qui itère à travers les valeurs de <strong>numbers</strong> défini plus haut.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">numbers</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">numbers</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>  <span class="c1">// Affiche la valeur dans la console</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Vous voyez ce <strong>numbers.length</strong> ? C’est ce qui est beau. Si <strong>numbers</strong> est long de dix valeurs, la boucle sera exécutée dix fois. Si c’est long de dix millions de valeurs … ouais, vous avez pigé. C’est ce pourquoi les ordinateurs sont bons : prendre un ensemble d’instructions et les exécuter encore et encore. Et c’est au coeur même de ce pour quoi la visualisation de données peut être aussi satisfaisante — vous concevez et codez le système de visualisation, et le système répondra de manière appropriée, même si vous lui donnez des données différentes. Les règles de cartographie du système sont cohérentes, même lorsque vos données ne le sont pas.</p>
+
+<h3 id="objets">Objets</h3>
+
+<p>Les tableaux sont pratiques pour des listes simples de valeurs, mais avec des ensembles de données plus complexes, vous voudrez mettre vos données dans un objet. Pour notre besoin (<em>la visualisation de données</em>), pensez aux objets JavaScript comme à des structures de données personnalisées. On utilise des accolades {} pour indiquer un objet. Entre les accolades, on met des <em>indices</em> et des <em>valeurs</em>. Deux points : séparent chaque index et sa valeur, et une virgule sépare chaque paire index/valeur.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">fruit</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">kind</span><span class="p">:</span> <span class="s2">"grape"</span><span class="p">,</span>
+    <span class="na">color</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="na">tasty</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">};</span></code></pre></div>
+
+<p>Pour référencer chaque valeur, on utilise la <em>notation à points</em>, en spécifiant le nom de l’index :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">fruit</span><span class="p">.</span><span class="nx">kind</span>      <span class="c1">// Retourne "grape"</span>
+<span class="nx">fruit</span><span class="p">.</span><span class="nx">color</span>     <span class="c1">// Retourne "red"</span>
+<span class="nx">fruit</span><span class="p">.</span><span class="nx">quantity</span>  <span class="c1">// Retourne 12</span>
+<span class="nx">fruit</span><span class="p">.</span><span class="nx">tasty</span>     <span class="c1">// Retourne true</span></code></pre></div>
+
+<p>Pensez à la valeur comme “appartenant” à l’objet. Oh, regardez, un fruit. “Quelle sorte de fruit c’est ?” vous vous demanderez peut-être. Il se trouve que <strong>fruit.kind</strong> (<em>kind : sorte</em>) est <strong>“grape”</strong> (<em>du raisin</em>). “Sont-ils savoureux ?” Oh, certainement, car <strong>fruit.tasty</strong> est <strong>true</strong>.</p>
+
+<h3 id="objets--tableaux">Objets + Tableaux</h3>
+
+<p>Vous pouvez combiner ces deux structures pour créer des tableaux d’objets, ou des objets de tableaux, ou des objets d’objets, ou, eh bien, n’importe quelle structure qui aurait du sens pour votre ensemble de données.</p>
+
+<p>Disons que l’on a acquis d’autres fruits, et que l’on veut étendre notre catalogue en conséquence. On utilise les crochets <strong>[]</strong> à l’extérieur, pour indiquer un tableau, suivis par des accolades <strong>{}</strong> et la notation objet à l’intérieur, chaque objet étant séparé par des virgules.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">fruits</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="na">kind</span><span class="p">:</span> <span class="s2">"grape"</span><span class="p">,</span>
+        <span class="na">color</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span>
+        <span class="na">quantity</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="na">tasty</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="na">kind</span><span class="p">:</span> <span class="s2">"kiwi"</span><span class="p">,</span>
+        <span class="na">color</span><span class="p">:</span> <span class="s2">"brown"</span><span class="p">,</span>
+        <span class="na">quantity</span><span class="p">:</span> <span class="mi">98</span><span class="p">,</span>
+        <span class="na">tasty</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="na">kind</span><span class="p">:</span> <span class="s2">"banana"</span><span class="p">,</span>
+        <span class="na">color</span><span class="p">:</span> <span class="s2">"yellow"</span><span class="p">,</span>
+        <span class="na">quantity</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">tasty</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">}</span>
+<span class="p">];</span></code></pre></div>
+
+<p>Pour accéder à ces données, on suit juste la trace des indices jusqu’aux valeurs que l’on veut. Rappelez-vous, <strong>[]</strong> signifient un tableau, et <strong>{}</strong> signifie un objet. <strong>fruits</strong> est un tableau, donc en premier on utilise la notation crochets pour spécifier l’index dans le tableau :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></code></pre></div>
+
+<p>Ensuite, chaque élément du tableau est un objet, donc on fait suivre les crochets par un point et un index :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">fruit</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">quantity</span>   <span class="c1">// Retourne 98</span></code></pre></div>
+
+<p>Voilà une carte sur la manière d’accéder chaque valeur dans le tableau d’objets <strong>fruits</strong> :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">kind</span>      <span class="o">==</span>  <span class="s2">"grape"</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">color</span>     <span class="o">==</span>  <span class="s2">"red"</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">quantity</span>  <span class="o">==</span>  <span class="mi">12</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">tasty</span>     <span class="o">==</span>  <span class="kc">true</span>
+
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">kind</span>      <span class="o">==</span>  <span class="s2">"kiwi"</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">color</span>     <span class="o">==</span>  <span class="s2">"brown"</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">quantity</span>  <span class="o">==</span>  <span class="mi">98</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">tasty</span>     <span class="o">==</span>  <span class="kc">true</span>
+
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">kind</span>      <span class="o">==</span>  <span class="s2">"banana"</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">color</span>     <span class="o">==</span>  <span class="s2">"yellow"</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">quantity</span>  <span class="o">==</span>  <span class="mi">0</span>
+<span class="nx">fruits</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">tasty</span>     <span class="o">==</span>  <span class="kc">true</span></code></pre></div>
+
+<p>Oui, c’est vrai, nous avons <strong>fruits[2].quantity</strong> bananes.</p>
+
+<h3 id="json">JSON</h3>
+
+<p>À un certain moment dans votre carrière D3, vous rencontrerez la notation d’objet JavaScript JSON (<em>JavaScript Object Notation</em>). Vous pouvez <a href="http://fr.wikipedia.org/wiki/Json">en lire ici les détails</a>, mais JSON est fondamentalement une syntaxe spécifique pour organiser des données en objets JavaScript. La syntaxe est optimisée pour être utilisée avec  JavaScript (évidemment) et les requêtes AJAX, c’est pourquoi vous en verrez un tas dans les APIs basées sur le web qui vous sortent les données en JSON. C’est plus rapide et plus facile à analyser avec JavaScript que XML, et bien sûr D3 fonctionne bien avec.</p>
+
+<p>Malgré tout ça, c’est pas bien différent que ce que l’on a déjà vu :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">jsonFruit</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"kind"</span><span class="p">:</span> <span class="s2">"grape"</span><span class="p">,</span>
+    <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span>
+    <span class="s2">"quantity"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="s2">"tasty"</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">};</span></code></pre></div>
+
+<p>La seule différence c’est que nos indices sont entourés par des guillemets doubles <strong>”“</strong>, les transformant en chaîne de caractères.</p>
+
+<h3 id="geojson">GeoJSON</h3>
+
+<p>Tout comme JSON est juste une formalisation de la notation objet JavaScript existante, GeoJSON est une syntaxe formalisée d’objets JSON, optimisée pour stocker des geodonnées. Tous les objets GeoJSON sont des objets JSON, et tous les objets JSON sont des objets JavaScript.</p>
+
+<p><a href="http://geojson.org/geojson-spec.html">GeoJSON</a> peut stocker des points dans un espace géographique (typiquement en coordonnées longitude/latitude), mais aussi des formes (comme des lignes et des polygones) et d’autres éléments spatiaux. Si vous avez beaucoup de géodonnées, il vaut le coût de les transformer au format GeoJSON pour une meilleure utilisation avec D3.</p>
+
+<p>On entrera plus dans les détails de GeoJSON lorsque l’on parlera des mappes (<em>geomaps</em>), mais pour l’instant, sachez juste que le GeoJSON ressemble à ça :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">geodata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"FeatureCollection"</span><span class="p">,</span>
+    <span class="s2">"features"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Feature"</span><span class="p">,</span>
+            <span class="s2">"geometry"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Point"</span><span class="p">,</span>
+                <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">[</span> <span class="mf">150.1282427</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.471803</span> <span class="p">]</span>
+            <span class="p">},</span>
+            <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"town"</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">};</span></code></pre></div>
+
+<p>(Ça prête à confusion, la longitude est toujours listée avane la latitude. Habituez-vous à penser en termes de lon/lat plutôt que lat/lon.)</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/11-dessiner-des-svgs.html" class="previous">← 11 - Dessiner des SVGs</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
