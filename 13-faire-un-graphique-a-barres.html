@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>13 - Faire un graphique à barres</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/13-faire-un-graphique-a-barres.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+    
+    <hr>
+<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
+<hr>
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/12-types-de-donnees.html" class="previous">← 12 - Types de données</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>13 - Faire un graphique à barres</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/making-a-bar-chart">http://alignedleft.com/tutorials/d3/making-a-bar-chart</a></em></p>
+
+<hr />
+
+<h2 id="faire-un-graphique--barres">Faire un graphique à barres</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>Intégrons maintenant tout ce que l’on a appris jusqu’ici pour générer un graphique à barres simple avec D3.</p>
+
+<p>On commencera par revoir le graphique à barres que l’on a fait plutôt en utilisant des éléments <strong>div</strong>. Puis on adaptera ce code pour dessiner les barres avec SVG, nous donnant plus de flexibilité sur la présentation visuelle. Finalement, on ajoutera des étiquettes (<em>labels</em>), pour voir plus clairement les valeurs.</p>
+
+<h3 id="le-vieux-graphique">Le vieux graphique</h3>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/1.html">Voilà ce que l’on avait la dernière fois, avec des nouvelles données.</a></p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span>
+                <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">25</span> <span class="p">];</span>
+
+<span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">).</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"div"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">style</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">barHeight</span> <span class="o">=</span> <span class="nx">d</span> <span class="o">*</span> <span class="mi">5</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">barHeight</span> <span class="o">+</span> <span class="s2">"px"</span><span class="p">;</span>
+    <span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/1.png" alt="Graphique à barres avec des divs" /></p>
+
+<p>Ça peut être difficile à imaginer, mais on peut clairement améliorer ce simpe graphique à barres fait avec des <strong>div</strong>s.</p>
+
+<h3 id="le-nouveau-graphique">Le nouveau graphique</h3>
+
+<p>En premier, on doit définir la taille du nouveau SVG :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Largeur et hauteur</span>
+<span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span></code></pre></div>
+
+<p>(Bien sûr, vous pourriez appeler <strong>w</strong> et <strong>h</strong> d’une autre manière, comme <strong>svgWidth</strong> et <strong>svgHeight</strong>. Utilisez ce qui vous semble le plus clair. JavaScript a une culture de l’efficacité, donc vous verrez souvent des variables à un seul caractère, du code écrit sans espaces, et d’autres syntaxes difficiles à lire, et pourtant programmatiquement efficace.)</p>
+
+<p>Ensuite, on dit à D3 de créer un élément SVG vide et on l’ajoute au DOM :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Crée l'élément SVG</span>
+<span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span></code></pre></div>
+
+<p>Ça insert un nouvel élément <strong>&lt;svg&gt;</strong> juste avant la balise fermante <strong>&lt;/body&gt;</strong>, et assigne au SVG les dimensions de 500 par 100 pixels. Cette déclaration met également le résultat dans une nouvelle variable appelée <strong>svg</strong>, pour que nous puissions facilement référencer SVG sans avoir à le resélectionner plus tard en utilisant quelque chose comme <strong>d3.select(“svg”)</strong>.</p>
+
+<p>Ensuite, plutôt que de créer des <strong>div</strong>s, on génère des <strong>rect</strong>s et on les ajoute à <strong>svg</strong>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"rect"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+   <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"rect"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span></code></pre></div>
+
+<p>Ce code sélectionne tous les <strong>rect</strong>s à l’intérieur de <strong>svg</strong>. Bien sûr, il n’y en a encore aucun, donc une sélection vide est retournée. (Bizarre, je vous l’accorde, mais restez avec moi. Avec D3, vous devez toujours sélectionner quoi que ce soit sur lequel vous voulez travailler, même si cette sélection est vide.)</p>
+
+<p>Ensuite, <strong>data(dataset)</strong> voit que l’on a 20 valeurs dans l’ensemble de données, donc il appelle <strong>enter()</strong> 20 fois. <strong>enter()</strong>, à son tour, retourne une sélection placeholder pour chaque élément de données qui n’a pas de <strong>rect</strong> correspondant — ce qui veut dire tous les <strong>rect</strong>s.</p>
+
+<p>Pour chacun des 20 placeholders, <strong>append(“rect”)</strong> insert un <strong>rect</strong> dans le DOM. Comme nous l’avons appris dans l’introduction à SVG, chaque <strong>rect</strong> doit avoir les valeurs <strong>x</strong>, <strong>y</strong>, <strong>width</strong>, et <strong>height</strong> définies. On utilise <strong>attr()</strong> pour ajouter ces attributs sur chacun des <strong>rect</strong> nouvellement créés.</p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/2.html">C’est beau, hein ?</a></p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/2.png" alt="Une barre solitaire" /></p>
+
+<p>Okay, pas sûr. Toutes les barres sont présentes (regardez le DOM sur la page de démo avec votre inspecteur web), mais toutes partagent les mêmes valeurs de <strong>x</strong>, <strong>y</strong>, <strong>width</strong>, et <strong>height</strong>, avec pour résultat qu’elles se superposent toutes. Ce n’est pas encore de la visualisation de données.</p>
+
+<p>Corrigeons d’abord le fait qu’elles se superposent. Plutôt que d’utiliser un <strong>x</strong> de zéro, on lui assignera une valeur dynamique qui correspond à <strong>i</strong>, la position de chaque élément dans l’ensemble de données. Donc la première barre sera à zéro, mais les suivantes seront à <strong>21</strong>, puis <strong>42</strong>, et ainsi de suite.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="mi">21</span><span class="p">;</span>  <span class="c1">// Largeur de barre de 20 plus 1 pour la marge</span>
+<span class="p">})</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/3.png" alt="Vingt barres" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/3.html">Voilà le code en action.</a></p>
+
+<p>Ça fonctionne, mais c’est pas super flexible. Si nos données étaient plus nombreuses, les barres se suivraient sur la droite, même après la fin du SVG ! Comme chaque barre fait 20 pixels de large, plus 1 pixel de marge, un SVG de 500 pixels de large ne pourrait afficher que 23 éléments de données. Notez comment la 24ème barre se trouve coupée :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/4.png" alt="Vingt-quatre barres" /></p>
+
+<p>Une bonne pratique est d’utiliser des coordonnées flexibles et dynamiques — hauteurs, largeurs, valeurs de x, et valeurs de y — de manière à ce que votre visualisation se redimensionne de manière appropriée en fonction de vos données.</p>
+
+<p>Comme avec n’importe quel problème en programmation, il y a mille façons d’arriver à ce résultat. J’en utiliserai une simple. Premièrement, je vais changer la ligne où l’on définit la position <strong>x</strong> de chaque barre :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+<span class="p">})</span></code></pre></div>
+
+<p>Notez comment la valeur de <strong>x</strong> est maintenant liée directement à la largeur de SVG (w) et au nombre de valeurs dans notre ensemble de données (<strong>dataset.length</strong>). C’est excitant, car maintenant nos barres seront espacées uniformément, que l’on ait vingt barres :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/5.png" alt="Vingt barres espacées uniformément" /></p>
+
+<p>ou juste cinq :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/6.png" alt="Cinq barres espacées uniformément" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/4.html">Voilà le code jusqu’ici.</a></p>
+
+<p>Maintenant on devrait rendre les <em>largeurs</em> des barres proportionnelles, elles aussi, pour qu’elles deviennent plus fines à mesure que des données sont ajoutées, ou plus large lorsqu’il y a moins de valeurs. Je vais ajouter une nouvelle variable à côté de là où l’on définit la hauteur et la largeur de SVG</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Largeur et hauteur</span>
+<span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">barPadding</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// &lt;-- Nouveau !</span></code></pre></div>
+
+<p>puis faire référence à cette variable dans la ligne où l’on définit la largeur <strong>width</strong> de chaque barre. Plutôt qu’une valeur statique de <strong>20</strong>, la largeur sera maintenant définit comme une fraction entre la largeur du SVG et le nombre de données, moins la valeur de la marge :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">barPadding</span><span class="p">)</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/7.png" alt="Vingt barres espacées avec des largeurs dynamiques" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/5.html">Ça fonctionne !</a> Les largeurs et les positions en x des barres se mettent à l’échelle correctement qu’il y ait vingt points, juste cinq</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/8.png" alt="Cinq barres espacées avec des largeurs dynamiques" /></p>
+
+<p>ou même cent :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/9.png" alt="Cent barres espacées avec des largeurs dynamiques" /></p>
+
+<p>Pour finir, programmons la hauteur de chaque barre. Vous espériez que ce soit aussi facile que faire référence à la valeur <strong>d</strong> lorsque l’on définit la hauteur <strong>height</strong> :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/10.png" alt="Hauteurs dynamiques" /></p>
+
+<p>Hum, ça à l’air funky. On pourrait peut-être agrandir un peu nos nombres ?</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span> <span class="o">*</span> <span class="mi">4</span><span class="p">;</span>  <span class="c1">// &lt;-- Fois quatre !</span>
+<span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/11.png" alt="Hauteurs dynamiques" /></p>
+
+<p>Hélas, c’est pas aussi facile — on veut que nos barres grandissent depuis le bord bas, pas depuis le haut — mais ne blamez pas D3, blamez SVG.</p>
+
+<p>Rappellez-vous de l’introduction à SVG : lorsque l’on dessine des <strong>rect</strong>s, les valeurs <strong>x</strong> et <strong>y</strong> spécifient les coordonnées du <em>coin en haut à gauche</em>. Ce qui veut dire que l’origine ou point de référence de chaque <strong>rect</strong> est son point supérieur gauche. Pour nos besoins, il serait teeeeelllement plus facile que notre point de référence soit le point inférieur gauche, mais c’est juste pas comme ça que SVG fonctionne, et, franchement, SVG est plutôt indifférent à vos sentiments en la matière.</p>
+
+<p>Étant donné que nos barres doivent “grandir depuis le haut”, où est “le haut” de chaque barre par rapport au haut de SVG ? Eh bien, le haut de chaque barre peut être définit comme une relation entre la hauteur de SVG et la valeur correspondante de la donnée, comme ça :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="nx">d</span><span class="p">;</span>  <span class="c1">// Hauteur moins la valeur de la donnée</span>
+<span class="p">})</span></code></pre></div>
+
+<p>Ensuite, pour mettre le “bas” de chaque barre au bas du SVG, chaque hauteur des <strong>rect</strong>s doit être juste la valeur de la donnée elle-même :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>  <span class="c1">// Juste la valeur de la donnée</span>
+<span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/12.png" alt="Grandir à partir du bas" /></p>
+
+<p>Agrandissons le tout un peu en changeant <strong>d</strong> par <strong>d * 4</strong>. (Note : Plus tard on en apprendra plus sur les <em>échelles</em> de D3, qui offrent de meilleurs moyens d’accomplir cela.)</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/13.png" alt="Grandir plus à partir du bas" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/6.html">Voilà le code de notre graphique où nos barres grandissent du bas.</a></p>
+
+<h3 id="couleurs">Couleurs</h3>
+
+<p>Ajouter une couleur est facile. Utilisez juste <strong>attr()</strong> pour définir un remplissage <strong>fill</strong> :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span> <span class="s2">"teal"</span><span class="p">);</span></code></pre></div>
+
+<p><em>Teal correspond à la couleur appelée <a href="http://fr.wikipedia.org/wiki/Sarcelle_(couleur)">sarcelle</a></em></p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/14.png" alt="Barres de couleur sarcelle" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/7.html">Voila un graphique à barres tout en sarcelle.</a> Mais souvent vous voudrez ajuster la couleur de la forme pour refléter une des qualités de la donnée. Ce qui veut dire que vous voudrez <em>programmer</em> la donnée en couleur. (Pour notre graphique, ça donne une <em>programmation double</em>, dans laquelle la même valeur de donnée est programmée dans deux propriétés visuelles : la hauteur et la couleur.)</p>
+
+<p>Utiliser une donnée pour définir une couleur revient à écrire une fonction qui elle aussi référence <strong>d</strong>. Ici nous remplaçons <strong>“teal”</strong> par une fonction personnalisée :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">"rgb(0, 0, "</span> <span class="o">+</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="s2">")"</span><span class="p">;</span>
+<span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/15.png" alt="Barres bleues pilotées par des données" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/8.html">Voilà le code.</a> C’est pas particulièrement un codage visuel utile, mais au moins vous avez une idée de comment traduire la donnée en couleur. Ici, <strong>d</strong> est multiplé par 10, puis il est utilisé dans la valeur du bleu dans une définition de couleur <strong>rgb()</strong>. Plus grande sera la valeur de <strong>d</strong> (barres plus grandes), plus bleue la barre sera. Pour des valeurs plus petites de <strong>d</strong> (barres plus petites) les barres seront moins bleues (plus proche du noir).</p>
+
+<h3 id="tiquettes-ou-labels">Étiquettes (<em>ou labels</em>)</h3>
+
+<p>Les visuels sont supers, mais quelques fois vous aurez besoin d’afficher les valeurs des données en texte dans votre visualisation. C’est la que les étiquettes de valeur entrent en jeu, et elles sont vraiment, vraiment faciles à générer avec D3.</p>
+
+<p>Vous vous rappelez de l’introduction à SVG : vous pouvez ajouter des éléments <strong>text</strong> à l’élément SVG. On débutera avec :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+   <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span></code></pre></div>
+
+<p>Ça semble familié ? Tout comme on a fait pour les <strong>rect</strong>s, on fait de même pour les <strong>text</strong>s. D’abord, sélectionnez ce que vous voulez, amenez les données, ajoutez les nouveaux éléments avec <strong>enter()</strong> (qui sont juste des placeholders à ce moment), et finallement ajoutez les nouveaux éléments <strong>text</strong> elements au DOM.</p>
+
+<p>Complétons ce code pour inclure la valeur de la donnée dans chaque élément de texte en utilisant la méthode <strong>text()</strong></p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d</span><span class="p">;</span>
+   <span class="p">})</span></code></pre></div>
+
+<p>et définissons les valeurs <strong>x</strong> et <strong>y</strong> pour positionner le texte. C’est plus facile si je copie/colle juste le même code que l’on a utilisé plus haut pour les barres :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+   <span class="p">})</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span> <span class="mi">4</span><span class="p">);</span>
+   <span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/16.png" alt="Bébés étiquettes !" /></p>
+
+<p>Aha ! Des étiquettes ! Mais certaines sont coupées en haut. Essayons de les déplacer vers le bas, à l’intérieur des barres, en ajoutant quelques pixels à <strong>x</strong> et <strong>y</strong> :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="o">+</span> <span class="mi">5</span><span class="p">;</span>  <span class="c1">// +5</span>
+   <span class="p">})</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="mi">15</span><span class="p">;</span>              <span class="c1">// +15</span>
+   <span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/17.png" alt="Étiquettes dans les barres" /></p>
+
+<p>Mieux, mais pas lisible. Heureusement, on peut corriger ça :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"font-family"</span><span class="p">,</span> <span class="s2">"sans-serif"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"font-size"</span><span class="p">,</span> <span class="s2">"11px"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span> <span class="s2">"white"</span><span class="p">);</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/18.png" alt="Des étiquettes vraiment belles" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/9.html">Fantasti-code!</a> Si vous n’êtes pas un maniaque de typographie, alors ça suffit. Si, au contraire, vous êtes comme moi, vous noterez que les étiquettes ne sont pas parfaitement alignées dans leur barre. C’est assez facile de corriger ça. Utilisons l’attribut SVG <strong>text-anchor</strong> pour centrer le texte horizontalement par rapport à <strong>x</strong> :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"text-anchor"</span><span class="p">,</span> <span class="s2">"middle"</span><span class="p">)</span></code></pre></div>
+
+<p>Ensuite, changeons la manière de calculer la position <strong>x</strong> en la définissant comme le côté gauche de chaque barre <em>plus</em> la moitié de la largeur de la barre :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">i</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nx">w</span> <span class="o">/</span> <span class="nx">dataset</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="nx">barPadding</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="p">})</span></code></pre></div>
+
+<p>Montons également les étiquettes d’un pixel pour un espacement parfait :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">h</span> <span class="o">-</span> <span class="p">(</span><span class="nx">d</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="mi">14</span><span class="p">;</span>  <span class="c1">//15 is now 14</span>
+    <span class="p">})</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/19.png" alt="Étiquettes centrées" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/10.html">Fini !</a> Maintenant, éloignons-nous un peu des graphiques à barres.</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/12-types-de-donnees.html" class="previous">← 12 - Types de données</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
