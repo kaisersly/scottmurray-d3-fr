@@ -6,9 +6,168 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 20 Nov 2014 19:40:40 +0100</pubDate>
-    <lastBuildDate>Thu, 20 Nov 2014 19:40:40 +0100</lastBuildDate>
+    <pubDate>Mon, 24 Nov 2014 06:57:04 +0100</pubDate>
+    <lastBuildDate>Mon, 24 Nov 2014 06:57:04 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>14 - Faire un nuage de points</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/making-a-scatterplot&quot;&gt;http://alignedleft.com/tutorials/d3/making-a-scatterplot&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;faire-un-nuage-de-points&quot;&gt;Faire un nuage de points&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Jusqu’ici on a seulement dessiné des barres à partir de données simples - juste un ensemble à une dimension de nombres.&lt;/p&gt;
+
+&lt;p&gt;Mais lorsque vous avez deux ensembles de valeurs à tracer ensemble, il vous faut une seconde dimension. Le nuage de point est un type courant de visualisation qui représente deux ensembles de valeurs correspondantes sur deux axes différents : horizontal et vertical, x et y.&lt;/p&gt;
+
+&lt;h3 id=&quot;les-donnes&quot;&gt;Les données&lt;/h3&gt;
+
+&lt;p&gt;Comme vous l’avez vu dans &lt;em&gt;Types de données&lt;/em&gt;, vous pouvez être assez flexible dans la manière de structurer vos données. Pour notre nuage, je vais utiliser un tableau de tableaux. Le premier tableau contiendra un élément pour chaque “point” de donnée. Chacun de ces éléments “point” seront eux-aussi des tableaux, avec seulement deux valeurs : une pour la valeur x, et une pour la valeur y.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;480&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;330&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;410&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;475&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;67&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;220&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;88&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+              &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Rappelez-vous, les crochets &lt;strong&gt;[]&lt;/strong&gt; signifient un tableau, donc des crochets imbriqués &lt;strong&gt;[[]]&lt;/strong&gt; signifient un tableau dans un tableau. Nous séparons les éléments d’un tableau avec des virgules, donc un tableau qui contiendrait trois tableaux ressemblerait à ça : &lt;strong&gt;[[],[],[]]&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;On pourrait réécrire notre ensemble de données pour qu’il soit plus facile à lire, comme ça :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;     &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;480&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;330&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;410&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;475&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;44&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;    &lt;span class=&quot;mi&quot;&gt;67&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;    &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;220&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;88&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+              &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Maintenant vous pouvez voir que chacune de ces dix entrées correspond à un point dans notre visualisation. Avec l’entrée  &lt;strong&gt;[5, 20]&lt;/strong&gt;, par exemple, on utilisera &lt;strong&gt;5&lt;/strong&gt; pour la valeur de x, et &lt;strong&gt;20&lt;/strong&gt; pour la valeur de y.&lt;/p&gt;
+
+&lt;h3 id=&quot;le-nuage-de-points&quot;&gt;Le nuage de points&lt;/h3&gt;
+
+&lt;p&gt;Réutilisons la plupart de code de nos expériences avec le graphique à barres, notamment la partie qui crée l’élément SVG :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Crée l&#39;élément SVG&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;svg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;width&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;height&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Cependant, plutôt que de créer des rectangles &lt;strong&gt;rect&lt;/strong&gt;s, on créera un cercle &lt;strong&gt;circle&lt;/strong&gt; pour chaque point de donnée :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;circle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;circle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Également, plutôt que de spécifier les attributs de &lt;strong&gt;rect&lt;/strong&gt; &lt;strong&gt;x&lt;/strong&gt;, &lt;strong&gt;y&lt;/strong&gt;, &lt;strong&gt;width&lt;/strong&gt;, et &lt;strong&gt;height&lt;/strong&gt;, nos &lt;strong&gt;circle&lt;/strong&gt;s ont besoin de &lt;strong&gt;cx&lt;/strong&gt;, &lt;strong&gt;cy&lt;/strong&gt;, et &lt;strong&gt;r&lt;/strong&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/1.png&quot; alt=&quot;Nuage de points simple&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/1.html&quot;&gt;Voilà le nuage de points en action.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Notez comment on accède aux valeurs des données et comment on les utilise pour les valeurs &lt;strong&gt;cx&lt;/strong&gt; et &lt;strong&gt;cy&lt;/strong&gt;. Lorqu’on utlise &lt;strong&gt;function(d)&lt;/strong&gt;, D3 assigne automatiquement la valeur courante à &lt;strong&gt;d&lt;/strong&gt; dans votre fonction. Dans notre cas, la valeur courante est un des petits tableaux dans notre tableau &lt;strong&gt;dataset&lt;/strong&gt; qui les englobe.&lt;/p&gt;
+
+&lt;p&gt;Lorsque &lt;strong&gt;d&lt;/strong&gt; est un tableau de valeurs (et pas juste une valeur comme &lt;strong&gt;3.14159&lt;/strong&gt;), vous devez utiliser la notation crochets pour accéder à ses valeurs. D’où &lt;strong&gt;return d[0]&lt;/strong&gt; et &lt;strong&gt;return d[1]&lt;/strong&gt;, plutôt que &lt;strong&gt;return d&lt;/strong&gt;. Ces deux expressions retournent, respectivement, la première et la seconde valeur du tableau.&lt;/p&gt;
+
+&lt;p&gt;Par exemple, dans le cas de notre premier point &lt;strong&gt;[5, 20]&lt;/strong&gt;, la première valeur (position &lt;strong&gt;0&lt;/strong&gt; dans le tableau) est &lt;strong&gt;5&lt;/strong&gt;, et la seconde valeur (position &lt;strong&gt;1&lt;/strong&gt; dans le tableau) est &lt;strong&gt;20&lt;/strong&gt;. Ce qui nous donne :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Au fait, s’il vous arrive un jour d’avoir besoin d’accéder à une valeur précise de notre ensemble de données (disons en dehors de D3), vous pouvez le faire en utilisant la notation crochets. Par exemple :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;410&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vous pouvez enchaîner les crochets pour accéder à des valeurs dans des tableaux imbriqués :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;retourne&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vous ne me croyez pas ? &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/1.html&quot;&gt;Jetez encore un oeil à notre nuage de points&lt;/a&gt;, ouvrez votre console JavaScript, et tapez &lt;strong&gt;dataset[5]&lt;/strong&gt; ou &lt;strong&gt;dataset[5][1]&lt;/strong&gt; et voyez ce qui se passe.&lt;/p&gt;
+
+&lt;h3 id=&quot;taille&quot;&gt;Taille&lt;/h3&gt;
+
+&lt;p&gt;Peut-être voulez-vous que vos cercles soient de différentes tailles, que leur rayon corresponde à leur valeur &lt;strong&gt;y&lt;/strong&gt;. Plutôt que de définir toutes les valeurs &lt;strong&gt;r&lt;/strong&gt; comme valant &lt;strong&gt;5&lt;/strong&gt;, essayez :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/2.png&quot; alt=&quot;Nuage de points avec des cercles de différentes tailles&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/2.html&quot;&gt;Ce n’est ni joli ni particulièrement utile&lt;/a&gt;, mais ça illustre comment vous pourriez utiliser &lt;strong&gt;d&lt;/strong&gt;, avec la notation crochets, pour faire référence aux données et définir &lt;strong&gt;r&lt;/strong&gt; en fonction.&lt;/p&gt;
+
+&lt;h3 id=&quot;tiquettes-labels&quot;&gt;Étiquettes (&lt;em&gt;labels&lt;/em&gt;)&lt;/h3&gt;
+
+&lt;p&gt;Étiquettons nos points avec des éléments &lt;strong&gt;text&lt;/strong&gt;. Je vais adapter le code de notre graphique à barres, à commencer par :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Jusqu’ici, ça regarde tous les éléments &lt;strong&gt;text&lt;/strong&gt; dans le SVG (il n’y en a encore aucun), puis ça ajoute un nouvel élément &lt;strong&gt;text&lt;/strong&gt; pour chaque point de donnée. Utilisez la méthode &lt;strong&gt;text()&lt;/strong&gt; pour spécifier le contenu de chaque élément :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;,&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;C’est le désordre, mais restez avec moi. Encore une fois, on utilise &lt;strong&gt;function(d)&lt;/strong&gt; pour accéder à chaque point de donnée. Ensuite, dans la fonction, on utilise &lt;em&gt;et&lt;/em&gt; &lt;strong&gt;d[0]&lt;/strong&gt; &lt;em&gt;et&lt;/em&gt; &lt;strong&gt;d[1]&lt;/strong&gt; pour récupérer les deux valeurs dans ce point de donnée qui est un tableau.&lt;/p&gt;
+
+&lt;p&gt;Les symboles &lt;strong&gt;+&lt;/strong&gt;, lorsqu’ils sont utilisés avec des chaînes de caractères, comme les virgules entre guillemets &lt;strong&gt;”,”&lt;/strong&gt;, agissent comme des opérateurs de concaténation. Donc ce que nous dit réellement cette ligne de code c’est : Prends les valeurs de &lt;strong&gt;d[0]&lt;/strong&gt; et &lt;strong&gt;d[1]&lt;/strong&gt; et assemble les avec une virgule au milieu. Le résultat final devrait être quelque chose comme &lt;strong&gt;5,20&lt;/strong&gt; ou &lt;strong&gt;25,67&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Ensuite, on spécifie &lt;em&gt;où&lt;/em&gt; le texte devrait se placer avec les valeurs &lt;strong&gt;x&lt;/strong&gt; et &lt;strong&gt;y&lt;/strong&gt;. Pour l’instant, utilisons juste &lt;strong&gt;d[0]&lt;/strong&gt; et &lt;strong&gt;d[1]&lt;/strong&gt;, les mêmes valeurs que pour la position du &lt;strong&gt;circle&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;x&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;y&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Enfin, ajoutons un peu de style typographique :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;font-family&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;sans-serif&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;font-size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;11px&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;fill&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;red&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/3.png&quot; alt=&quot;Nuage de points avec des étiquettes&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/3.html&quot;&gt;Voilà le code en action.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;prochains-pas&quot;&gt;Prochains pas&lt;/h3&gt;
+
+&lt;p&gt;Normallement, certains concepts de base de D3 deviennent clairs : Chargez les données, générer de nouveaux éléments, et utiliser les valeurs des données pour en dériver des valeurs pour les attributs de ces éléments.&lt;/p&gt;
+
+&lt;p&gt;Et pourant l’image ci-dessus est à peine passable en tant que visualisation de données. Le nuage de points est difficile à lire, et le code n’est pas flexible. Pour être honnête, on s’est pas vraiment améliorer par rapport à l’&lt;em&gt;assistant de graphiques&lt;/em&gt; — gag — d’Excel !&lt;/p&gt;
+
+&lt;p&gt;Ne vous inquiétez pas : D3 est bien plus cool que l’assistant de graphiques d’Excel (sans mentionner Clippy), mais générer un graphique clinquant et intéractif impliquent d’amener nos compétences en D3 au niveau supérieur. Pour devenir flexible en ce qui concerne nos données, on apprendra à utiliser les &lt;em&gt;échelles&lt;/em&gt; de D3. Pour rendre notre nuage plus facile à lire, on apprendra à utiliser les &lt;em&gt;générateurs d’axe&lt;/em&gt; et les étiquettes d’axe. Après cela, on pourra rendre les choses intéractives et on apprendra comment mettre à jour les données à la volée.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/14-faire-un-nuage-de-points.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/14-faire-un-nuage-de-points.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>13 - Faire un graphique à barres</title>
@@ -254,7 +413,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/18.png&quot; alt=&quot;Des étiquettes vraiment belles&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/9.html&quot;&gt;Fantasti-code!&lt;/a&gt; Si vous n’êtes pas un maniaque de typographie, alors ça suffit. Si, au contraire, vous êtes comme moi, vous noterez que les étiquettes ne sont pas parfaitement alignées dans leur barre. C’est assez facile de corriger ça. Utilisons l’attribut SVG &lt;strong&gt;text-anchor&lt;/strong&gt; pour centrer le texte horizontalement par rapport à &lt;strong&gt;x&lt;/strong&gt; :&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/9.html&quot;&gt;Fantasti-code !&lt;/a&gt; Si vous n’êtes pas un maniaque de typographie, alors ça suffit. Si, au contraire, vous êtes comme moi, vous noterez que les étiquettes ne sont pas parfaitement alignées dans leur barre. C’est assez facile de corriger ça. Utilisons l’attribut SVG &lt;strong&gt;text-anchor&lt;/strong&gt; pour centrer le texte horizontalement par rapport à &lt;strong&gt;x&lt;/strong&gt; :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text-anchor&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;middle&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -267,7 +426,7 @@
 &lt;p&gt;Montons également les étiquettes d’un pixel pour un espacement parfait :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;y&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;//15 is now 14&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// 15 vaut est maintenant 14&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/130-making-a-bar-chart/19.png&quot; alt=&quot;Étiquettes centrées&quot; /&gt;&lt;/p&gt;
@@ -1494,70 +1653,6 @@ Juste pour voir, ouvrez la console JavaScript et tapez &lt;strong&gt;console.log
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/5-enchainer-les-methodes.html</link>
         <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/5-enchainer-les-methodes.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>4 - Ajouter des éléments</title>
-        <description>&lt;hr /&gt;
-
-&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/adding-elements&quot;&gt;http://alignedleft.com/tutorials/d3/adding-elements&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;ajouter-des-lments&quot;&gt;Ajouter des éléments&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Dernière mise à jour le 1er janvier 2013&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Notre premier pas sera d’utiliser D3 pour créer un nouvel élément DOM. En général, pour faire de la visualisation de données, on utilisera plutôt un objet SVG, mais on va commencer simple et créer juste un paragraphe &lt;strong&gt;p&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Commençons avec cette page HTML :&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lang=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;charset=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;D3 Test&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;d3/d3.v3.js&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// Votre joli code D3 viendra se loger ici&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Ok, ça a l’air de rien, mais ouvrez votre inspecteur web et vous devriez voir quelque chose comme ça :&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/1.png&quot; alt=&quot;Web inspector&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Dans votre fichier HTML, remplacez le commentaire entre les balises &lt;strong&gt;script&lt;/strong&gt; par :&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Enregistrez et rafraîchissez, et voilà ! Il y a du texte là où notre page était vide, et dans l’inspecteur web :&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/40-adding-elements/2.png&quot; alt=&quot;Web inspector&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Vous voyez la différence ? Il y a, maintenant, un nouvel élément paragraphe &lt;strong&gt;p&lt;/strong&gt; qui a été généré à la volée ! Ça paraît pas très excitant de prime abord, mais on utilisera bientôt une technique similaire pour générer des dizaines, voire des centaines, d’éléments, chacun correspondant à une partie de votre ensemble de données.&lt;/p&gt;
-
-&lt;p&gt;Essayons de comprendre ce qu’il s’est passé. Dans l’ordre, on a :&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Appelé la méthode &lt;strong&gt;select&lt;/strong&gt; de D3. Elle sélectionne un seul élément du DOM à partir d’un sélecteur CSS. (On a sélectionné l’élément &lt;strong&gt;body&lt;/strong&gt;.)&lt;/li&gt;
-  &lt;li&gt;Créé un nouvel élément &lt;strong&gt;p&lt;/strong&gt;, et on l’a ajouté à la fin de notre sélection, donc juste &lt;em&gt;avant&lt;/em&gt; la balise fermante &lt;strong&gt;&amp;lt;/body&amp;gt;&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Défini le texte de ce nouveau paragraphe vide à “Nouveau paraphe !”&lt;/li&gt;
-  &lt;li&gt;Tous ces petits points qui font partie de la &lt;em&gt;syntaxe en chaîne de D3&lt;/em&gt;.&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
-        <link>http://kaisersly.github.io/scottmurray-d3-fr/4-ajouter-des-elements.html</link>
-        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/4-ajouter-des-elements.html</guid>
         
         
       </item>

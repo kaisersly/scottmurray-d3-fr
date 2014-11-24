@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>14 - Faire un nuage de points</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/14-faire-un-nuage-de-points.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+    
+    <hr>
+<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
+<hr>
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/13-faire-un-graphique-a-barres.html" class="previous">← 13 - Faire un graphique à barres</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>14 - Faire un nuage de points</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/making-a-scatterplot">http://alignedleft.com/tutorials/d3/making-a-scatterplot</a></em></p>
+
+<hr />
+
+<h2 id="faire-un-nuage-de-points">Faire un nuage de points</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>Jusqu’ici on a seulement dessiné des barres à partir de données simples - juste un ensemble à une dimension de nombres.</p>
+
+<p>Mais lorsque vous avez deux ensembles de valeurs à tracer ensemble, il vous faut une seconde dimension. Le nuage de point est un type courant de visualisation qui représente deux ensembles de valeurs correspondantes sur deux axes différents : horizontal et vertical, x et y.</p>
+
+<h3 id="les-donnes">Les données</h3>
+
+<p>Comme vous l’avez vu dans <em>Types de données</em>, vous pouvez être assez flexible dans la manière de structurer vos données. Pour notre nuage, je vais utiliser un tableau de tableaux. Le premier tableau contiendra un élément pour chaque “point” de donnée. Chacun de ces éléments “point” seront eux-aussi des tableaux, avec seulement deux valeurs : une pour la valeur x, et une pour la valeur y.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="p">[</span><span class="mi">480</span><span class="p">,</span> <span class="mi">90</span><span class="p">],</span> <span class="p">[</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span> <span class="p">[</span><span class="mi">330</span><span class="p">,</span> <span class="mi">95</span><span class="p">],</span>
+                <span class="p">[</span><span class="mi">410</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">475</span><span class="p">,</span> <span class="mi">44</span><span class="p">],</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">67</span><span class="p">],</span> <span class="p">[</span><span class="mi">85</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> <span class="p">[</span><span class="mi">220</span><span class="p">,</span> <span class="mi">88</span><span class="p">]</span>
+              <span class="p">];</span></code></pre></div>
+
+<p>Rappelez-vous, les crochets <strong>[]</strong> signifient un tableau, donc des crochets imbriqués <strong>[[]]</strong> signifient un tableau dans un tableau. Nous séparons les éléments d’un tableau avec des virgules, donc un tableau qui contiendrait trois tableaux ressemblerait à ça : <strong>[[],[],[]]</strong></p>
+
+<p>On pourrait réécrire notre ensemble de données pour qu’il soit plus facile à lire, comme ça :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[</span>
+                  <span class="p">[</span> <span class="mi">5</span><span class="p">,</span>     <span class="mi">20</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">480</span><span class="p">,</span>   <span class="mi">90</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">250</span><span class="p">,</span>   <span class="mi">50</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">100</span><span class="p">,</span>   <span class="mi">33</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">330</span><span class="p">,</span>   <span class="mi">95</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">410</span><span class="p">,</span>   <span class="mi">12</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">475</span><span class="p">,</span>   <span class="mi">44</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">25</span><span class="p">,</span>    <span class="mi">67</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">85</span><span class="p">,</span>    <span class="mi">21</span> <span class="p">],</span>
+                  <span class="p">[</span> <span class="mi">220</span><span class="p">,</span>   <span class="mi">88</span> <span class="p">]</span>
+              <span class="p">];</span></code></pre></div>
+
+<p>Maintenant vous pouvez voir que chacune de ces dix entrées correspond à un point dans notre visualisation. Avec l’entrée  <strong>[5, 20]</strong>, par exemple, on utilisera <strong>5</strong> pour la valeur de x, et <strong>20</strong> pour la valeur de y.</p>
+
+<h3 id="le-nuage-de-points">Le nuage de points</h3>
+
+<p>Réutilisons la plupart de code de nos expériences avec le graphique à barres, notamment la partie qui crée l’élément SVG :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Crée l'élément SVG</span>
+<span class="kd">var</span> <span class="nx">svg</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"body"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"svg"</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"width"</span><span class="p">,</span> <span class="nx">w</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="nx">h</span><span class="p">);</span></code></pre></div>
+
+<p>Cependant, plutôt que de créer des rectangles <strong>rect</strong>s, on créera un cercle <strong>circle</strong> pour chaque point de donnée :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"circle"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+   <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"circle"</span><span class="p">)</span></code></pre></div>
+
+<p>Également, plutôt que de spécifier les attributs de <strong>rect</strong> <strong>x</strong>, <strong>y</strong>, <strong>width</strong>, et <strong>height</strong>, nos <strong>circle</strong>s ont besoin de <strong>cx</strong>, <strong>cy</strong>, et <strong>r</strong> :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"cx"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+   <span class="p">})</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"cy"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+   <span class="p">})</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"r"</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/1.png" alt="Nuage de points simple" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/1.html">Voilà le nuage de points en action.</a></p>
+
+<p>Notez comment on accède aux valeurs des données et comment on les utilise pour les valeurs <strong>cx</strong> et <strong>cy</strong>. Lorqu’on utlise <strong>function(d)</strong>, D3 assigne automatiquement la valeur courante à <strong>d</strong> dans votre fonction. Dans notre cas, la valeur courante est un des petits tableaux dans notre tableau <strong>dataset</strong> qui les englobe.</p>
+
+<p>Lorsque <strong>d</strong> est un tableau de valeurs (et pas juste une valeur comme <strong>3.14159</strong>), vous devez utiliser la notation crochets pour accéder à ses valeurs. D’où <strong>return d[0]</strong> et <strong>return d[1]</strong>, plutôt que <strong>return d</strong>. Ces deux expressions retournent, respectivement, la première et la seconde valeur du tableau.</p>
+
+<p>Par exemple, dans le cas de notre premier point <strong>[5, 20]</strong>, la première valeur (position <strong>0</strong> dans le tableau) est <strong>5</strong>, et la seconde valeur (position <strong>1</strong> dans le tableau) est <strong>20</strong>. Ce qui nous donne :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="nx">retourne</span> <span class="mi">5</span>
+<span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="nx">retourne</span> <span class="mi">20</span></code></pre></div>
+
+<p>Au fait, s’il vous arrive un jour d’avoir besoin d’accéder à une valeur précise de notre ensemble de données (disons en dehors de D3), vous pouvez le faire en utilisant la notation crochets. Par exemple :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">dataset</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="nx">retourne</span> <span class="p">[</span><span class="mi">410</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span></code></pre></div>
+
+<p>Vous pouvez enchaîner les crochets pour accéder à des valeurs dans des tableaux imbriqués :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">dataset</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="nx">retourne</span> <span class="mi">12</span></code></pre></div>
+
+<p>Vous ne me croyez pas ? <a href="http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/1.html">Jetez encore un oeil à notre nuage de points</a>, ouvrez votre console JavaScript, et tapez <strong>dataset[5]</strong> ou <strong>dataset[5][1]</strong> et voyez ce qui se passe.</p>
+
+<h3 id="taille">Taille</h3>
+
+<p>Peut-être voulez-vous que vos cercles soient de différentes tailles, que leur rayon corresponde à leur valeur <strong>y</strong>. Plutôt que de définir toutes les valeurs <strong>r</strong> comme valant <strong>5</strong>, essayez :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"r"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">h</span> <span class="o">-</span> <span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="p">});</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/2.png" alt="Nuage de points avec des cercles de différentes tailles" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/2.html">Ce n’est ni joli ni particulièrement utile</a>, mais ça illustre comment vous pourriez utiliser <strong>d</strong>, avec la notation crochets, pour faire référence aux données et définir <strong>r</strong> en fonction.</p>
+
+<h3 id="tiquettes-labels">Étiquettes (<em>labels</em>)</h3>
+
+<p>Étiquettons nos points avec des éléments <strong>text</strong>. Je vais adapter le code de notre graphique à barres, à commencer par :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">enter</span><span class="p">()</span>
+   <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"text"</span><span class="p">)</span></code></pre></div>
+
+<p>Jusqu’ici, ça regarde tous les éléments <strong>text</strong> dans le SVG (il n’y en a encore aucun), puis ça ajoute un nouvel élément <strong>text</strong> pour chaque point de donnée. Utilisez la méthode <strong>text()</strong> pour spécifier le contenu de chaque élément :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">","</span> <span class="o">+</span> <span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+   <span class="p">})</span></code></pre></div>
+
+<p>C’est le désordre, mais restez avec moi. Encore une fois, on utilise <strong>function(d)</strong> pour accéder à chaque point de donnée. Ensuite, dans la fonction, on utilise <em>et</em> <strong>d[0]</strong> <em>et</em> <strong>d[1]</strong> pour récupérer les deux valeurs dans ce point de donnée qui est un tableau.</p>
+
+<p>Les symboles <strong>+</strong>, lorsqu’ils sont utilisés avec des chaînes de caractères, comme les virgules entre guillemets <strong>”,”</strong>, agissent comme des opérateurs de concaténation. Donc ce que nous dit réellement cette ligne de code c’est : Prends les valeurs de <strong>d[0]</strong> et <strong>d[1]</strong> et assemble les avec une virgule au milieu. Le résultat final devrait être quelque chose comme <strong>5,20</strong> ou <strong>25,67</strong>.</p>
+
+<p>Ensuite, on spécifie <em>où</em> le texte devrait se placer avec les valeurs <strong>x</strong> et <strong>y</strong>. Pour l’instant, utilisons juste <strong>d[0]</strong> et <strong>d[1]</strong>, les mêmes valeurs que pour la position du <strong>circle</strong>.</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+   <span class="p">})</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+   <span class="p">})</span></code></pre></div>
+
+<p>Enfin, ajoutons un peu de style typographique :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"font-family"</span><span class="p">,</span> <span class="s2">"sans-serif"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"font-size"</span><span class="p">,</span> <span class="s2">"11px"</span><span class="p">)</span>
+   <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"fill"</span><span class="p">,</span> <span class="s2">"red"</span><span class="p">);</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/3.png" alt="Nuage de points avec des étiquettes" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/140-making-a-scatterplot/3.html">Voilà le code en action.</a></p>
+
+<h3 id="prochains-pas">Prochains pas</h3>
+
+<p>Normallement, certains concepts de base de D3 deviennent clairs : Chargez les données, générer de nouveaux éléments, et utiliser les valeurs des données pour en dériver des valeurs pour les attributs de ces éléments.</p>
+
+<p>Et pourant l’image ci-dessus est à peine passable en tant que visualisation de données. Le nuage de points est difficile à lire, et le code n’est pas flexible. Pour être honnête, on s’est pas vraiment améliorer par rapport à l’<em>assistant de graphiques</em> — gag — d’Excel !</p>
+
+<p>Ne vous inquiétez pas : D3 est bien plus cool que l’assistant de graphiques d’Excel (sans mentionner Clippy), mais générer un graphique clinquant et intéractif impliquent d’amener nos compétences en D3 au niveau supérieur. Pour devenir flexible en ce qui concerne nos données, on apprendra à utiliser les <em>échelles</em> de D3. Pour rendre notre nuage plus facile à lire, on apprendra à utiliser les <em>générateurs d’axe</em> et les étiquettes d’axe. Après cela, on pourra rendre les choses intéractives et on apprendra comment mettre à jour les données à la volée.</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/13-faire-un-graphique-a-barres.html" class="previous">← 13 - Faire un graphique à barres</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
