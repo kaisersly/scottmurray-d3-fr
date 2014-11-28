@@ -6,9 +6,318 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 24 Nov 2014 06:57:04 +0100</pubDate>
-    <lastBuildDate>Mon, 24 Nov 2014 06:57:04 +0100</lastBuildDate>
+    <pubDate>Fri, 28 Nov 2014 06:55:20 +0100</pubDate>
+    <lastBuildDate>Fri, 28 Nov 2014 06:55:20 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>15 - Échelles</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/scales&quot;&gt;http://alignedleft.com/tutorials/d3/scales&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;chelles&quot;&gt;Échelles&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;“Les échelles sont des fonctions qui font correspondre un domaine en entrée à une plage de sortie.”&lt;/p&gt;
+
+&lt;p&gt;C’est &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales&quot;&gt;la définition de Mike Bostock des échelles de D3&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Les valeurs de n’importe quel ensemble de données ont peu de chances de correspondre exactement aux mesures en pixels utilisées dans votre visualisation. Les échelles proposent un moyen pratique de faire correspondre les valeurs de vos données à de nouvelles valeurs utilisables dans des visualisations.&lt;/p&gt;
+
+&lt;p&gt;Les échelles de D3 sont des &lt;em&gt;fonctions&lt;/em&gt; que vous parametrez. Une fois créée, vous appelez la fonction échelle, vous lui passez une valeur, et elle vous retourne gentiment une valeur mise à l’échelle. Vous pouvez définir et utiliser autant d’échelles que vous voulez.&lt;/p&gt;
+
+&lt;p&gt;Il pourrait être tentant de penser à une échelle comme à quelque chose apparaissant visuellement sur l’image finale — comme un ensemble de marques indiquant une progression de valeurs. &lt;em&gt;Ne vous faites pas avoir !&lt;/em&gt; Ces marques font partie d’un &lt;em&gt;axe&lt;/em&gt;, qui est fondamentalement une représentation visuelle d’une échelle. Une échelle est une relation mathématique, sans représenation visuelle directe. Je vous encourage à penser les échelles et les axes comme deux choses différentes, mais quand même liées.&lt;/p&gt;
+
+&lt;p&gt;Cet article s’intéresse seulement aux échelles &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear&quot;&gt;&lt;em&gt;linéaires&lt;/em&gt;&lt;/a&gt;, car elles sont les plus courantes et les plus facilement compréhensible. Une fois que vous aurez compris les échelles linéaires, comprendre les autres sera un jeu d’enfants.&lt;/p&gt;
+
+&lt;h3 id=&quot;pommes-et-pixels&quot;&gt;Pommes et pixels&lt;/h3&gt;
+
+&lt;p&gt;Imaginez que l’ensemble de données qui suit représente le nombre de pommes vendues sur un stand de marché chaque mois :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bonne nouvelle, le stand vend 100 pommes de plus chaque mois ! Le business est en plein essor. Pour mettre en valeur ce succès, vous voulez faire un graphique à barres illustrant la montée rapide des ventes de pommes, chaque valeur correspondant à la hauteur d’une barre.&lt;/p&gt;
+
+&lt;p&gt;Jusqu’à maintenant, on a utilisé les valeurs des données directement dans les valeurs d’affichage, sans s’intéresser aux différences d’unités. Donc si 500 pommes sont vendues, le barre correspondante ferait 500 pixels de haut.&lt;/p&gt;
+
+&lt;p&gt;Ça pourrait fonctionner, mais qu’en est-il du prochain mois, lorsque 600 pommes seront vendues ? Et l’année qui suit, lorsque 1 800 pommes seront vendues ? Votre public devra s’acheter des écrans de plus en plus grands, juste pour pouvoir voir la hauteur totale de vos barres de pommes ! (Miam, des barres de pommes !)&lt;/p&gt;
+
+&lt;p&gt;C’est là que les échelles entrent en jeu. Comme les pommes ne sont pas des pixels (qui ne sont pas eux-mêmes des oranges), on a besoin d’échelles pour passer de l’un à l’autre.&lt;/p&gt;
+
+&lt;h3 id=&quot;domaines-et-plages&quot;&gt;Domaines et plages&lt;/h3&gt;
+
+&lt;p&gt;Le &lt;em&gt;domaine d’entrée&lt;/em&gt; d’une échelle est l’ensemble des valeurs possibles en entrée. Pour les données de pommes plus haut, un domaine d’entrée approprié serait soit entre 100 et 500 (les valeurs minimum et maximum de notre ensemble de données) soit entre 0 et 500.
+&lt;em&gt;(la traduction est difficile, mais l’ensemble est à comprendre au sens mathématique, les deux valeurs correspondant à ses bornes : {100 … 500} ou {0 … 500})&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;La &lt;em&gt;plage de sortie&lt;/em&gt; d’une échelle est l’ensemble des valeurs possibles en sortie, le plus souvent utilisées comme valeurs d’affichage en pixels. La plage de sortie dépend entièrement de vous, en tant que designer d’information. Si vous décidez que la plus petite barre doit faire 10 pixels de haut, et que la plus grande doit faire 350 pixels de haut, alors vous pourriez définir une plage de sortie entre 10 et 350.&lt;/p&gt;
+
+&lt;p&gt;Par exemple, créez une échelle avec un domaine d’entrée de &lt;strong&gt;100,500&lt;/strong&gt; et une plage de sortie de &lt;strong&gt;10,350&lt;/strong&gt;. Si vous donnez à cette échelle la valeur &lt;strong&gt;100&lt;/strong&gt;, elle vous retournera &lt;strong&gt;10&lt;/strong&gt;. Si vous lui donnez &lt;strong&gt;500&lt;/strong&gt;, elle vous sortira &lt;strong&gt;350&lt;/strong&gt;. Si vous lui donnez &lt;strong&gt;300&lt;/strong&gt;, elle vous présentera &lt;strong&gt;180&lt;/strong&gt; sur un plateau d’argent. (&lt;strong&gt;300&lt;/strong&gt; est le centre du domaine d’entrée, et &lt;strong&gt;180&lt;/strong&gt; le centre de la plage de sortie.)&lt;/p&gt;
+
+&lt;p&gt;On pourrait visualiser le domaine d’entrée et la plage de sortie comme deux axes correspondants, côte-à-côte :&lt;/p&gt;
+
+&lt;svg width=&quot;505&quot; height=&quot;115&quot;&gt;
+    &lt;text x=&quot;220&quot; y=&quot;15&quot; font-style=&quot;italic&quot;&gt;Domaine d&#39;entrée&lt;/text&gt;
+    &lt;line x1=&quot;5&quot; y1=&quot;30&quot; x2=&quot;500&quot; y2=&quot;30&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;circle cx=&quot;5&quot; cy=&quot;30&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;8&quot; y=&quot;48&quot;&gt;100&lt;/text&gt;
+    &lt;circle cx=&quot;255&quot; cy=&quot;30&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;258&quot; y=&quot;48&quot;&gt;300&lt;/text&gt;
+    &lt;circle cx=&quot;500&quot; cy=&quot;30&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;473&quot; y=&quot;48&quot;&gt;500&lt;/text&gt;
+    &lt;line x1=&quot;5&quot; y1=&quot;90&quot; x2=&quot;500&quot; y2=&quot;90&quot; stroke=&quot;gray&quot; stroke-width=&quot;1&quot;&gt;&lt;/line&gt;
+    &lt;circle cx=&quot;5&quot; cy=&quot;90&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;8&quot; y=&quot;84&quot;&gt;10&lt;/text&gt;
+    &lt;circle cx=&quot;255&quot; cy=&quot;90&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;258&quot; y=&quot;84&quot;&gt;180&lt;/text&gt;
+    &lt;circle cx=&quot;500&quot; cy=&quot;90&quot; r=&quot;3&quot; fill=&quot;#008&quot;&gt;&lt;/circle&gt;
+    &lt;text x=&quot;473&quot; y=&quot;84&quot;&gt;350&lt;/text&gt;
+    &lt;text x=&quot;220&quot; y=&quot;110&quot; font-style=&quot;italic&quot;&gt;Plage de sortie&lt;/text&gt;
+&lt;/svg&gt;
+
+&lt;p&gt;Une dernière chose : Comme il est vraiment facile de mélanger la terminologie &lt;em&gt;domaine d’entrée&lt;/em&gt; et &lt;em&gt;plage de sortie&lt;/em&gt;, j’aimerais vous proposer un petit exercice. Quand je dis “entrée”, vous dites “domaine”. Puis je dis “sortie” et vous répondez “plage”. Prêt ? Okay :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Entrée! Domaine!&lt;/li&gt;
+  &lt;li&gt;Sortie! Plage!&lt;/li&gt;
+  &lt;li&gt;Entrée! Domaine!&lt;/li&gt;
+  &lt;li&gt;Sortie! Plage!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Vous l’avez ? Cool.&lt;/p&gt;
+
+&lt;h3 id=&quot;normalisation&quot;&gt;Normalisation&lt;/h3&gt;
+
+&lt;p&gt;Si vous êtes familiés avec le concept de &lt;em&gt;normalisation&lt;/em&gt;, il pourrait vous être utile de savoir qu’avec les échelles, c’est tout ce qui ce passe.&lt;/p&gt;
+
+&lt;p&gt;La normalisation est le processus qui fait correspondre une valeur numérique à une nouvelle valeur comprise entre 0 et 1, en se basant sur les valeurs minimum et maximum possibles. Par exemple, avec 365 jours dans l’année, le jour 310 correspond à à peu près 0.85, soit 85% de la progression dans l’année.&lt;/p&gt;
+
+&lt;p&gt;Avec les échelles linéaires, on laisse juste D3 s’occuper des maths pour le processus de normalisation. La valeur d’entrée est normalisée en accord avec le domaine d’entrée, puis la valeur normalisée est mise à l’échelle par rapport à la plage de sortie.&lt;/p&gt;
+
+&lt;h3 id=&quot;crer-une-chelle&quot;&gt;Créer une échelle&lt;/h3&gt;
+
+&lt;p&gt;Les générateurs d’échelles de D3 sont accessibles avec &lt;strong&gt;d3.scale&lt;/strong&gt; suivi du type d’échelle que vous souhaitez.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bravo ! Maintenant &lt;strong&gt;scale&lt;/strong&gt; est une fonction à laquelle vous pouvez passer des valeurs en entrée. (Ne soyez pas trompé par le &lt;strong&gt;var&lt;/strong&gt; au-dessus ; rappelez-vous qu’en JavaScript les variables peuvent stocker des fonctions.)&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Retourne 2.5&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Comme on a pas défini de domaine d’entrée et de plage de sortie, cette fonction fait correspondre les valeurs sur une échelle 1:1. Ce qui veut dire que, quelque soit la valeur en entrée, elle est la même en sortie.&lt;/p&gt;
+
+&lt;p&gt;On peut définir le domaine d’entrée à &lt;strong&gt;100,500&lt;/strong&gt; en passant ces valeurs dans un tableau à la méthode &lt;strong&gt;domain()&lt;/strong&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On définit la plage de sortie d’une manière similaire, avec &lt;strong&gt;range()&lt;/strong&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;350&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ces étapes peuvent être faites séparément, comme ci-dessus, ou enchaînées en une ligne de code :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;350&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Quoiqu’il arrive, notre échelle est prête à l’emploi !&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Retourne 10&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Retourne 180&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Retourne 350&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Typiquement, vous appellerez les fonctions échelle dans une méthode &lt;strong&gt;attr()&lt;/strong&gt; ou similaire, mais jamais toutes seules. Modifions notre nuage de points pour utiliser des échelles dynamiques.&lt;/p&gt;
+
+&lt;h3 id=&quot;mettre-le-nuage-de-points--lchelle&quot;&gt;Mettre le nuage de points à l’échelle&lt;/h3&gt;
+
+&lt;p&gt;Retournons à notre ensemble de données :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;480&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;90&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;250&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;330&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;410&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;475&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;44&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;67&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;85&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;220&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;88&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vous vous rappelez que &lt;strong&gt;dataset&lt;/strong&gt; est un tableau de tableaux. On fait correspondre la première valeur de chaque tableau sur l’axe x, et la seconde valeur sur l’axe y. Commençons avec l’axe x.&lt;/p&gt;
+
+&lt;p&gt;En survolant les valeurs de x, il semble que les valeurs vont de 5 à 480, donc un domaine d’entrée de &lt;strong&gt;0,500&lt;/strong&gt; serait convenable, pas vrai ?&lt;/p&gt;
+
+&lt;p&gt;…&lt;/p&gt;
+
+&lt;p&gt;Pourquoi vous me regardez comme ça ? Ah, parceque vous voulez garder un code souple et évolutif (&lt;em&gt;scalable&lt;/em&gt;), pour qu’il continue de fonctionner même si nos données changent plus tard. Très intelligent !&lt;/p&gt;
+
+&lt;p&gt;Plutôt que de spécifier des valeurs fixes pour le domaine, on utilise des fonctions pour les tableaux &lt;strong&gt;min()&lt;/strong&gt; et &lt;strong&gt;max()&lt;/strong&gt; pour analyser nos données à la volée. Par exemple, ce code itère chaque valeur de x dans nos tableaux et retourne la plus grande valeur :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// Retourne 480&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Référence la première valeur de chaque sous-tableau&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;En mettant tout ensemble, créons la fonction échelle pour notre axe x :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})])&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;D’abord, notez que je l’ai nommé &lt;strong&gt;xScale&lt;/strong&gt;. Bien sûr, vous pouvez nommer vos variables comme vous le souhaitez, mais un nom comme &lt;strong&gt;xScale&lt;/strong&gt; m’aide à me rappeler ce que cette fonction fait.&lt;/p&gt;
+
+&lt;p&gt;Ensuite, notez que j’ai défini le début du domaine d’entrée à zéro. (Vous auriez pu également utiliser &lt;strong&gt;min()&lt;/strong&gt; pour calculer une valeur dynamique.) La fin de notre domaine est définie comme la valeur maximum dans &lt;strong&gt;dataset&lt;/strong&gt; (qui est 480).&lt;/p&gt;
+
+&lt;p&gt;Enfin, vous pouvez observer que la plage de sortie est définie de &lt;strong&gt;0&lt;/strong&gt; à &lt;strong&gt;w&lt;/strong&gt;, la largeur de notre SVG.&lt;/p&gt;
+
+&lt;p&gt;On utilisera un code similaire pour créer la fonction échelle de notre axe y :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;yScale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})])&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Notez que la fonction &lt;strong&gt;max()&lt;/strong&gt; référence &lt;strong&gt;d[1]&lt;/strong&gt;, la valeur y de chaque sous-tableau. Également, la fin de la plage de sortie est définie comme &lt;strong&gt;h&lt;/strong&gt; (&lt;em&gt;la hauteur du SVG&lt;/em&gt;) plutôt que &lt;strong&gt;w&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Les fonctions échelles sont en place ! Maintenant il nous faut les utiliser. Modifiez juste le code où l’on crée un cercle &lt;strong&gt;circle&lt;/strong&gt; pour chaque valeur de donnée&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;pour retourner une valeur mise à l’échelle (à la place de la valeur originale) :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;De la même manière, pour l’axe y, ceci&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;donne cela :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;yScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Changeons également le placement des étiquettes ; ces lignes&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;x&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;y&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;deviennent ce qui suit :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;x&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;y&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;yScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nous y voilà !&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/1.png&quot; alt=&quot;Nuage de points utilisant des échelles en x et y&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/1.html&quot;&gt;Voilà le code en fonctionnement.&lt;/a&gt; Visuellement, ça ressemble étrangement à notre nuage original ! Et pourtant on a fait plus de progrès que ce qui est apparait.&lt;/p&gt;
+
+&lt;h3 id=&quot;affiner-le-nuage&quot;&gt;Affiner le nuage&lt;/h3&gt;
+
+&lt;p&gt;Vous avez peut-être remarqué que les valeurs de y les plus petites sont en haut du nuage, et les plus grandes en bas. Maintenant que l’on utilise des échelles, il est super facile d’inverser cela, de sorte que les plus grandes valeurs soient en haut, comme vous pourriez vous y attendre. Il suffit juste de changer la plage de sortie de&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;à&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.png&quot; alt=&quot;Nuage de points avec une échelle en y inversée&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.html&quot;&gt;Voilà le code.&lt;/a&gt; Oui, maintenant une valeur d’entrée &lt;em&gt;plus petite&lt;/em&gt; qui passe par la fonction échelle &lt;strong&gt;yScale&lt;/strong&gt; produira une valeur de sortie plus grande, poussant ces éléments &lt;strong&gt;circle&lt;/strong&gt; et &lt;strong&gt;text&lt;/strong&gt; vers le bas, plus près de la ligne de base de l’image. Je sais, c’est presque trop facile !&lt;/p&gt;
+
+&lt;p&gt;Et pourtant certains éléments sont coupés. Définissons une variable de marge &lt;strong&gt;padding&lt;/strong&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ajoutons-là aux deux échelles. La plage de sortie de &lt;strong&gt;xScale&lt;/strong&gt; était &lt;strong&gt;range([0, w])&lt;/strong&gt;, maintenant elle devient&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pour &lt;strong&gt;yScale&lt;/strong&gt; on passe de &lt;strong&gt;range([h, 0])&lt;/strong&gt;, à&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ça devrait nous donner 20 pixels en haut, en bas, à gauche et à droite du SVG. Et ça le fait !&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/3.png&quot; alt=&quot;Nuage de points avec des marges&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Mais les étiquettes sur le bord droit sont toujours coupés, je double donc la marge droite de &lt;strong&gt;xScale&lt;/strong&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/4.png&quot; alt=&quot;Nuage de points avec des marges plus grandes&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;C’est mieux ! &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/3.html&quot;&gt;Voilà le code.&lt;/a&gt; Mais il y a encore un changement que j’aimerais apporter. Plutôt que de définir le rayon de chaque &lt;strong&gt;circle&lt;/strong&gt; comme la racine carrée de sa valeur y (ce qui était un peu du bricolage, et pas vraiment utile quoi qu’il arrive), pourquoi ne pas définir une nouvelle échelle personnalisée ?&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rScale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})])&lt;/span&gt;
+                     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Puis définir le rayon comme ceci :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;C’est excitant, car on garantit que notre rayon tombera &lt;em&gt;toujours&lt;/em&gt; dans une plage de sortie &lt;strong&gt;2,5&lt;/strong&gt;. (Ou &lt;em&gt;preque&lt;/em&gt; toujours : Jetez un oeil à la référence à &lt;strong&gt;clamp()&lt;/strong&gt; plus bas.) Donc une valeur de &lt;strong&gt;0&lt;/strong&gt; (l’entrée minimum) donnera des cercles de rayon &lt;strong&gt;2&lt;/strong&gt; (ou d’un diamètre de 4 pixels). La plus grande valeur donnera un cercle de rayon &lt;strong&gt;5&lt;/strong&gt; (d’un diamètre de 10 pixels).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/5.png&quot; alt=&quot;Nuage de points avec des rayons mis à l&#39;échelle&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/4.html&quot;&gt;Voilà&lt;/a&gt; : Notre première échelle utilisée pour une propriété visuelle autre qu’une valeur d’axe.&lt;/p&gt;
+
+&lt;p&gt;Enfin, juste au cas où la puissance des échelles ne vous aurait pas encore sauté aux yeux, je vais ajouter un point dans notre ensemble de données : &lt;strong&gt;[600, 150]&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/6.png&quot; alt=&quot;Nuage de points avec des valeurs plus grandes ajoutées&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Boom ! &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/5.html&quot;&gt;Voilà le code.&lt;/a&gt; Notez comment tous les anciens points maintiennent leurs positions relatives, mais ont migré ensemble plus près, plus bas et plus à gauche, pour laisser de la place au nouveau venu.&lt;/p&gt;
+
+&lt;p&gt;Et maintenant, une dernière révélation : On peut désormais changer facilement les dimensions de notre SVG, et tout se mettra à l’échelle en conséquence. Ici, j’ai augmenté la valeur de h de &lt;strong&gt;100&lt;/strong&gt; à &lt;strong&gt;300&lt;/strong&gt; et je n’ai fait &lt;em&gt;aucun autre changement&lt;/em&gt; :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/7.png&quot; alt=&quot;Grand nuage de points&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Boom, encore ! &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/6.html&quot;&gt;Voilà le code mis à jour.&lt;/a&gt; J’espère qu’en regardant cela vous réalisez : Plus de nuit blanche à cause de votre client qui vous dit que le graphique devrait faire 800 pixels de large plutôt que 600. Oui, vous dormirez plus grâce à moi (et aux méthodes intégrées brillantes de D3). Être bien réposé est un avantage (&lt;em&gt;pour être plus efficace au travail&lt;/em&gt;). Vous pourrez me remercier plus tard.&lt;/p&gt;
+
+&lt;h3 id=&quot;autres-mthodes&quot;&gt;Autres méthodes&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;d3.scale.linear()&lt;/strong&gt; a quelques autres méthodes utiles que je vais mentionner rapidement :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_nice&quot;&gt;&lt;strong&gt;nice()&lt;/strong&gt;&lt;/a&gt; — Indique à l’échelle de d’arrondir les valeurs en entrée. Je cite le wiki de D3 : “Par exemple, pour un domaine de [0.20147987687960267, 0.996679553296417], le domaine arrondi est [0.2, 1].” C’est utile pour les gens normaux, pour qui lire des nombres comme 0.20147987687960267 est difficile.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_rangeRound&quot;&gt;&lt;strong&gt;rangeRound()&lt;/strong&gt;&lt;/a&gt; — Utilisez &lt;strong&gt;rangeRound()&lt;/strong&gt; à la place de &lt;strong&gt;range()&lt;/strong&gt; et toutes les valeurs de sortie seront arrondies au nombre entier le plus proche. C’est utile lorsque vous voulez que vos formes aient des valeurs de pixels exactes, pour éviter d’avoir des bords flous qui pourraient apparaître avec l’anticrénelage (&lt;em&gt;antialiasing&lt;/em&gt;).&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_clamp&quot;&gt;&lt;strong&gt;clamp()&lt;/strong&gt;&lt;/a&gt; — Par défaut, une échelle linéaire &lt;em&gt;peut&lt;/em&gt; retourner des valeurs en dehors de la plage spécifiée. Par exemple, si vous donnez en entrée une valeur qui dépasse le domaine, l’échelle retournera aussi une valeur qui dépasse la plage de sortie. En appelant &lt;strong&gt;.clamp(true)&lt;/strong&gt; sur une échelle, en revanche, on force les valeurs de sorties à être dans la plage spécifiée. Ce qui veut dire que les valeurs qui dépassent seront arrondies aux valeurs haute et basse de la plage de sortie (celle qui est la plus proche).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;autres-chelles&quot;&gt;Autres échelles&lt;/h3&gt;
+
+&lt;p&gt;En plus des échelles linéaires &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear&quot;&gt;&lt;strong&gt;linear&lt;/strong&gt;&lt;/a&gt; (dont on a parlé plus haut), D3 possède quelques autres méthodes d’échelle intégrées :&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-identity&quot;&gt;&lt;strong&gt;identity&lt;/strong&gt;&lt;/a&gt; — Une échelle 1:1, utile principalement pour des valeurs de pixels&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-sqrt&quot;&gt;&lt;strong&gt;sqrt&lt;/strong&gt;&lt;/a&gt; — Une échelle racine carrée&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-pow&quot;&gt;&lt;strong&gt;pow&lt;/strong&gt;&lt;/a&gt; — Une échelle de puissance (&lt;em&gt;exponentielle&lt;/em&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-log&quot;&gt;&lt;strong&gt;log&lt;/strong&gt;&lt;/a&gt; — Une échelle logarithmique&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-quantize&quot;&gt;&lt;strong&gt;quantize&lt;/strong&gt;&lt;/a&gt; — Une échelle avec des valeurs discrètes en sortie, lorsque vous voulez rangez des données dans des “bacs”&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-quantile&quot;&gt;&lt;strong&gt;quantile&lt;/strong&gt;&lt;/a&gt; — Similaire à celle du dessus, mais avec des valeurs discrètes en entrée (lorsque vous avez déjà des “bacs”)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Ordinal-Scales&quot;&gt;&lt;strong&gt;ordinal&lt;/strong&gt;&lt;/a&gt; — Les échelles ordinales utilisent des valeurs non quantitatives (par exemple des noms de catégories) en sortie ; parfait pour comparer des pommes et des oranges&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/15-echelles.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/15-echelles.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>14 - Faire un nuage de points</title>
@@ -1584,75 +1893,6 @@ Juste pour voir, ouvrez la console JavaScript et tapez &lt;strong&gt;console.log
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/6-lier-les-donnees.html</link>
         <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/6-lier-les-donnees.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>5 - Enchaîner les méthodes</title>
-        <description>&lt;hr /&gt;
-
-&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/chaining-methods&quot;&gt;http://alignedleft.com/tutorials/d3/chaining-methods&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;enchaner-les-mthodes&quot;&gt;Enchaîner les méthodes&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;D3 utilise une technique appelée &lt;strong&gt;syntaxe en chaîne&lt;/strong&gt;, que vous avec peut-être déjà vu en jQuery. En “enchaînant” les méthodes avec des points, vous pouvez effectuer plusieurs actions en une seule ligne de code. Ça peut paraître simple et rapide, mais il est important de comprendre comment ça fonctionne, pour vous éviter, plus tard, des heures de maux de têtes à débugger.&lt;/p&gt;
-
-&lt;p&gt;Soit dit en passant, &lt;strong&gt;fonctions&lt;/strong&gt; et &lt;strong&gt;méthodes&lt;/strong&gt; sont justes deux mots différents qui expriment le même concept : un bout de code qui accepte un argument en entrée, effectue quelques actions, et retourne quelques données en sortie.&lt;/p&gt;
-
-&lt;p&gt;Retournons à notre première ligne de code en D3.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/50-chaining-methods/index.html&quot;&gt;Voir la page de démonstration&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;On diraît que c’est la pagaille, surtout si vous êtes nouveau en programmation. La première chose à savoir c’est que JavaScrîpt, comme HTML, ne s’intéresse pas aux espaces ni aux sauts de lignes, donc vous pouvez mettre chaque méthode sur sa propre ligne, pour plus de lisibilité :&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Tout le monde à son propre style de programmation. Utilisez ce qui vous sied le mieux : indentations, sauts de ligne et espaces (tabulations ou espaces simples).&lt;/p&gt;
-
-&lt;h3 id=&quot;un-lien--la-fois&quot;&gt;Un lien à la fois&lt;/h3&gt;
-
-&lt;p&gt;Analysons chaque morceau de code.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;d3&lt;/strong&gt; — Référence l’objet D3, pour que nous puissions accéder à ses méthodes.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.select(“body”)&lt;/strong&gt; — Donnez à &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-d3_select&quot;&gt;select()&lt;/a&gt;&lt;/strong&gt; un sélecteur CSS en entrée, et elle (&lt;em&gt;la méthode&lt;/em&gt;) vous retournera la référence du premier élément du DOM qui y correspond. (Utilisez &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-d3_selectAll&quot;&gt;selectAll()&lt;/a&gt;&lt;/strong&gt; lorsque vous avez besoin de plus d’un élément.) Dans notre cas on veut juste l’élément &lt;strong&gt;body&lt;/strong&gt;, donc une référence à cet élément est passée à la prochaine méthode dans notre chaîne.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.append(“p”)&lt;/strong&gt; — &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-append&quot;&gt;append()&lt;/a&gt;&lt;/strong&gt; crée l’élément DOM que vous indiquez et l’ajoute à la fin (mais bien &lt;em&gt;à l’intérieur&lt;/em&gt;) de la sélection sur laquelle elle opère. Dans notre cas on veut créer un nouvel élément &lt;strong&gt;p&lt;/strong&gt; dans notre élément &lt;strong&gt;body&lt;/strong&gt;. On indique &lt;strong&gt;“p”&lt;/strong&gt; en argument, mais cette méthode voit aussi la référence à l’élément &lt;strong&gt;body&lt;/strong&gt; qui lui a été transmise par la chaîne depuis la méthode &lt;strong&gt;select()&lt;/strong&gt;. Enfin, &lt;strong&gt;append()&lt;/strong&gt;, à son tour, transmet la référence au nouvel élément qui vient juste d’être créé.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.text(“New paragraph!”)&lt;/strong&gt; — &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-text&quot;&gt;text()&lt;/a&gt;&lt;/strong&gt; prend une chaîne de caractères en argument et l’insère entre les balises ouvrantes et fermantes de la selection actuelle. Comme la méthode précédente a transmis une référence au nouvel élément &lt;strong&gt;p&lt;/strong&gt;, ce code va juste insérer le nouveau texte entre &lt;strong&gt;&amp;lt;p&amp;gt;&lt;/strong&gt; et &lt;strong&gt;&amp;lt;/p&amp;gt;&lt;/strong&gt;. (Dans le cas où il y aurait déjà du texte, il serait écrasé.)&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;;&lt;/strong&gt; — L’indispensable (&lt;em&gt;all-important&lt;/em&gt;) point-virgule indique la fin de cette ligne de code.&lt;/p&gt;
-
-&lt;h3 id=&quot;la-transmission&quot;&gt;La transmission&lt;/h3&gt;
-
-&lt;p&gt;Beaucoup de méthodes de D3, mais pas toutes, retourne une sélection (dans la réalité, une référence à une sélection), ce qui permet d’utiliser l’enchaînement bien pratique de méthodes. D’une manière générale, une méthode retourne la référence à l’élément sur lequel elle vient d’agir, mais ce n’est pas systématique.&lt;/p&gt;
-
-&lt;p&gt;Rappelez-vous : Lorque vous enchaînez des méthodes, l’ordre est important. Le type du retour d’une méthode doit coincider avec le type d’entrée de la prochaine méthode dans la chaîne. Si la sortie et l’entrée ne correspondent pas, la transmission ressemblera à un bâton, dans une course de relais, qui tombe lors de l’échange.&lt;/p&gt;
-
-&lt;p&gt;Lorsque vous vous demandez ce que chaque fonction attend en entrée et retourne en sortie, la &lt;a href=&quot;https://github.com/mbostock/d3/wiki/API-Reference&quot;&gt;référence de l’API (en)&lt;/a&gt; est votre amie. Elle contient des informations détaillées sur chaque méthode, notamment si la méthode retourne une sélection ou non.&lt;/p&gt;
-
-&lt;h3 id=&quot;sans-les-chanes&quot;&gt;Sans les chaînes&lt;/h3&gt;
-
-&lt;p&gt;On pourrait réécrire notre code d’exemple sans la syntaxe de chaîne comme suit :&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Beurk ! Quel désorde ! Et pourtant, il y aura des moments où vous serez obligés de casser la chaîne. Par exemple, lorsque vous appellerez tellement de fonctions à la suite que ça n’aura pas de sens de les lier. Ou simplement parceque vous voudrez organiser votre code de manière à ce qu’il soit plus lisible.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
-        <link>http://kaisersly.github.io/scottmurray-d3-fr/5-enchainer-les-methodes.html</link>
-        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/5-enchainer-les-methodes.html</guid>
         
         
       </item>
