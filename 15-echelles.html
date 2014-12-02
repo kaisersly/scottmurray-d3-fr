@@ -28,10 +28,6 @@
 
 </header>
 
-    
-    <hr>
-<p><i>Ce document est un travail en cours. J'essaierai d'ajouter au moins un tutoriel (il y en a 17 en tout) tous les deux jours</i></p>
-<hr>
 
     <div>
       <div class="col-md-12">
@@ -41,6 +37,10 @@
 	    <a href="/scottmurray-d3-fr/14-faire-un-nuage-de-points.html" class="previous">← 14 - Faire un nuage de points</a>
 	  </li>    
 	
+	
+	  <li class="next">
+	    <a href="/scottmurray-d3-fr/16-axes.html" class="next">16 - Axes →</a>
+	  </li>    
 	
 	</ul>	
 </div>
@@ -68,7 +68,7 @@
 
 <p>Les valeurs de n’importe quel ensemble de données ont peu de chances de correspondre exactement aux mesures en pixels utilisées dans votre visualisation. Les échelles proposent un moyen pratique de faire correspondre les valeurs de vos données à de nouvelles valeurs utilisables dans des visualisations.</p>
 
-<p>Les échelles de D3 sont des <em>fonctions</em> que vous parametrez. Une fois créée, vous appelez la fonction échelle, vous lui passez une valeur, et elle vous retourne gentiment une valeur mise à l’échelle. Vous pouvez définir et utiliser autant d’échelles que vous voulez.</p>
+<p>Les échelles de D3 sont des <em>fonctions</em> que vous parametrez. Une fois créée, vous appelez la fonction d’échelle, vous lui passez une valeur, et elle vous retourne gentiment une valeur mise à l’échelle. Vous pouvez définir et utiliser autant d’échelles que vous voulez.</p>
 
 <p>Il pourrait être tentant de penser à une échelle comme à quelque chose apparaissant visuellement sur l’image finale — comme un ensemble de marques indiquant une progression de valeurs. <em>Ne vous faites pas avoir !</em> Ces marques font partie d’un <em>axe</em>, qui est fondamentalement une représentation visuelle d’une échelle. Une échelle est une relation mathématique, sans représenation visuelle directe. Je vous encourage à penser les échelles et les axes comme deux choses différentes, mais quand même liées.</p>
 
@@ -169,7 +169,7 @@
 <span class="nx">scale</span><span class="p">(</span><span class="mi">300</span><span class="p">);</span>  <span class="c1">// Retourne 180</span>
 <span class="nx">scale</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>  <span class="c1">// Retourne 350</span></code></pre></div>
 
-<p>Typiquement, vous appellerez les fonctions échelle dans une méthode <strong>attr()</strong> ou similaire, mais jamais toutes seules. Modifions notre nuage de points pour utiliser des échelles dynamiques.</p>
+<p>Typiquement, vous appellerez les fonctions d’échelle dans une méthode <strong>attr()</strong> ou similaire, mais jamais toutes seules. Modifions notre nuage de points pour utiliser des échelles dynamiques.</p>
 
 <h3 id="mettre-le-nuage-de-points--lchelle">Mettre le nuage de points à l’échelle</h3>
 
@@ -194,7 +194,7 @@
     <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>  <span class="c1">// Référence la première valeur de chaque sous-tableau</span>
 <span class="p">});</span></code></pre></div>
 
-<p>En mettant tout ensemble, créons la fonction échelle pour notre axe x :</p>
+<p>En mettant tout ensemble, créons la fonction d’échelle pour notre axe x :</p>
 
 <div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">xScale</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">scale</span><span class="p">.</span><span class="nx">linear</span><span class="p">()</span>
                      <span class="p">.</span><span class="nx">domain</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="p">})])</span>
@@ -206,7 +206,7 @@
 
 <p>Enfin, vous pouvez observer que la plage de sortie est définie de <strong>0</strong> à <strong>w</strong>, la largeur de notre SVG.</p>
 
-<p>On utilisera un code similaire pour créer la fonction échelle de notre axe y :</p>
+<p>On utilisera un code similaire pour créer la fonction d’échelle de notre axe y :</p>
 
 <div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">yScale</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">scale</span><span class="p">.</span><span class="nx">linear</span><span class="p">()</span>
                      <span class="p">.</span><span class="nx">domain</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">dataset</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="p">})])</span>
@@ -214,7 +214,7 @@
 
 <p>Notez que la fonction <strong>max()</strong> référence <strong>d[1]</strong>, la valeur y de chaque sous-tableau. Également, la fin de la plage de sortie est définie comme <strong>h</strong> (<em>la hauteur du SVG</em>) plutôt que <strong>w</strong>.</p>
 
-<p>Les fonctions échelles sont en place ! Maintenant il nous faut les utiliser. Modifiez juste le code où l’on crée un cercle <strong>circle</strong> pour chaque valeur de donnée</p>
+<p>Les fonctions d’échelle sont en place ! Maintenant il nous faut les utiliser. Modifiez juste le code où l’on crée un cercle <strong>circle</strong> pour chaque valeur de donnée</p>
 
 <div class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"cx"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">d</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
@@ -274,7 +274,7 @@
 
 <p><img src="http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.png" alt="Nuage de points avec une échelle en y inversée" /></p>
 
-<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.html">Voilà le code.</a> Oui, maintenant une valeur d’entrée <em>plus petite</em> qui passe par la fonction échelle <strong>yScale</strong> produira une valeur de sortie plus grande, poussant ces éléments <strong>circle</strong> et <strong>text</strong> vers le bas, plus près de la ligne de base de l’image. Je sais, c’est presque trop facile !</p>
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.html">Voilà le code.</a> Oui, maintenant une valeur d’entrée <em>plus petite</em> qui passe par la fonction d’échelle <strong>yScale</strong> produira une valeur de sortie plus grande, poussant ces éléments <strong>circle</strong> et <strong>text</strong> vers le bas, plus près de la ligne de base de l’image. Je sais, c’est presque trop facile !</p>
 
 <p>Et pourtant certains éléments sont coupés. Définissons une variable de marge <strong>padding</strong> :</p>
 
@@ -363,6 +363,10 @@
 	    <a href="/scottmurray-d3-fr/14-faire-un-nuage-de-points.html" class="previous">← 14 - Faire un nuage de points</a>
 	  </li>    
 	
+	
+	  <li class="next">
+	    <a href="/scottmurray-d3-fr/16-axes.html" class="next">16 - Axes →</a>
+	  </li>    
 	
 	</ul>	
 </div>

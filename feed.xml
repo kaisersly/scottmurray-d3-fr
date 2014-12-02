@@ -6,9 +6,227 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 28 Nov 2014 06:55:20 +0100</pubDate>
-    <lastBuildDate>Fri, 28 Nov 2014 06:55:20 +0100</lastBuildDate>
+    <pubDate>Tue, 02 Dec 2014 10:12:07 +0100</pubDate>
+    <lastBuildDate>Tue, 02 Dec 2014 10:12:07 +0100</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>16 - Axes</title>
+        <description>&lt;hr /&gt;
+
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/axes&quot;&gt;http://alignedleft.com/tutorials/d3/axes&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;axes&quot;&gt;Axes&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Après avoir maîtrisé l’usage des échelles de D3, on a ce nuage de points :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/1.png&quot; alt=&quot;Grand nuage de points mis à l&#39;échelle&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ajoutons des axes horizontaux et verticaux, pour que nous puissions enlever ces horribles nombres rouges qui encombrent la visibilité.&lt;/p&gt;
+
+&lt;h3 id=&quot;introduction-aux-axes&quot;&gt;Introduction aux axes&lt;/h3&gt;
+
+&lt;p&gt;Tout comme les fonctions d’échelle, &lt;a href=&quot;https://github.com/mbostock/d3/wiki/SVG-Axes&quot;&gt;les &lt;em&gt;axes&lt;/em&gt; de D3&lt;/a&gt; sont en fait des &lt;em&gt;fonctions&lt;/em&gt; avec des paramètres que vous définissez. Au contraire des échelles, lorsque qu’une fonction d’axe est appelée, elle ne retourne pas une valeur, mais elle génère les éléments visuels de l’axe, comprenant des lignes, des étiquettes et des marques.&lt;/p&gt;
+
+&lt;p&gt;Notez que les fonctions d’axe sont spécifiques à SVG, en ce qu’elle génère des éléments SVG. De plus, les axes sont prévus pour être utilisés avec des échelles quantitatives (par opposition aux échelles ordinales).&lt;/p&gt;
+
+&lt;h3 id=&quot;paramtrer-un-axe&quot;&gt;Paramétrer un axe&lt;/h3&gt;
+
+&lt;p&gt;Utilisez &lt;strong&gt;d3.svg.axis()&lt;/strong&gt; pour créer une fonction d’axe générique :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Au minimum, chaque axe a aussi besoin qu’on lui dise sur quelle &lt;em&gt;échelle&lt;/em&gt; il opère. Ici nous lui passerons &lt;strong&gt;xScale&lt;/strong&gt; du code de notre nuage :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On peut également lui spécifier où les étiquettes doivent apparaître relativement à l’axe lui-même. Par défaut c’est &lt;strong&gt;bottom&lt;/strong&gt;, ce qui veut dire que les étiquettes apparaîtront en bas de la ligne d’axe. (Bien que c’est par défaut, ça ne peut pas faire de mal de le dire explicitement.)&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;orient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bottom&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bien sûr, on peut être plus concis et écrire tout ça en une ligne :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;orient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bottom&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Enfin, pour générer l’axe et insérer toutes ces petites lignes et ces étiquettes dans notre SVG, on doit &lt;em&gt;appeler&lt;/em&gt; la fonction &lt;strong&gt;xAxis&lt;/strong&gt;. Je placerai ce code à la fin de notre script, pour que l’axe soit généré après les autres éléments SVG :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-call&quot;&gt;La fonction &lt;strong&gt;call()&lt;/strong&gt; de D3&lt;/a&gt; prend en entrée une &lt;em&gt;sélection&lt;/em&gt; et transmet cette sélection à une &lt;em&gt;fonction&lt;/em&gt;. Donc, dans notre cas, on vient juste d’ajouter un nouvel élément groupe &lt;strong&gt;g&lt;/strong&gt; pour contenir tous nos éléments d’axe qui-vont-bientôt-être-générés. (Le &lt;strong&gt;g&lt;/strong&gt; n’est pas rigoureusement nécessaire, mais permet de garder les éléments organisés et d’appliquer une classe au groupe entier, ce que nous ferons dans un instant.)&lt;/p&gt;
+
+&lt;p&gt;Ce &lt;strong&gt;g&lt;/strong&gt; devient la séléction pour le prochain maillon de la chaîne. &lt;strong&gt;call()&lt;/strong&gt; transmet la sélection à la fonction &lt;strong&gt;xAxis&lt;/strong&gt;, donc notre axe est généré dans le nouveau &lt;strong&gt;g&lt;/strong&gt;. Ce bout de code au-dessus est un raccourci pour cet équivalent :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;orient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bottom&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vous voyez, vous pourriez écrire votre axe dans la fonction &lt;strong&gt;call()&lt;/strong&gt;, mais il est généralement plus facile pour notre cerveau de définir d’abord des fonctions, et de les appeler plus tard.&lt;/p&gt;
+
+&lt;p&gt;Quoi qu’il arrive, &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/1.html&quot;&gt;voilà à quoi ça ressemble&lt;/a&gt; :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/2.png&quot; alt=&quot;Un axe simple, mais laid&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;faire-le-mnage&quot;&gt;Faire le ménage&lt;/h3&gt;
+
+&lt;p&gt;Techniquement c’est un axe, mais ce n’est ni joli ni utile. Pour le nettoyer, assignons d’abord une classe &lt;strong&gt;axis&lt;/strong&gt; au nouvel élément &lt;strong&gt;g&lt;/strong&gt;, pour pouvoir le sélectionner avec CSS :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;axis&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Assigne la classe &quot;axis&quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite, on ajoute nos styles CSS dans le &lt;strong&gt;&amp;lt;head&amp;gt;&lt;/strong&gt; de notre page :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nc&quot;&gt;.axis&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.axis&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;py&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;none&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;py&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;black&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;py&quot;&gt;shape-rendering&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;crispEdges&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nc&quot;&gt;.axis&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;font-family&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sans-serif&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;11px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.mozilla.org/en/SVG/Attribute/shape-rendering&quot;&gt;La propriété &lt;strong&gt;shape-rendering&lt;/strong&gt;&lt;/a&gt; est un attribut SVG, utilisée ici pour s’assurer que notre axe et ses marques sont définis au pixel près. Pas d’axe flou pour nous !&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/3.png&quot; alt=&quot;Axe plus propre&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;C’est mieux, mais le haut de l’axe est coupé, et on veut, quoi qu’il arrive, qu’il soit à la base du graphique. On peut utiliser la fonction &lt;strong&gt;transform&lt;/strong&gt; sur le groupe de l’axe, en le poussant vers le bas :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;axis&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transform&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;translate(0,&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Notez l’utilisation de &lt;strong&gt;(h - padding)&lt;/strong&gt;, pour que le bord haut du groupe soit défini à &lt;strong&gt;h&lt;/strong&gt;, la hauteur de notre image, moins la valeur de marge &lt;strong&gt;padding&lt;/strong&gt; que l’on a créée plus tôt.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/4.png&quot; alt=&quot;Axe propre et joli&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;C’est bien mieux ! &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/2.html&quot;&gt;Voilà le code jusqu’ici.&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;soccuper-des-marques-ticks&quot;&gt;S’occuper des marques (&lt;em&gt;ticks&lt;/em&gt;)&lt;/h3&gt;
+
+&lt;p&gt;Les tiques (&lt;em&gt;ticks&lt;/em&gt;) peuvent transmettre des maladies, mais les &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_ticks&quot;&gt;marques (&lt;em&gt;ticks&lt;/em&gt;) de D3&lt;/a&gt; communiquent de l’information. Et pourtant afficher plus de marques n’est pas forcément plus efficace, et à partir d’un certain moment elles commencent à surcharger votre graphique. Vous noterez que l’on a jamais spécifié combien de marques inclure dans l’axe, ni à quel intervalle elles devraient apparaître. Sans instructions données, D3 a examiné magiquement notre échelle &lt;strong&gt;xScale&lt;/strong&gt; et en a deduit combien de marques ajouter, et à quel intervalle (tous les 50 dans notre cas).&lt;/p&gt;
+
+&lt;p&gt;Comme vous pouvez l’imaginer, vous pouvez personnaliser tous les aspects de vos axes, en commençant par un nombre approximatif de marques, en utilisant &lt;strong&gt;ticks()&lt;/strong&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;orient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;bottom&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ticks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Définit un nombre approximatif de 5 marques&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/5.png&quot; alt=&quot;Moins de marques&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/3.html&quot;&gt;Voilà le code.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Vous avez probablement noté que, bien que l’on ait défini cinq marques, D3 a décidé d’en afficher sept. C’est parceque D3 assure vos arrières, et qu’il s’est rendu compte qu’afficher seulement &lt;em&gt;cinq&lt;/em&gt; marques aurait demandé de découper notre domaine d’entrée en valeurs bien moins jolies — dans notre cas, 0, 150, 300, 450, et 600. D3 interprète la valeur dans &lt;strong&gt;ticks()&lt;/strong&gt; comme une suggestion, et remplacera votre suggestion avec ce qu’il détermine comme la valeur la plus propre et la plus facile à lire par un humain — dans notre cas, des intervalles de 100 — même lorsque cela requiert d’ajouter quelques marques de plus que ce que vous avez demandé. C’est en fait une fonctionnalité brillante qui accroit l’évolutivité (&lt;em&gt;scalability&lt;/em&gt;) de votre désign ; à mesure que l’ensemble de données évolue, et que le domaine d’entrée s’étend ou se contracte (des nombres plus grands ou plus petits), D3 s’assure que les marques restent claires et faciles à lire.&lt;/p&gt;
+
+&lt;h3 id=&quot;pourquoi-pas-y-not-&quot;&gt;Pourquoi pas (&lt;em&gt;Y Not&lt;/em&gt;) ?&lt;/h3&gt;
+
+&lt;p&gt;Il est temps d’étiqueter notre axe vertical ! En copiant et en modifiant le code que l’on a déjà écrit pour l’axe &lt;strong&gt;xAxis&lt;/strong&gt;, on ajoute ça vers le haut de notre code&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Définit l&#39;axe Y&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;yAxis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;yScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;orient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;left&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ticks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;et ceci, près du bas :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Créé l&#39;axe Y&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;class&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;axis&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;transform&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;translate(&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;,0)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;yAxis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Notez que les étiquettes seront orientées vers la gauche &lt;strong&gt;left&lt;/strong&gt; et que le groupe &lt;strong&gt;g&lt;/strong&gt; de l’axe &lt;strong&gt;yAxis&lt;/strong&gt; est déplacé par translation vers la droite par un montant de &lt;strong&gt;padding&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/6.png&quot; alt=&quot;Axe Y initial&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ça commence à prendre forme ! Mais les étiquettes de l’axe &lt;strong&gt;yAxis&lt;/strong&gt; sont coupées. Pour leur donner plus de place sur la gauche, je vais augmenter la valeur de &lt;strong&gt;padding&lt;/strong&gt; de 20 à 30 :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;padding&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Bien sûr, vous pourriez aussi faire apparaître des variables séparées de &lt;strong&gt;padding&lt;/strong&gt; pour chaque axe, disons &lt;strong&gt;xPadding&lt;/strong&gt; et &lt;strong&gt;yPadding&lt;/strong&gt;, pour avoir plus de contrôle sur la disposition du graphique.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/4.html&quot;&gt;Voilà le code&lt;/a&gt;, et voila à quoi il ressemble :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/7.png&quot; alt=&quot;Nuage de points avec un axe Y&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;touches-finales&quot;&gt;Touches finales&lt;/h3&gt;
+
+&lt;p&gt;Pour vous prouvez que notre nouvel axe est dynamique et évolutif, j’aimerais passer d’un ensemble statique à un ensemble de nombres aléatoires :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Ensemble dynamique de nombres aléatoires&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;numDataPoints&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xRange&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;yRange&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;numDataPoints&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newNumber1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xRange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newNumber2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;yRange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newNumber1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;newNumber2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ce code crée un nouveau tableau, itère 50 fois, choisit deux nombres aléatoires à chaque fois, et ajoute (pousse) cette paire de valeurs dans le tableau &lt;strong&gt;dataset&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/8.png&quot; alt=&quot;Nuage de points avec données aléatoires&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/5.html&quot;&gt;Essayez le code ici.&lt;/a&gt; Chaque fois que vous rechargez la page, vous obtenez différentes valeurs. Notez comment les axes se mettent à l’échelle pour correspondre aux nouveaux domaines, et comment les marques et les étiquettes sont choisies en conséquence.&lt;/p&gt;
+
+&lt;p&gt;Ma démonstration étant finie, je pense que l’on peut retirer ces horribles étiquettes rouges, en commentant les lignes de code qui les concernent :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/9.png&quot; alt=&quot;Nuage de points avec des données aléatoires et sans étiquettes rouges&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/6.html&quot;&gt;Le code final de notre nuage !&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mettre-en-forme-les-tiquettes&quot;&gt;Mettre en forme les étiquettes&lt;/h3&gt;
+
+&lt;p&gt;Une dernière chose : Jusqu’ici, on a travaillé avec des entiers qui sont propres et faciles à lire. Mais les données sont souvent plus complexes, et dans ces cas, vous voudrez avoir plus de contrôle sur la manière dont les étiquettes sont mises en forme. Découvrez &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_tickFormat&quot;&gt;&lt;strong&gt;tickFormat()&lt;/strong&gt;&lt;/a&gt;, qui vous permet de spécifier comment les nombres doivent être formatés. Par exemple, vous pourriez souhaiter avoir trois chiffres après la virgule, ou afficher les valeurs en pourcentage, ou les deux.&lt;/p&gt;
+
+&lt;p&gt;Dans ce cas, vous définiriez d’abord une nouvelle fonction de mise en forme. Celle-ci, par exemple, dit de traiter les valeurs comme des pourcentages avec une précision d’une décimale. (Allez voir &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Formatting#wiki-d3_format&quot;&gt;la référence de d3.format()&lt;/a&gt; pour plus d’options.)&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;formatAsPercentage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.1%&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensuite, transmettez-la à la fonction de formattage des marques :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;xAxis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tickFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;formatAsPercentage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Conseil de développeur : Je trouve plus facile de tester ces fonctions de formattage dans la console JavaScript. Par exemple, ouvrez juste une page qui charge D3, comme &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/6.html&quot;&gt;notre nuage final&lt;/a&gt;, et écrivez votre règle de formattage dans la console. Ensuite testez-la en lui passant une valeur, comme vous le feriez avec n’importe quelle autre fonction :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/10.png&quot; alt=&quot;Test de formattage dans la console&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Vous pouvez voir ici que la valeur &lt;strong&gt;0.54321&lt;/strong&gt; est convertie en &lt;strong&gt;54.3%&lt;/strong&gt; pour l’affichage — parfait !&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/160-axes/7.html&quot;&gt;Essayez ce code ici.&lt;/a&gt; Un formattage en pourcentage n’a pas de sens avec l’ensemble de données de notre nuage, mais à titre d’exercice, vous pourriez essayer de modifier comment les nombres aléatoires sont générés, pour avoir des nombres non-entiers (&lt;em&gt;et compris entre 0 et 1&lt;/em&gt;), ou expérimenter la fonction de formattage elle-même.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;note-finale-du-traducteur&quot;&gt;Note finale du traducteur&lt;/h2&gt;
+
+&lt;p&gt;La traduction de cette série de tutoriels est désormais terminée. J’espère qu’elle vous aura été utile. N’hésitez pas à la faire connaître autour de vous et à laisser un petit “Thanks for your tutorials on D3” sur Twitter à &lt;a href=&quot;https://twitter.com/alignedleft&quot;&gt;Scott Murray&lt;/a&gt;.  &lt;/p&gt;
+
+&lt;p&gt;Après avoir intégré les bases de D3 en français, vous souhaiterez peut-être lire le livre écrit, en anglais, par Scott Murray sur D3. Il est disponible en &lt;a href=&quot;http://www.jdoqocy.com/click-6754088-11260198?url=http%3A%2F%2Fshop.oreilly.com%2Fproduct%2F0636920026938.do%3Fcmp%3Daf-strata-books-videos-product_cj_9781449339739_%2525zp&amp;amp;cjsku=0636920026938&quot;&gt;édition papier&lt;/a&gt;, ou accessible, &lt;em&gt;gratuitement&lt;/em&gt;, &lt;a href=&quot;http://chimera.labs.oreilly.com/books/1230000000345/index.html&quot;&gt;en ligne&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Un tutoriel visuel et intéractif sur les transitions est aussi disponible &lt;a href=&quot;http://alignedleft.com/projects/2014/easy-as-pi/&quot;&gt;sur son site&lt;/a&gt;. Il suffit de cliquer sur le bouton &lt;strong&gt;Next &amp;gt;&lt;/strong&gt; | &lt;strong&gt;Run it &amp;gt;&lt;/strong&gt; et d’analyser les lignes de code. &lt;/p&gt;
+
+&lt;p&gt;Bonnes visualisations !&lt;/p&gt;
+</description>
+        <pubDate>Tue, 28 Oct 2014 00:00:00 +0100</pubDate>
+        <link>http://kaisersly.github.io/scottmurray-d3-fr/16-axes.html</link>
+        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/16-axes.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>15 - Échelles</title>
@@ -28,7 +246,7 @@
 
 &lt;p&gt;Les valeurs de n’importe quel ensemble de données ont peu de chances de correspondre exactement aux mesures en pixels utilisées dans votre visualisation. Les échelles proposent un moyen pratique de faire correspondre les valeurs de vos données à de nouvelles valeurs utilisables dans des visualisations.&lt;/p&gt;
 
-&lt;p&gt;Les échelles de D3 sont des &lt;em&gt;fonctions&lt;/em&gt; que vous parametrez. Une fois créée, vous appelez la fonction échelle, vous lui passez une valeur, et elle vous retourne gentiment une valeur mise à l’échelle. Vous pouvez définir et utiliser autant d’échelles que vous voulez.&lt;/p&gt;
+&lt;p&gt;Les échelles de D3 sont des &lt;em&gt;fonctions&lt;/em&gt; que vous parametrez. Une fois créée, vous appelez la fonction d’échelle, vous lui passez une valeur, et elle vous retourne gentiment une valeur mise à l’échelle. Vous pouvez définir et utiliser autant d’échelles que vous voulez.&lt;/p&gt;
 
 &lt;p&gt;Il pourrait être tentant de penser à une échelle comme à quelque chose apparaissant visuellement sur l’image finale — comme un ensemble de marques indiquant une progression de valeurs. &lt;em&gt;Ne vous faites pas avoir !&lt;/em&gt; Ces marques font partie d’un &lt;em&gt;axe&lt;/em&gt;, qui est fondamentalement une représentation visuelle d’une échelle. Une échelle est une relation mathématique, sans représenation visuelle directe. Je vous encourage à penser les échelles et les axes comme deux choses différentes, mais quand même liées.&lt;/p&gt;
 
@@ -129,7 +347,7 @@
 &lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;300&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Retourne 180&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Retourne 350&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Typiquement, vous appellerez les fonctions échelle dans une méthode &lt;strong&gt;attr()&lt;/strong&gt; ou similaire, mais jamais toutes seules. Modifions notre nuage de points pour utiliser des échelles dynamiques.&lt;/p&gt;
+&lt;p&gt;Typiquement, vous appellerez les fonctions d’échelle dans une méthode &lt;strong&gt;attr()&lt;/strong&gt; ou similaire, mais jamais toutes seules. Modifions notre nuage de points pour utiliser des échelles dynamiques.&lt;/p&gt;
 
 &lt;h3 id=&quot;mettre-le-nuage-de-points--lchelle&quot;&gt;Mettre le nuage de points à l’échelle&lt;/h3&gt;
 
@@ -154,7 +372,7 @@
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Référence la première valeur de chaque sous-tableau&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;En mettant tout ensemble, créons la fonction échelle pour notre axe x :&lt;/p&gt;
+&lt;p&gt;En mettant tout ensemble, créons la fonction d’échelle pour notre axe x :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;xScale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
                      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})])&lt;/span&gt;
@@ -166,7 +384,7 @@
 
 &lt;p&gt;Enfin, vous pouvez observer que la plage de sortie est définie de &lt;strong&gt;0&lt;/strong&gt; à &lt;strong&gt;w&lt;/strong&gt;, la largeur de notre SVG.&lt;/p&gt;
 
-&lt;p&gt;On utilisera un code similaire pour créer la fonction échelle de notre axe y :&lt;/p&gt;
+&lt;p&gt;On utilisera un code similaire pour créer la fonction d’échelle de notre axe y :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;yScale&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
                      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})])&lt;/span&gt;
@@ -174,7 +392,7 @@
 
 &lt;p&gt;Notez que la fonction &lt;strong&gt;max()&lt;/strong&gt; référence &lt;strong&gt;d[1]&lt;/strong&gt;, la valeur y de chaque sous-tableau. Également, la fin de la plage de sortie est définie comme &lt;strong&gt;h&lt;/strong&gt; (&lt;em&gt;la hauteur du SVG&lt;/em&gt;) plutôt que &lt;strong&gt;w&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;Les fonctions échelles sont en place ! Maintenant il nous faut les utiliser. Modifiez juste le code où l’on crée un cercle &lt;strong&gt;circle&lt;/strong&gt; pour chaque valeur de donnée&lt;/p&gt;
+&lt;p&gt;Les fonctions d’échelle sont en place ! Maintenant il nous faut les utiliser. Modifiez juste le code où l’on crée un cercle &lt;strong&gt;circle&lt;/strong&gt; pour chaque valeur de donnée&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;attr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
@@ -234,7 +452,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.png&quot; alt=&quot;Nuage de points avec une échelle en y inversée&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.html&quot;&gt;Voilà le code.&lt;/a&gt; Oui, maintenant une valeur d’entrée &lt;em&gt;plus petite&lt;/em&gt; qui passe par la fonction échelle &lt;strong&gt;yScale&lt;/strong&gt; produira une valeur de sortie plus grande, poussant ces éléments &lt;strong&gt;circle&lt;/strong&gt; et &lt;strong&gt;text&lt;/strong&gt; vers le bas, plus près de la ligne de base de l’image. Je sais, c’est presque trop facile !&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/2.html&quot;&gt;Voilà le code.&lt;/a&gt; Oui, maintenant une valeur d’entrée &lt;em&gt;plus petite&lt;/em&gt; qui passe par la fonction d’échelle &lt;strong&gt;yScale&lt;/strong&gt; produira une valeur de sortie plus grande, poussant ces éléments &lt;strong&gt;circle&lt;/strong&gt; et &lt;strong&gt;text&lt;/strong&gt; vers le bas, plus près de la ligne de base de l’image. Je sais, c’est presque trop facile !&lt;/p&gt;
 
 &lt;p&gt;Et pourtant certains éléments sont coupés. Définissons une variable de marge &lt;strong&gt;padding&lt;/strong&gt; :&lt;/p&gt;
 
@@ -1789,110 +2007,6 @@ Juste pour voir, ouvrez la console JavaScript et tapez &lt;strong&gt;console.log
         <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
         <link>http://kaisersly.github.io/scottmurray-d3-fr/7-utiliser-vos-donnees.html</link>
         <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/7-utiliser-vos-donnees.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>6 - Lier les données</title>
-        <description>&lt;hr /&gt;
-
-&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/binding-data&quot;&gt;http://alignedleft.com/tutorials/d3/binding-data&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;lier-les-donnes&quot;&gt;Lier les données&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Qu’est-ce que le binding, et pourquoi je voudrais l’appliquer à mes données ?&lt;/p&gt;
-
-&lt;p&gt;La visualisation de données est un processus qui consiste à lier des données (&lt;em&gt;mapping data&lt;/em&gt;) à une représentation graphique. Des données en entrée, des propriétés visuelles en sortie. Les nombres plus grand donneront peut-être des barres plus grandes, ou des catégories spéciales donneront des couleurs plus claires. C’est vous qui définissez les règles de liaison (&lt;em&gt;mapping rules&lt;/em&gt;).&lt;/p&gt;
-
-&lt;p&gt;Avec D3, on lie les valeurs de nos données en entrée aux éléments du DOM. Le binding c’est comme “attacher” ou associer des données à des éléments spécifiques, pour que vous puissiez y faire référence, plus tard, dans des règles de liaison. Sans l’étape du binding, on aurait un ensemble d’éléments DOM sans données attachées. Personne ne veut de ça.&lt;/p&gt;
-
-&lt;h3 id=&quot;dans-une-liaison&quot;&gt;Dans une liaison&lt;/h3&gt;
-
-&lt;p&gt;On utilise la méthode &lt;strong&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-data&quot;&gt;selection.data()&lt;/a&gt;&lt;/strong&gt; de D3 pour lier des données à des éléments DOM. Mais il y a deux choses à mettre en place, avant que l’on puisse lier des données :&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Les données&lt;/li&gt;
-  &lt;li&gt;Une sélection d’éléments DOM&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Une chose à la fois.&lt;/p&gt;
-
-&lt;h3 id=&quot;les-donnes&quot;&gt;Les données&lt;/h3&gt;
-
-&lt;p&gt;D3 est intelligent lorsqu’il s’agit de gérer différents types de données. Il acceptera tous les tableaux de nombres, de chaînes de caractères ou d’objets (eux-mêmes pouvant contenir d’autres tableaux ou des paires clé/valeur). Il peut gérer du JSON (et du GeoJSON) sans aucun soucis, et possède même une méthode intégrée (&lt;em&gt;built-in&lt;/em&gt;) pour vous aider à charger des fichiers CSV.&lt;/p&gt;
-
-&lt;p&gt;Mais pour garder les choses simples, on va débuter avec un tableau de nombres. Voilà notre ensemble de données :&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;faites-votre-slection&quot;&gt;Faites votre sélection&lt;/h3&gt;
-
-&lt;p&gt;D’abord, vous devez décider ce que vous voulez sélectionner. À quels éléments vos données seront associées ? Encore une fois, on va rester super simple et dire que l’on veut un nouveau paragraphe pour chaque élément de notre ensemble de données. Vous vous imaginerez donc que quelque chose dans ce genre pourrait vous être utile&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;et vous auriez raison, mais y’a un hic : Les paragraphes que l’on veut créer &lt;em&gt;n’existent pas encore&lt;/em&gt;. Ça nous amène à un des causes courrantes de confusion avec D3 : Comment peut-on sélectionner des éléments qui n’existent pas encore ? Restez avec moi, car la réponse requiert que vous vous tordiez un peu l’esprit.&lt;/p&gt;
-
-&lt;p&gt;La réponse se trouve dans &lt;strong&gt;enter()&lt;/strong&gt;, une méthode vraiment magique. Voilà le code final pour notre exemple, que je vais expliquer :&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;body&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;New paragraph!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/index.html&quot;&gt;Jetez un oeil à cette page de démo&lt;/a&gt;. Vous verrez cinq nouveaux paragraphes, chacun avec le même contenu. Voilà ce qui se passe.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;d3.select(“body”)&lt;/strong&gt; — Trouve l’élément &lt;strong&gt;body&lt;/strong&gt; dans le DOM et transmet sa référence au prochain maillon de la chaîne.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.selectAll(“p”)&lt;/strong&gt; — Sélectionne tous les paragraphes dans le DOM. Comme aucun paragraphe n’existe pour l’instant, ça retourne une sélection vide. Voyez cette sélection vide comme représentant les paragraphes &lt;em&gt;qui vont bientôt exister&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.data(dataset)&lt;/strong&gt; — Compte et analyse les valeurs des données. Il y a cinq valeurs dans notre ensemble de données, donc à partir de là, tout ce qui se passe sera exécuté cinq fois, une fois par valeur.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.enter()&lt;/strong&gt; — Pour créer de nouveaux éléments liés à des données, on doit utiliser la méthode &lt;strong&gt;enter()&lt;/strong&gt;. Cette méthode jète un oeil au DOM, puis aux données qui lui ont été transmises. S’il y a plus de données que d’éléments DOM correspondants, alors &lt;strong&gt;enter()&lt;/strong&gt; &lt;em&gt;crée un nouvel élément placeholder&lt;/em&gt; sur lequel vous pourrez faire jouer votre magie. Elle transmet ensuite une référence à ce nouveau placeholder au prochain maillon de la chaîne.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.append(“p”)&lt;/strong&gt; — Prend la sélection placeholder créée par &lt;strong&gt;enter()&lt;/strong&gt; et insert un élément &lt;strong&gt;p&lt;/strong&gt; dans le DOM. Hourra ! Elle transmet ensuite une référence de l’élément qu’elle vient de créer au prochain maillon de la chaîne.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;.text(“New paragraph!”)&lt;/strong&gt; — Prend la référence au nouvellement créé &lt;strong&gt;p&lt;/strong&gt; et insert un texte.&lt;/p&gt;
-
-&lt;h3 id=&quot;li-et-dtermin&quot;&gt;Lié et déterminé&lt;/h3&gt;
-
-&lt;p&gt;Ok ! Toutes nos données ont été lues, analysées, et liées aux nouveaux éléments &lt;strong&gt;p&lt;/strong&gt; que l’on a créés dans le DOM. Vous ne me croyez pas ? Retournez voir &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/index.html&quot;&gt;la page de démo&lt;/a&gt; et ouvrez l’inspecteur web.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/1.png&quot; alt=&quot;Web inspector&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Okay, je vois cinq paragraphes, mais où sont les données ?  Cliquez sur &lt;em&gt;Console&lt;/em&gt;, tapez la ligne de code suivante et appuyez sur entrée :&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;selectAll&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;p&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/2.png&quot; alt=&quot;JS console&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Un tableau ! Cliquez sur le petit triangle gris, qui permet d’en révéler plus :&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/3.png&quot; alt=&quot;JS console&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Notez les cinq paragraphes &lt;strong&gt;HTMLParagraphElements&lt;/strong&gt;, numérotés de 0 à 4. Cliquez sur le triangle révélateur à côté du premier (numéro zéro).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/4.png&quot; alt=&quot;JS console&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Vous voyez ? Est-ce que vous le voyez ? J’ai du mal à contenir mon excitation. Et voilà :&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/60-binding-data/5.png&quot; alt=&quot;JS console highlight&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Notre première valeur, le nombre 5, apparaît dans la propriété &lt;strong&gt;__data__&lt;/strong&gt; du premier paragraphe. Cliquez sur les autres paragraphes, et vous verrez qu’ils contiennent eux aussi une propriété &lt;strong&gt;__data__&lt;/strong&gt; qui a pour valeur : 10, 15, 20, et 25,  comme on vient de le spécifier.&lt;/p&gt;
-
-&lt;p&gt;Lorsque D3 lie des données à un élément, cette donnée n’existe pas dans le DOM, mais elle existe en mémoire comme une propriété &lt;strong&gt;__data__&lt;/strong&gt; de cet élément. Et la console vous permet de confirmer si vos données ont été liées ou pas.&lt;/p&gt;
-
-&lt;p&gt;Vos données sont prêtes. Faisons quelque chose avec.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 27 Oct 2014 00:00:00 +0100</pubDate>
-        <link>http://kaisersly.github.io/scottmurray-d3-fr/6-lier-les-donnees.html</link>
-        <guid isPermaLink="true">http://kaisersly.github.io/scottmurray-d3-fr/6-lier-les-donnees.html</guid>
         
         
       </item>

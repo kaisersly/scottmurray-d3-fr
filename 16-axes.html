@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>16 - Axes</title>
+    <meta name="description" content="Traduction des tutoriels de Scott Murray sur D3.js.
+">
+
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/main.css">
+    <link rel="stylesheet" href="/scottmurray-d3-fr/css/highlight.css">
+    <link rel="canonical" href="http://kaisersly.github.io/scottmurray-d3-fr/16-axes.html">
+</head>
+
+
+  <body>
+  <div class="container">
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    <h2><a class="site-title" href="/scottmurray-d3-fr/">Traduction des tutoriels de Scott Murray sur D3.js</a></h2>
+
+  </div>
+
+</header>
+
+
+    <div>
+      <div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/15-echelles.html" class="previous">← 15 - Échelles</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+<div class="col-md-offset-3 col-md-6">
+
+
+  <header>
+    <h1>16 - Axes</h1>
+  </header>
+  
+  <article>
+    <hr />
+
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/axes">http://alignedleft.com/tutorials/d3/axes</a></em></p>
+
+<hr />
+
+<h2 id="axes">Axes</h2>
+
+<p><em>Dernière mise à jour le 30 décembre 2012</em></p>
+
+<p>Après avoir maîtrisé l’usage des échelles de D3, on a ce nuage de points :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/1.png" alt="Grand nuage de points mis à l'échelle" /></p>
+
+<p>Ajoutons des axes horizontaux et verticaux, pour que nous puissions enlever ces horribles nombres rouges qui encombrent la visibilité.</p>
+
+<h3 id="introduction-aux-axes">Introduction aux axes</h3>
+
+<p>Tout comme les fonctions d’échelle, <a href="https://github.com/mbostock/d3/wiki/SVG-Axes">les <em>axes</em> de D3</a> sont en fait des <em>fonctions</em> avec des paramètres que vous définissez. Au contraire des échelles, lorsque qu’une fonction d’axe est appelée, elle ne retourne pas une valeur, mais elle génère les éléments visuels de l’axe, comprenant des lignes, des étiquettes et des marques.</p>
+
+<p>Notez que les fonctions d’axe sont spécifiques à SVG, en ce qu’elle génère des éléments SVG. De plus, les axes sont prévus pour être utilisés avec des échelles quantitatives (par opposition aux échelles ordinales).</p>
+
+<h3 id="paramtrer-un-axe">Paramétrer un axe</h3>
+
+<p>Utilisez <strong>d3.svg.axis()</strong> pour créer une fonction d’axe générique :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">svg</span><span class="p">.</span><span class="nx">axis</span><span class="p">();</span></code></pre></div>
+
+<p>Au minimum, chaque axe a aussi besoin qu’on lui dise sur quelle <em>échelle</em> il opère. Ici nous lui passerons <strong>xScale</strong> du code de notre nuage :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">xAxis</span><span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="nx">xScale</span><span class="p">);</span></code></pre></div>
+
+<p>On peut également lui spécifier où les étiquettes doivent apparaître relativement à l’axe lui-même. Par défaut c’est <strong>bottom</strong>, ce qui veut dire que les étiquettes apparaîtront en bas de la ligne d’axe. (Bien que c’est par défaut, ça ne peut pas faire de mal de le dire explicitement.)</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">xAxis</span><span class="p">.</span><span class="nx">orient</span><span class="p">(</span><span class="s2">"bottom"</span><span class="p">);</span></code></pre></div>
+
+<p>Bien sûr, on peut être plus concis et écrire tout ça en une ligne :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">svg</span><span class="p">.</span><span class="nx">axis</span><span class="p">()</span>
+                  <span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="nx">xScale</span><span class="p">)</span>
+                  <span class="p">.</span><span class="nx">orient</span><span class="p">(</span><span class="s2">"bottom"</span><span class="p">);</span></code></pre></div>
+
+<p>Enfin, pour générer l’axe et insérer toutes ces petites lignes et ces étiquettes dans notre SVG, on doit <em>appeler</em> la fonction <strong>xAxis</strong>. Je placerai ce code à la fin de notre script, pour que l’axe soit généré après les autres éléments SVG :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"g"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">xAxis</span><span class="p">);</span></code></pre></div>
+
+<p><a href="https://github.com/mbostock/d3/wiki/Selections#wiki-call">La fonction <strong>call()</strong> de D3</a> prend en entrée une <em>sélection</em> et transmet cette sélection à une <em>fonction</em>. Donc, dans notre cas, on vient juste d’ajouter un nouvel élément groupe <strong>g</strong> pour contenir tous nos éléments d’axe qui-vont-bientôt-être-générés. (Le <strong>g</strong> n’est pas rigoureusement nécessaire, mais permet de garder les éléments organisés et d’appliquer une classe au groupe entier, ce que nous ferons dans un instant.)</p>
+
+<p>Ce <strong>g</strong> devient la séléction pour le prochain maillon de la chaîne. <strong>call()</strong> transmet la sélection à la fonction <strong>xAxis</strong>, donc notre axe est généré dans le nouveau <strong>g</strong>. Ce bout de code au-dessus est un raccourci pour cet équivalent :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"g"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">svg</span><span class="p">.</span><span class="nx">axis</span><span class="p">()</span>
+                <span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="nx">xScale</span><span class="p">)</span>
+                <span class="p">.</span><span class="nx">orient</span><span class="p">(</span><span class="s2">"bottom"</span><span class="p">));</span></code></pre></div>
+
+<p>Vous voyez, vous pourriez écrire votre axe dans la fonction <strong>call()</strong>, mais il est généralement plus facile pour notre cerveau de définir d’abord des fonctions, et de les appeler plus tard.</p>
+
+<p>Quoi qu’il arrive, <a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/1.html">voilà à quoi ça ressemble</a> :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/2.png" alt="Un axe simple, mais laid" /></p>
+
+<h3 id="faire-le-mnage">Faire le ménage</h3>
+
+<p>Techniquement c’est un axe, mais ce n’est ni joli ni utile. Pour le nettoyer, assignons d’abord une classe <strong>axis</strong> au nouvel élément <strong>g</strong>, pour pouvoir le sélectionner avec CSS :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"g"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"axis"</span><span class="p">)</span>  <span class="c1">// Assigne la classe "axis"</span>
+    <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">xAxis</span><span class="p">);</span></code></pre></div>
+
+<p>Ensuite, on ajoute nos styles CSS dans le <strong>&lt;head&gt;</strong> de notre page :</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.axis</span> <span class="nt">path</span><span class="o">,</span>
+<span class="nc">.axis</span> <span class="nt">line</span> <span class="p">{</span>
+    <span class="py">fill</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+    <span class="py">stroke</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+    <span class="py">shape-rendering</span><span class="p">:</span> <span class="n">crispEdges</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.axis</span> <span class="nt">text</span> <span class="p">{</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">11px</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p><a href="https://developer.mozilla.org/en/SVG/Attribute/shape-rendering">La propriété <strong>shape-rendering</strong></a> est un attribut SVG, utilisée ici pour s’assurer que notre axe et ses marques sont définis au pixel près. Pas d’axe flou pour nous !</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/3.png" alt="Axe plus propre" /></p>
+
+<p>C’est mieux, mais le haut de l’axe est coupé, et on veut, quoi qu’il arrive, qu’il soit à la base du graphique. On peut utiliser la fonction <strong>transform</strong> sur le groupe de l’axe, en le poussant vers le bas :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"g"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"axis"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"transform"</span><span class="p">,</span> <span class="s2">"translate(0,"</span> <span class="o">+</span> <span class="p">(</span><span class="nx">h</span> <span class="o">-</span> <span class="nx">padding</span><span class="p">)</span> <span class="o">+</span> <span class="s2">")"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">xAxis</span><span class="p">);</span></code></pre></div>
+
+<p>Notez l’utilisation de <strong>(h - padding)</strong>, pour que le bord haut du groupe soit défini à <strong>h</strong>, la hauteur de notre image, moins la valeur de marge <strong>padding</strong> que l’on a créée plus tôt.</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/4.png" alt="Axe propre et joli" /></p>
+
+<p>C’est bien mieux ! <a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/2.html">Voilà le code jusqu’ici.</a></p>
+
+<h3 id="soccuper-des-marques-ticks">S’occuper des marques (<em>ticks</em>)</h3>
+
+<p>Les tiques (<em>ticks</em>) peuvent transmettre des maladies, mais les <a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_ticks">marques (<em>ticks</em>) de D3</a> communiquent de l’information. Et pourtant afficher plus de marques n’est pas forcément plus efficace, et à partir d’un certain moment elles commencent à surcharger votre graphique. Vous noterez que l’on a jamais spécifié combien de marques inclure dans l’axe, ni à quel intervalle elles devraient apparaître. Sans instructions données, D3 a examiné magiquement notre échelle <strong>xScale</strong> et en a deduit combien de marques ajouter, et à quel intervalle (tous les 50 dans notre cas).</p>
+
+<p>Comme vous pouvez l’imaginer, vous pouvez personnaliser tous les aspects de vos axes, en commençant par un nombre approximatif de marques, en utilisant <strong>ticks()</strong> :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">xAxis</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">svg</span><span class="p">.</span><span class="nx">axis</span><span class="p">()</span>
+                  <span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="nx">xScale</span><span class="p">)</span>
+                  <span class="p">.</span><span class="nx">orient</span><span class="p">(</span><span class="s2">"bottom"</span><span class="p">)</span>
+                  <span class="p">.</span><span class="nx">ticks</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>  <span class="c1">// Définit un nombre approximatif de 5 marques</span></code></pre></div>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/5.png" alt="Moins de marques" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/3.html">Voilà le code.</a></p>
+
+<p>Vous avez probablement noté que, bien que l’on ait défini cinq marques, D3 a décidé d’en afficher sept. C’est parceque D3 assure vos arrières, et qu’il s’est rendu compte qu’afficher seulement <em>cinq</em> marques aurait demandé de découper notre domaine d’entrée en valeurs bien moins jolies — dans notre cas, 0, 150, 300, 450, et 600. D3 interprète la valeur dans <strong>ticks()</strong> comme une suggestion, et remplacera votre suggestion avec ce qu’il détermine comme la valeur la plus propre et la plus facile à lire par un humain — dans notre cas, des intervalles de 100 — même lorsque cela requiert d’ajouter quelques marques de plus que ce que vous avez demandé. C’est en fait une fonctionnalité brillante qui accroit l’évolutivité (<em>scalability</em>) de votre désign ; à mesure que l’ensemble de données évolue, et que le domaine d’entrée s’étend ou se contracte (des nombres plus grands ou plus petits), D3 s’assure que les marques restent claires et faciles à lire.</p>
+
+<h3 id="pourquoi-pas-y-not-">Pourquoi pas (<em>Y Not</em>) ?</h3>
+
+<p>Il est temps d’étiqueter notre axe vertical ! En copiant et en modifiant le code que l’on a déjà écrit pour l’axe <strong>xAxis</strong>, on ajoute ça vers le haut de notre code</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Définit l'axe Y</span>
+<span class="kd">var</span> <span class="nx">yAxis</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">svg</span><span class="p">.</span><span class="nx">axis</span><span class="p">()</span>
+                  <span class="p">.</span><span class="nx">scale</span><span class="p">(</span><span class="nx">yScale</span><span class="p">)</span>
+                  <span class="p">.</span><span class="nx">orient</span><span class="p">(</span><span class="s2">"left"</span><span class="p">)</span>
+                  <span class="p">.</span><span class="nx">ticks</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span></code></pre></div>
+
+<p>et ceci, près du bas :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Créé l'axe Y</span>
+<span class="nx">svg</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"g"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"class"</span><span class="p">,</span> <span class="s2">"axis"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"transform"</span><span class="p">,</span> <span class="s2">"translate("</span> <span class="o">+</span> <span class="nx">padding</span> <span class="o">+</span> <span class="s2">",0)"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">yAxis</span><span class="p">);</span></code></pre></div>
+
+<p>Notez que les étiquettes seront orientées vers la gauche <strong>left</strong> et que le groupe <strong>g</strong> de l’axe <strong>yAxis</strong> est déplacé par translation vers la droite par un montant de <strong>padding</strong>.</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/6.png" alt="Axe Y initial" /></p>
+
+<p>Ça commence à prendre forme ! Mais les étiquettes de l’axe <strong>yAxis</strong> sont coupées. Pour leur donner plus de place sur la gauche, je vais augmenter la valeur de <strong>padding</strong> de 20 à 30 :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">padding</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span></code></pre></div>
+
+<p>Bien sûr, vous pourriez aussi faire apparaître des variables séparées de <strong>padding</strong> pour chaque axe, disons <strong>xPadding</strong> et <strong>yPadding</strong>, pour avoir plus de contrôle sur la disposition du graphique.</p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/4.html">Voilà le code</a>, et voila à quoi il ressemble :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/7.png" alt="Nuage de points avec un axe Y" /></p>
+
+<h3 id="touches-finales">Touches finales</h3>
+
+<p>Pour vous prouvez que notre nouvel axe est dynamique et évolutif, j’aimerais passer d’un ensemble statique à un ensemble de nombres aléatoires :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Ensemble dynamique de nombres aléatoires</span>
+<span class="kd">var</span> <span class="nx">dataset</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">var</span> <span class="nx">numDataPoints</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">xRange</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">yRange</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">numDataPoints</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">newNumber1</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">xRange</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">newNumber2</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nx">yRange</span><span class="p">);</span>
+    <span class="nx">dataset</span><span class="p">.</span><span class="nx">push</span><span class="p">([</span><span class="nx">newNumber1</span><span class="p">,</span> <span class="nx">newNumber2</span><span class="p">]);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Ce code crée un nouveau tableau, itère 50 fois, choisit deux nombres aléatoires à chaque fois, et ajoute (pousse) cette paire de valeurs dans le tableau <strong>dataset</strong>.</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/8.png" alt="Nuage de points avec données aléatoires" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/5.html">Essayez le code ici.</a> Chaque fois que vous rechargez la page, vous obtenez différentes valeurs. Notez comment les axes se mettent à l’échelle pour correspondre aux nouveaux domaines, et comment les marques et les étiquettes sont choisies en conséquence.</p>
+
+<p>Ma démonstration étant finie, je pense que l’on peut retirer ces horribles étiquettes rouges, en commentant les lignes de code qui les concernent :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/9.png" alt="Nuage de points avec des données aléatoires et sans étiquettes rouges" /></p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/6.html">Le code final de notre nuage !</a></p>
+
+<h3 id="mettre-en-forme-les-tiquettes">Mettre en forme les étiquettes</h3>
+
+<p>Une dernière chose : Jusqu’ici, on a travaillé avec des entiers qui sont propres et faciles à lire. Mais les données sont souvent plus complexes, et dans ces cas, vous voudrez avoir plus de contrôle sur la manière dont les étiquettes sont mises en forme. Découvrez <a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_tickFormat"><strong>tickFormat()</strong></a>, qui vous permet de spécifier comment les nombres doivent être formatés. Par exemple, vous pourriez souhaiter avoir trois chiffres après la virgule, ou afficher les valeurs en pourcentage, ou les deux.</p>
+
+<p>Dans ce cas, vous définiriez d’abord une nouvelle fonction de mise en forme. Celle-ci, par exemple, dit de traiter les valeurs comme des pourcentages avec une précision d’une décimale. (Allez voir <a href="https://github.com/mbostock/d3/wiki/Formatting#wiki-d3_format">la référence de d3.format()</a> pour plus d’options.)</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">formatAsPercentage</span> <span class="o">=</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">format</span><span class="p">(</span><span class="s2">".1%"</span><span class="p">);</span></code></pre></div>
+
+<p>Ensuite, transmettez-la à la fonction de formattage des marques :</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">xAxis</span><span class="p">.</span><span class="nx">tickFormat</span><span class="p">(</span><span class="nx">formatAsPercentage</span><span class="p">);</span></code></pre></div>
+
+<p>Conseil de développeur : Je trouve plus facile de tester ces fonctions de formattage dans la console JavaScript. Par exemple, ouvrez juste une page qui charge D3, comme <a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/6.html">notre nuage final</a>, et écrivez votre règle de formattage dans la console. Ensuite testez-la en lui passant une valeur, comme vous le feriez avec n’importe quelle autre fonction :</p>
+
+<p><img src="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/10.png" alt="Test de formattage dans la console" /></p>
+
+<p>Vous pouvez voir ici que la valeur <strong>0.54321</strong> est convertie en <strong>54.3%</strong> pour l’affichage — parfait !</p>
+
+<p><a href="http://alignedleft.com/content/03-tutorials/01-d3/160-axes/7.html">Essayez ce code ici.</a> Un formattage en pourcentage n’a pas de sens avec l’ensemble de données de notre nuage, mais à titre d’exercice, vous pourriez essayer de modifier comment les nombres aléatoires sont générés, pour avoir des nombres non-entiers (<em>et compris entre 0 et 1</em>), ou expérimenter la fonction de formattage elle-même.</p>
+
+<hr />
+
+<h2 id="note-finale-du-traducteur">Note finale du traducteur</h2>
+
+<p>La traduction de cette série de tutoriels est désormais terminée. J’espère qu’elle vous aura été utile. N’hésitez pas à la faire connaître autour de vous et à laisser un petit “Thanks for your tutorials on D3” sur Twitter à <a href="https://twitter.com/alignedleft">Scott Murray</a>.  </p>
+
+<p>Après avoir intégré les bases de D3 en français, vous souhaiterez peut-être lire le livre écrit, en anglais, par Scott Murray sur D3. Il est disponible en <a href="http://www.jdoqocy.com/click-6754088-11260198?url=http%3A%2F%2Fshop.oreilly.com%2Fproduct%2F0636920026938.do%3Fcmp%3Daf-strata-books-videos-product_cj_9781449339739_%2525zp&amp;cjsku=0636920026938">édition papier</a>, ou accessible, <em>gratuitement</em>, <a href="http://chimera.labs.oreilly.com/books/1230000000345/index.html">en ligne</a>.</p>
+
+<p>Un tutoriel visuel et intéractif sur les transitions est aussi disponible <a href="http://alignedleft.com/projects/2014/easy-as-pi/">sur son site</a>. Il suffit de cliquer sur le bouton <strong>Next &gt;</strong> | <strong>Run it &gt;</strong> et d’analyser les lignes de code. </p>
+
+<p>Bonnes visualisations !</p>
+
+  </article>
+
+
+</div>
+<div class="col-md-12">
+	<ul class="pager">
+	
+	  <li class="previous">
+	    <a href="/scottmurray-d3-fr/15-echelles.html" class="previous">← 15 - Échelles</a>
+	  </li>    
+	
+	
+	</ul>	
+</div>
+
+    </div>
+    <hr>
+    <footer class="col-md-12">
+
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Contacts</h4></div>
+      <div class="panel-body">
+        <ul class="list-unstyled">
+          
+          <li>
+            github : <a href="https://github.com/kaisersly">kaisersly</a>
+          </li>
+          
+
+          
+          <li>
+            twitter : <a href="https://twitter.com/kaisersly">@kaisersly</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+  </div>
+
+  </body>
+
+</html>
