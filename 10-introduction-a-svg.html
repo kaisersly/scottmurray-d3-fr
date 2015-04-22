@@ -68,7 +68,7 @@
 
 <h3 id="llment-svg">L’élément SVG</h3>
 
-<p>Scalable Vector Graphics (<em>SVG, ou graphique vectoriel adaptable, selon <a href="http://fr.wikipedia.org/wiki/Scalable_Vector_Graphics">Wikipedia</a></em>) est un format d’image basé sur du texte. Chaque image SVG est définie en utilisant un langage balisé similaire à HTML. Le code SVG peut être inclus directement dans un document HTML. Chaque navigateur supporte SVG <em>à l’exception d’</em> <a href="http://caniuse.com/#feat=svg">Internet Explorer versions 8 et plus anciennes</a>. SVG est basé sur XML, donc vous verrez que les éléments qui n’ont pas de balises fermantes doivent être auto-fermant. Par exemple :</p>
+<p>Scalable Vector Graphics (<em>SVG, ou graphique vectoriel adaptable, selon <a href="http://fr.wikipedia.org/wiki/Scalable_Vector_Graphics">Wikipédia</a></em>) est un format d’image basé sur du texte. Chaque image SVG est définie en utilisant un langage balisé similaire à HTML. Le code SVG peut être inclus directement dans un document HTML. Chaque navigateur supporte SVG <em>à l’exception d’</em> <a href="http://caniuse.com/#feat=svg">Internet Explorer versions 8 et plus anciennes</a>. SVG est basé sur XML, donc vous verrez que les éléments qui n’ont pas de balises fermantes doivent être auto-fermant. Par exemple :</p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;element&gt;&lt;/element&gt;</span>   <span class="c">&lt;!-- Utilise une balise fermante --&gt;</span>
 <span class="nt">&lt;element/&gt;</span>            <span class="c">&lt;!-- Balise auto-fermante --&gt;</span></code></pre></div>
@@ -161,7 +161,7 @@
     <text x="250" y="25" font-family="sans-serif" font-size="25" fill="gray">Trop facile</text>
 </svg>
 
-<p>Notez également que lorsqu’un élément visuel s’étale au-dela d’un bord du SVG, il est coupé. Faites attention, lorsque vous utilisez <strong>text</strong>, que vos descendeurs (<em>les parties d’un charactère qui dépassent</em>) ne soient pas coupés (ouille !). Vous pouvez voir ce que ça se produit lorsqu’on place la ligne de base (<strong>y</strong>) à 50, la même que la hauteur de notre SVG :</p>
+<p>Notez également que lorsqu’un élément visuel s’étale au-dela d’un bord du SVG, il est coupé. Faites attention, lorsque vous utilisez <strong>text</strong>, que vos descendeurs (<em>les parties d’un caractère qui dépassent</em>) ne soient pas coupés (ouille !). Vous pouvez voir ce que ça se produit lorsqu’on place la ligne de base (<strong>y</strong>) à 50, la même que la hauteur de notre SVG :</p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;text</span> <span class="na">x=</span><span class="s">"250"</span> <span class="na">y=</span><span class="s">"50"</span> <span class="na">font-family=</span><span class="s">"sans-serif"</span>
  <span class="na">font-size=</span><span class="s">"25"</span> <span class="na">fill=</span><span class="s">"gray"</span><span class="nt">&gt;</span>Trop facile<span class="nt">&lt;/text&gt;</span></code></pre></div>
@@ -226,7 +226,7 @@
 
 <ol>
   <li>Vous pouvez spécifier un style une fois et l’appliquer à plusieurs éléments.</li>
-  <li>Le code CSS est générallement plus facile à lire que les attributs en ligne.</li>
+  <li>Le code CSS est généralement plus facile à lire que les attributs en ligne.</li>
   <li>Pour ces raisons, l’approche CSS est plus maintenable et permet d’implémenter plus rapidement des changements de style. 
 Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. <strong>fill</strong>, <strong>stroke</strong>, et <strong>stroke-width</strong>, ne sont, après tout, <em>pas</em> des propriétés CSS. (Les équivalents CSS les plus proches sont <strong>background-color</strong> et <strong>border</strong>.) Si ça peut vous aider à vous rappeler quelles règles sont spécifiques à SVG dans votre feuille de style, vous pouvez les inclure <strong>svg</strong> dans ces sélecteurs :</li>
 </ol>
