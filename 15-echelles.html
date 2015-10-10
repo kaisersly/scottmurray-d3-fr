@@ -70,7 +70,7 @@
 
 <p>Les échelles de D3 sont des <em>fonctions</em> que vous parametrez. Une fois créée, vous appelez la fonction d’échelle, vous lui passez une valeur, et elle vous retourne gentiment une valeur mise à l’échelle. Vous pouvez définir et utiliser autant d’échelles que vous voulez.</p>
 
-<p>Il pourrait être tentant de penser à une échelle comme à quelque chose apparaissant visuellement sur l’image finale — comme un ensemble de marques indiquant une progression de valeurs. <em>Ne vous faites pas avoir !</em> Ces marques font partie d’un <em>axe</em>, qui est fondamentalement une représentation visuelle d’une échelle. Une échelle est une relation mathématique, sans représenation visuelle directe. Je vous encourage à penser les échelles et les axes comme deux choses différentes, mais quand même liées.</p>
+<p>Il pourrait être tentant de penser à une échelle comme à quelque chose apparaissant visuellement sur l’image finale — comme un ensemble de marques indiquant une progression de valeurs. <em>Ne vous faites pas avoir !</em> Ces marques font partie d’un <em>axe</em>, qui est fondamentalement une représentation visuelle d’une échelle. Une échelle est une relation mathématique, sans représentation visuelle directe. Je vous encourage à penser les échelles et les axes comme deux choses différentes, mais quand même liées.</p>
 
 <p>Cet article s’intéresse seulement aux échelles <a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear"><em>linéaires</em></a>, car elles sont les plus courantes et les plus facilement compréhensible. Une fois que vous aurez compris les échelles linéaires, comprendre les autres sera un jeu d’enfants.</p>
 
@@ -310,7 +310,7 @@
     <span class="k">return</span> <span class="nx">rScale</span><span class="p">(</span><span class="nx">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
 <span class="p">});</span></code></pre></div>
 
-<p>C’est excitant, car on garantit que notre rayon tombera <em>toujours</em> dans une plage de sortie <strong>2,5</strong>. (Ou <em>preque</em> toujours : Jetez un oeil à la référence à <strong>clamp()</strong> plus bas.) Donc une valeur de <strong>0</strong> (l’entrée minimum) donnera des cercles de rayon <strong>2</strong> (ou d’un diamètre de 4 pixels). La plus grande valeur donnera un cercle de rayon <strong>5</strong> (d’un diamètre de 10 pixels).</p>
+<p>C’est excitant, car on garantit que notre rayon tombera <em>toujours</em> dans une plage de sortie <strong>2,5</strong>. (Ou <em>presque</em> toujours : Jetez un oeil à la référence à <strong>clamp()</strong> plus bas.) Donc une valeur de <strong>0</strong> (l’entrée minimum) donnera des cercles de rayon <strong>2</strong> (ou d’un diamètre de 4 pixels). La plus grande valeur donnera un cercle de rayon <strong>5</strong> (d’un diamètre de 10 pixels).</p>
 
 <p><img src="http://alignedleft.com/content/03-tutorials/01-d3/150-scales/5.png" alt="Nuage de points avec des rayons mis à l'échelle" /></p>
 
@@ -326,7 +326,7 @@
 
 <p><img src="http://alignedleft.com/content/03-tutorials/01-d3/150-scales/7.png" alt="Grand nuage de points" /></p>
 
-<p>Boom, encore ! <a href="http://alignedleft.com/content/03-tutorials/01-d3/150-scales/6.html">Voilà le code mis à jour.</a> J’espère qu’en regardant cela vous réalisez : Plus de nuit blanche à cause de votre client qui vous dit que le graphique devrait faire 800 pixels de large plutôt que 600. Oui, vous dormirez plus grâce à moi (et aux méthodes intégrées brillantes de D3). Être bien réposé est un avantage (<em>pour être plus efficace au travail</em>). Vous pourrez me remercier plus tard.</p>
+<p>Boom, encore ! <a href="http://alignedleft.com/content/03-tutorials/01-d3/150-scales/6.html">Voilà le code mis à jour.</a> J’espère qu’en regardant cela vous réalisez : Plus de nuit blanche à cause de votre client qui vous dit que le graphique devrait faire 800 pixels de large plutôt que 600. Oui, vous dormirez plus grâce à moi (et aux méthodes intégrées brillantes de D3). Être bien reposé est un avantage (<em>pour être plus efficace au travail</em>). Vous pourrez me remercier plus tard.</p>
 
 <h3 id="autres-mthodes">Autres méthodes</h3>
 

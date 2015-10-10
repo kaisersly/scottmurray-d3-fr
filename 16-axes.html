@@ -97,7 +97,7 @@
 
 <p><a href="https://github.com/mbostock/d3/wiki/Selections#wiki-call">La fonction <strong>call()</strong> de D3</a> prend en entrée une <em>sélection</em> et transmet cette sélection à une <em>fonction</em>. Donc, dans notre cas, on vient juste d’ajouter un nouvel élément groupe <strong>g</strong> pour contenir tous nos éléments d’axe qui-vont-bientôt-être-générés. (Le <strong>g</strong> n’est pas rigoureusement nécessaire, mais permet de garder les éléments organisés et d’appliquer une classe au groupe entier, ce que nous ferons dans un instant.)</p>
 
-<p>Ce <strong>g</strong> devient la séléction pour le prochain maillon de la chaîne. <strong>call()</strong> transmet la sélection à la fonction <strong>xAxis</strong>, donc notre axe est généré dans le nouveau <strong>g</strong>. Ce bout de code au-dessus est un raccourci pour cet équivalent :</p>
+<p>Ce <strong>g</strong> devient la sélection pour le prochain maillon de la chaîne. <strong>call()</strong> transmet la sélection à la fonction <strong>xAxis</strong>, donc notre axe est généré dans le nouveau <strong>g</strong>. Ce bout de code au-dessus est un raccourci pour cet équivalent :</p>
 
 <div class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">svg</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s2">"g"</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">svg</span><span class="p">.</span><span class="nx">axis</span><span class="p">()</span>
@@ -151,7 +151,7 @@
 
 <h3 id="soccuper-des-marques-ticks">S’occuper des marques (<em>ticks</em>)</h3>
 
-<p>Les tiques (<em>ticks</em>) peuvent transmettre des maladies, mais les <a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_ticks">marques (<em>ticks</em>) de D3</a> communiquent de l’information. Et pourtant afficher plus de marques n’est pas forcément plus efficace, et à partir d’un certain moment elles commencent à surcharger votre graphique. Vous noterez que l’on a jamais spécifié combien de marques inclure dans l’axe, ni à quel intervalle elles devraient apparaître. Sans instructions données, D3 a examiné magiquement notre échelle <strong>xScale</strong> et en a deduit combien de marques ajouter, et à quel intervalle (tous les 50 dans notre cas).</p>
+<p>Les tiques (<em>ticks</em>) peuvent transmettre des maladies, mais les <a href="https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_ticks">marques (<em>ticks</em>) de D3</a> communiquent de l’information. Et pourtant afficher plus de marques n’est pas forcément plus efficace, et à partir d’un certain moment elles commencent à surcharger votre graphique. Vous noterez que l’on a jamais spécifié combien de marques inclure dans l’axe, ni à quel intervalle elles devraient apparaître. Sans instructions données, D3 a examiné magiquement notre échelle <strong>xScale</strong> et en a déduit combien de marques ajouter, et à quel intervalle (tous les 50 dans notre cas).</p>
 
 <p>Comme vous pouvez l’imaginer, vous pouvez personnaliser tous les aspects de vos axes, en commençant par un nombre approximatif de marques, en utilisant <strong>ticks()</strong> :</p>
 

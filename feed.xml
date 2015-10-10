@@ -6,8 +6,8 @@
 </description>
     <link>http://kaisersly.github.io/scottmurray-d3-fr/</link>
     <atom:link href="http://kaisersly.github.io/scottmurray-d3-fr/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 02 Dec 2014 10:12:07 +0100</pubDate>
-    <lastBuildDate>Tue, 02 Dec 2014 10:12:07 +0100</lastBuildDate>
+    <pubDate>Sat, 10 Oct 2015 09:16:27 +0200</pubDate>
+    <lastBuildDate>Sat, 10 Oct 2015 09:16:27 +0200</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -61,7 +61,7 @@
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/mbostock/d3/wiki/Selections#wiki-call&quot;&gt;La fonction &lt;strong&gt;call()&lt;/strong&gt; de D3&lt;/a&gt; prend en entrée une &lt;em&gt;sélection&lt;/em&gt; et transmet cette sélection à une &lt;em&gt;fonction&lt;/em&gt;. Donc, dans notre cas, on vient juste d’ajouter un nouvel élément groupe &lt;strong&gt;g&lt;/strong&gt; pour contenir tous nos éléments d’axe qui-vont-bientôt-être-générés. (Le &lt;strong&gt;g&lt;/strong&gt; n’est pas rigoureusement nécessaire, mais permet de garder les éléments organisés et d’appliquer une classe au groupe entier, ce que nous ferons dans un instant.)&lt;/p&gt;
 
-&lt;p&gt;Ce &lt;strong&gt;g&lt;/strong&gt; devient la séléction pour le prochain maillon de la chaîne. &lt;strong&gt;call()&lt;/strong&gt; transmet la sélection à la fonction &lt;strong&gt;xAxis&lt;/strong&gt;, donc notre axe est généré dans le nouveau &lt;strong&gt;g&lt;/strong&gt;. Ce bout de code au-dessus est un raccourci pour cet équivalent :&lt;/p&gt;
+&lt;p&gt;Ce &lt;strong&gt;g&lt;/strong&gt; devient la sélection pour le prochain maillon de la chaîne. &lt;strong&gt;call()&lt;/strong&gt; transmet la sélection à la fonction &lt;strong&gt;xAxis&lt;/strong&gt;, donc notre axe est généré dans le nouveau &lt;strong&gt;g&lt;/strong&gt;. Ce bout de code au-dessus est un raccourci pour cet équivalent :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;g&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;svg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
@@ -115,7 +115,7 @@
 
 &lt;h3 id=&quot;soccuper-des-marques-ticks&quot;&gt;S’occuper des marques (&lt;em&gt;ticks&lt;/em&gt;)&lt;/h3&gt;
 
-&lt;p&gt;Les tiques (&lt;em&gt;ticks&lt;/em&gt;) peuvent transmettre des maladies, mais les &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_ticks&quot;&gt;marques (&lt;em&gt;ticks&lt;/em&gt;) de D3&lt;/a&gt; communiquent de l’information. Et pourtant afficher plus de marques n’est pas forcément plus efficace, et à partir d’un certain moment elles commencent à surcharger votre graphique. Vous noterez que l’on a jamais spécifié combien de marques inclure dans l’axe, ni à quel intervalle elles devraient apparaître. Sans instructions données, D3 a examiné magiquement notre échelle &lt;strong&gt;xScale&lt;/strong&gt; et en a deduit combien de marques ajouter, et à quel intervalle (tous les 50 dans notre cas).&lt;/p&gt;
+&lt;p&gt;Les tiques (&lt;em&gt;ticks&lt;/em&gt;) peuvent transmettre des maladies, mais les &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear_ticks&quot;&gt;marques (&lt;em&gt;ticks&lt;/em&gt;) de D3&lt;/a&gt; communiquent de l’information. Et pourtant afficher plus de marques n’est pas forcément plus efficace, et à partir d’un certain moment elles commencent à surcharger votre graphique. Vous noterez que l’on a jamais spécifié combien de marques inclure dans l’axe, ni à quel intervalle elles devraient apparaître. Sans instructions données, D3 a examiné magiquement notre échelle &lt;strong&gt;xScale&lt;/strong&gt; et en a déduit combien de marques ajouter, et à quel intervalle (tous les 50 dans notre cas).&lt;/p&gt;
 
 &lt;p&gt;Comme vous pouvez l’imaginer, vous pouvez personnaliser tous les aspects de vos axes, en commençant par un nombre approximatif de marques, en utilisant &lt;strong&gt;ticks()&lt;/strong&gt; :&lt;/p&gt;
 
@@ -248,7 +248,7 @@
 
 &lt;p&gt;Les échelles de D3 sont des &lt;em&gt;fonctions&lt;/em&gt; que vous parametrez. Une fois créée, vous appelez la fonction d’échelle, vous lui passez une valeur, et elle vous retourne gentiment une valeur mise à l’échelle. Vous pouvez définir et utiliser autant d’échelles que vous voulez.&lt;/p&gt;
 
-&lt;p&gt;Il pourrait être tentant de penser à une échelle comme à quelque chose apparaissant visuellement sur l’image finale — comme un ensemble de marques indiquant une progression de valeurs. &lt;em&gt;Ne vous faites pas avoir !&lt;/em&gt; Ces marques font partie d’un &lt;em&gt;axe&lt;/em&gt;, qui est fondamentalement une représentation visuelle d’une échelle. Une échelle est une relation mathématique, sans représenation visuelle directe. Je vous encourage à penser les échelles et les axes comme deux choses différentes, mais quand même liées.&lt;/p&gt;
+&lt;p&gt;Il pourrait être tentant de penser à une échelle comme à quelque chose apparaissant visuellement sur l’image finale — comme un ensemble de marques indiquant une progression de valeurs. &lt;em&gt;Ne vous faites pas avoir !&lt;/em&gt; Ces marques font partie d’un &lt;em&gt;axe&lt;/em&gt;, qui est fondamentalement une représentation visuelle d’une échelle. Une échelle est une relation mathématique, sans représentation visuelle directe. Je vous encourage à penser les échelles et les axes comme deux choses différentes, mais quand même liées.&lt;/p&gt;
 
 &lt;p&gt;Cet article s’intéresse seulement aux échelles &lt;a href=&quot;https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-linear&quot;&gt;&lt;em&gt;linéaires&lt;/em&gt;&lt;/a&gt;, car elles sont les plus courantes et les plus facilement compréhensible. Une fois que vous aurez compris les échelles linéaires, comprendre les autres sera un jeu d’enfants.&lt;/p&gt;
 
@@ -488,7 +488,7 @@
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rScale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;C’est excitant, car on garantit que notre rayon tombera &lt;em&gt;toujours&lt;/em&gt; dans une plage de sortie &lt;strong&gt;2,5&lt;/strong&gt;. (Ou &lt;em&gt;preque&lt;/em&gt; toujours : Jetez un oeil à la référence à &lt;strong&gt;clamp()&lt;/strong&gt; plus bas.) Donc une valeur de &lt;strong&gt;0&lt;/strong&gt; (l’entrée minimum) donnera des cercles de rayon &lt;strong&gt;2&lt;/strong&gt; (ou d’un diamètre de 4 pixels). La plus grande valeur donnera un cercle de rayon &lt;strong&gt;5&lt;/strong&gt; (d’un diamètre de 10 pixels).&lt;/p&gt;
+&lt;p&gt;C’est excitant, car on garantit que notre rayon tombera &lt;em&gt;toujours&lt;/em&gt; dans une plage de sortie &lt;strong&gt;2,5&lt;/strong&gt;. (Ou &lt;em&gt;presque&lt;/em&gt; toujours : Jetez un oeil à la référence à &lt;strong&gt;clamp()&lt;/strong&gt; plus bas.) Donc une valeur de &lt;strong&gt;0&lt;/strong&gt; (l’entrée minimum) donnera des cercles de rayon &lt;strong&gt;2&lt;/strong&gt; (ou d’un diamètre de 4 pixels). La plus grande valeur donnera un cercle de rayon &lt;strong&gt;5&lt;/strong&gt; (d’un diamètre de 10 pixels).&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/5.png&quot; alt=&quot;Nuage de points avec des rayons mis à l&#39;échelle&quot; /&gt;&lt;/p&gt;
 
@@ -504,7 +504,7 @@
 
 &lt;p&gt;&lt;img src=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/7.png&quot; alt=&quot;Grand nuage de points&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Boom, encore ! &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/6.html&quot;&gt;Voilà le code mis à jour.&lt;/a&gt; J’espère qu’en regardant cela vous réalisez : Plus de nuit blanche à cause de votre client qui vous dit que le graphique devrait faire 800 pixels de large plutôt que 600. Oui, vous dormirez plus grâce à moi (et aux méthodes intégrées brillantes de D3). Être bien réposé est un avantage (&lt;em&gt;pour être plus efficace au travail&lt;/em&gt;). Vous pourrez me remercier plus tard.&lt;/p&gt;
+&lt;p&gt;Boom, encore ! &lt;a href=&quot;http://alignedleft.com/content/03-tutorials/01-d3/150-scales/6.html&quot;&gt;Voilà le code mis à jour.&lt;/a&gt; J’espère qu’en regardant cela vous réalisez : Plus de nuit blanche à cause de votre client qui vous dit que le graphique devrait faire 800 pixels de large plutôt que 600. Oui, vous dormirez plus grâce à moi (et aux méthodes intégrées brillantes de D3). Être bien reposé est un avantage (&lt;em&gt;pour être plus efficace au travail&lt;/em&gt;). Vous pourrez me remercier plus tard.&lt;/p&gt;
 
 &lt;h3 id=&quot;autres-mthodes&quot;&gt;Autres méthodes&lt;/h3&gt;
 
@@ -685,7 +685,7 @@
 
 &lt;p&gt;Normallement, certains concepts de base de D3 deviennent clairs : Chargez les données, générer de nouveaux éléments, et utiliser les valeurs des données pour en dériver des valeurs pour les attributs de ces éléments.&lt;/p&gt;
 
-&lt;p&gt;Et pourant l’image ci-dessus est à peine passable en tant que visualisation de données. Le nuage de points est difficile à lire, et le code n’est pas flexible. Pour être honnête, on s’est pas vraiment améliorer par rapport à l’&lt;em&gt;assistant de graphiques&lt;/em&gt; — gag — d’Excel !&lt;/p&gt;
+&lt;p&gt;Et pourant l’image ci-dessus est à peine passable en tant que visualisation de données. Le nuage de points est difficile à lire, et le code n’est pas flexible. Pour être honnête, on ne s’est pas vraiment amélioré par rapport à l’&lt;em&gt;assistant de graphiques&lt;/em&gt; — gag — d’Excel !&lt;/p&gt;
 
 &lt;p&gt;Ne vous inquiétez pas : D3 est bien plus cool que l’assistant de graphiques d’Excel (sans mentionner Clippy), mais générer un graphique clinquant et intéractif impliquent d’amener nos compétences en D3 au niveau supérieur. Pour devenir flexible en ce qui concerne nos données, on apprendra à utiliser les &lt;em&gt;échelles&lt;/em&gt; de D3. Pour rendre notre nuage plus facile à lire, on apprendra à utiliser les &lt;em&gt;générateurs d’axe&lt;/em&gt; et les étiquettes d’axe. Après cela, on pourra rendre les choses intéractives et on apprendra comment mettre à jour les données à la volée.&lt;/p&gt;
 </description>
@@ -902,7 +902,7 @@
    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;enter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Ça semble familié ? Tout comme on a fait pour les &lt;strong&gt;rect&lt;/strong&gt;s, on fait de même pour les &lt;strong&gt;text&lt;/strong&gt;s. D’abord, sélectionnez ce que vous voulez, amenez les données, ajoutez les nouveaux éléments avec &lt;strong&gt;enter()&lt;/strong&gt; (qui sont juste des placeholders à ce moment), et finallement ajoutez les nouveaux éléments &lt;strong&gt;text&lt;/strong&gt; elements au DOM.&lt;/p&gt;
+&lt;p&gt;Ça semble familier ? Tout comme on a fait pour les &lt;strong&gt;rect&lt;/strong&gt;s, on fait de même pour les &lt;strong&gt;text&lt;/strong&gt;s. D’abord, sélectionnez ce que vous voulez, amenez les données, ajoutez les nouveaux éléments avec &lt;strong&gt;enter()&lt;/strong&gt; (qui sont juste des placeholders à ce moment), et finallement ajoutez les nouveaux éléments &lt;strong&gt;text&lt;/strong&gt; elements au DOM.&lt;/p&gt;
 
 &lt;p&gt;Complétons ce code pour inclure la valeur de la donnée dans chaque élément de texte en utilisant la méthode &lt;strong&gt;text()&lt;/strong&gt;&lt;/p&gt;
 
@@ -1205,7 +1205,7 @@
 
 &lt;p&gt;&lt;em&gt;Dernière mise à jour le 30 décembre 2012&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;Maintenant que l’on est familié avec la structure de base d’une image SVG et ses éléments, comment peut-on générer des formes à partir de nos données ?&lt;/p&gt;
+&lt;p&gt;Maintenant que l’on est familier avec la structure de base d’une image SVG et ses éléments, comment peut-on générer des formes à partir de nos données ?&lt;/p&gt;
 
 &lt;p&gt;Vous avez peut-être remarqué que toutes les propriétés des éléments SVG sont spécifiées comme &lt;em&gt;attributs&lt;/em&gt;. Ce qui veut dire qu’elles sont inclues comme des paires propriété/valeur, comme ça :&lt;/p&gt;
 
@@ -1345,9 +1345,9 @@
         <title>10 - Introduction à SVG</title>
         <description>&lt;hr /&gt;
 
-&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/an-svg-primer&quot;&gt;http://alignedleft.com/tutorials/d3/an-svg-primer&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
+&lt;p&gt;&lt;em&gt;Lien vers le tutoriel original : &lt;a href=&quot;http://alignedleft.com/tutorials/d3/an-svg-primer&quot;&gt;http://alignedleft.com/tutorials/d3/an-svg-primer&lt;/a&gt;&lt;/em&gt;
+²
+———-&lt;/p&gt;
 
 &lt;h2 id=&quot;introduction--svg&quot;&gt;Introduction à SVG&lt;/h2&gt;
 
@@ -1359,7 +1359,7 @@
 
 &lt;h3 id=&quot;llment-svg&quot;&gt;L’élément SVG&lt;/h3&gt;
 
-&lt;p&gt;Scalable Vector Graphics (&lt;em&gt;SVG, ou graphique vectoriel adaptable, selon &lt;a href=&quot;http://fr.wikipedia.org/wiki/Scalable_Vector_Graphics&quot;&gt;Wikipedia&lt;/a&gt;&lt;/em&gt;) est un format d’image basé sur du texte. Chaque image SVG est définie en utilisant un langage balisé similaire à HTML. Le code SVG peut être inclus directement dans un document HTML. Chaque navigateur supporte SVG &lt;em&gt;à l’exception d’&lt;/em&gt; &lt;a href=&quot;http://caniuse.com/#feat=svg&quot;&gt;Internet Explorer versions 8 et plus anciennes&lt;/a&gt;. SVG est basé sur XML, donc vous verrez que les éléments qui n’ont pas de balises fermantes doivent être auto-fermant. Par exemple :&lt;/p&gt;
+&lt;p&gt;Scalable Vector Graphics (&lt;em&gt;SVG, ou graphique vectoriel adaptable, selon &lt;a href=&quot;http://fr.wikipedia.org/wiki/Scalable_Vector_Graphics&quot;&gt;Wikipédia&lt;/a&gt;&lt;/em&gt;) est un format d’image basé sur du texte. Chaque image SVG est définie en utilisant un langage balisé similaire à HTML. Le code SVG peut être inclus directement dans un document HTML. Chaque navigateur supporte SVG &lt;em&gt;à l’exception d’&lt;/em&gt; &lt;a href=&quot;http://caniuse.com/#feat=svg&quot;&gt;Internet Explorer versions 8 et plus anciennes&lt;/a&gt;. SVG est basé sur XML, donc vous verrez que les éléments qui n’ont pas de balises fermantes doivent être auto-fermant. Par exemple :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;element&amp;gt;&amp;lt;/element&amp;gt;&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Utilise une balise fermante --&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;element/&amp;gt;&lt;/span&gt;            &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Balise auto-fermante --&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1452,7 +1452,7 @@
     &lt;text x=&quot;250&quot; y=&quot;25&quot; font-family=&quot;sans-serif&quot; font-size=&quot;25&quot; fill=&quot;gray&quot;&gt;Trop facile&lt;/text&gt;
 &lt;/svg&gt;
 
-&lt;p&gt;Notez également que lorsqu’un élément visuel s’étale au-dela d’un bord du SVG, il est coupé. Faites attention, lorsque vous utilisez &lt;strong&gt;text&lt;/strong&gt;, que vos descendeurs (&lt;em&gt;les parties d’un charactère qui dépassent&lt;/em&gt;) ne soient pas coupés (ouille !). Vous pouvez voir ce que ça se produit lorsqu’on place la ligne de base (&lt;strong&gt;y&lt;/strong&gt;) à 50, la même que la hauteur de notre SVG :&lt;/p&gt;
+&lt;p&gt;Notez également que lorsqu’un élément visuel s’étale au-dela d’un bord du SVG, il est coupé. Faites attention, lorsque vous utilisez &lt;strong&gt;text&lt;/strong&gt;, que vos descendeurs (&lt;em&gt;les parties d’un caractère qui dépassent&lt;/em&gt;) ne soient pas coupés (ouille !). Vous pouvez voir ce que ça se produit lorsqu’on place la ligne de base (&lt;strong&gt;y&lt;/strong&gt;) à 50, la même que la hauteur de notre SVG :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;text&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;x=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;250&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;y=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;font-family=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sans-serif&quot;&lt;/span&gt;
  &lt;span class=&quot;na&quot;&gt;font-size=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gray&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Trop facile&lt;span class=&quot;nt&quot;&gt;&amp;lt;/text&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1517,9 +1517,9 @@
 
 &lt;ol&gt;
   &lt;li&gt;Vous pouvez spécifier un style une fois et l’appliquer à plusieurs éléments.&lt;/li&gt;
-  &lt;li&gt;Le code CSS est générallement plus facile à lire que les attributs en ligne.&lt;/li&gt;
+  &lt;li&gt;Le code CSS est généralement plus facile à lire que les attributs en ligne.&lt;/li&gt;
   &lt;li&gt;Pour ces raisons, l’approche CSS est plus maintenable et permet d’implémenter plus rapidement des changements de style. 
-Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. &lt;strong&gt;fill&lt;/strong&gt;, &lt;strong&gt;stroke&lt;/strong&gt;, et &lt;strong&gt;stroke-width&lt;/strong&gt;, ne sont, après tout, &lt;em&gt;pas&lt;/em&gt; des propriétés CSS. (Les équivalents CSS les plus proches sont &lt;strong&gt;background-color&lt;/strong&gt; et &lt;strong&gt;border&lt;/strong&gt;.) Si ça peut vous aider à vous rappeler quelles règles sont spécifiques à SVG dans votre feuille de style, vous pouvez les inclure &lt;strong&gt;svg&lt;/strong&gt; dans ces sélecteurs :&lt;/li&gt;
+Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. &lt;strong&gt;fill&lt;/strong&gt;, &lt;strong&gt;stroke&lt;/strong&gt;, et &lt;strong&gt;stroke-width&lt;/strong&gt;, ne sont, après tout, &lt;em&gt;pas&lt;/em&gt; des propriétés CSS. (Les équivalents CSS les plus proches sont &lt;strong&gt;background-color&lt;/strong&gt; et &lt;strong&gt;border&lt;/strong&gt;.) Si ça peut vous aider à vous rappeler quelles règles sont spécifiques à SVG dans votre feuille de style, vous pouvez inclure &lt;strong&gt;svg&lt;/strong&gt; dans ces sélecteurs :&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span class=&quot;nt&quot;&gt;svg&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.pumpkin&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -1558,7 +1558,7 @@ Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. &lt;st
 
 &lt;p&gt;Il y a deux moyens d’appliquer une transparence : utilisez une couleur RGB avec alpha, ou définir une valeur d’opacité &lt;strong&gt;opacity&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;Vous pouvez utiliser &lt;strong&gt;rgba()&lt;/strong&gt; n’importe où pour spécifier une couleur, comme avec &lt;strong&gt;fill&lt;/strong&gt; ou &lt;strong&gt;stroke&lt;/strong&gt;. &lt;strong&gt;rgba()&lt;/strong&gt; attends trois valeurs entre 0 et 255 pour le rouge, le vert et le bleu, plus une valeur alpha (transparence) entre 0.0 et 1.0.&lt;/p&gt;
+&lt;p&gt;Vous pouvez utiliser &lt;strong&gt;rgba()&lt;/strong&gt; n’importe où pour spécifier une couleur, comme avec &lt;strong&gt;fill&lt;/strong&gt; ou &lt;strong&gt;stroke&lt;/strong&gt;. &lt;strong&gt;rgba()&lt;/strong&gt; attend trois valeurs entre 0 et 255 pour le rouge, le vert et le bleu, plus une valeur alpha (transparence) entre 0.0 et 1.0.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(128, 0, 128, 1.0)&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;circle&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cx=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;50&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cy=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;25&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;r=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;20&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fill=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rgba(0, 0, 255, 0.75)&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
@@ -1638,7 +1638,7 @@ Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. &lt;st
     &lt;circle cx=&quot;105&quot; cy=&quot;25&quot; r=&quot;20&quot; fill=&quot;rgba(128, 0, 128, 0.75)&quot; stroke=&quot;rgba(0, 255, 0, 0.25)&quot; stroke-width=&quot;10&quot; opacity=&quot;0.2&quot;&gt;&lt;/circle&gt;
 &lt;/svg&gt;
 
-&lt;p&gt;Notez que l’opacité &lt;strong&gt;opacity&lt;/strong&gt; du troisième cercle est égale à &lt;strong&gt;0.2&lt;/strong&gt; or 20%. Et pourtant son remplissage violet a déjà une valeur alpha de &lt;strong&gt;0.75&lt;/strong&gt; ou 75%. La zone violette a donc une transparence finale de 0.2 fois 0.75 = 0.15 ou 15%.&lt;/p&gt;
+&lt;p&gt;Notez que l’opacité &lt;strong&gt;opacity&lt;/strong&gt; du troisième cercle est égale à &lt;strong&gt;0.2&lt;/strong&gt; soit 20%. Et pourtant son remplissage violet a déjà une valeur alpha de &lt;strong&gt;0.75&lt;/strong&gt; ou 75%. La zone violette a donc une transparence finale de 0.2 fois 0.75 = 0.15 ou 15%.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Pour plus d’informations sur SVG — notamment les chemins paths, clip-paths, masks, et filters — voir “&lt;a href=&quot;http://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html&quot;&gt;An SVG Primer for Today’s Browsers&lt;/a&gt;” de &lt;a href=&quot;http://srufaculty.sru.edu/david.dailey/&quot;&gt;David Dailey&lt;/a&gt;.&lt;/p&gt;
@@ -1784,7 +1784,7 @@ Juste pour voir, ouvrez la console JavaScript et tapez &lt;strong&gt;console.log
         height: 75px;
         background-color: teal;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;(Pour les standardistes du web, cet un contre-sens sémantique. Normallement, on ne devrait pas utiliser un &lt;strong&gt;div&lt;/strong&gt; vide juste pour l’effet visuel, mais les tutoriels de programmation font partie des exceptions.)&lt;/p&gt;
+&lt;p&gt;(Pour les standardistes du web, c’est un contre-sens sémantique. Normallement, on ne devrait pas utiliser un &lt;strong&gt;div&lt;/strong&gt; vide juste pour l’effet visuel, mais les tutoriels de programmation font partie des exceptions.)&lt;/p&gt;
 
 &lt;p&gt;Comme c’est un &lt;strong&gt;div&lt;/strong&gt;, sa largeur &lt;strong&gt;width&lt;/strong&gt; et sa hauteur &lt;strong&gt;height&lt;/strong&gt; sont définies par des styles CSS. Chaque barre dans notre graphique partagera les mêmes propriétés d’affichage (exceptée la hauteur &lt;strong&gt;height&lt;/strong&gt;), donc je vais mettre ces styles partagés dans une classe appelée bar :&lt;/p&gt;
 
@@ -1803,7 +1803,7 @@ Juste pour voir, ouvrez la console JavaScript et tapez &lt;strong&gt;console.log
 
 &lt;h3 id=&quot;dfinir-des-attributs&quot;&gt;Définir des attributs&lt;/h3&gt;
 
-&lt;p&gt;&lt;strong&gt;attr()&lt;/strong&gt; est utilisée pour définir un attribut HTML et sa valeur à un élément. Un attribut HTML est n’importe paire clé/valeur que vous pourriez inclure entre les balises &lt;strong&gt;&amp;lt;&amp;gt;&lt;/strong&gt; d’un élément. Par exemple, ces éléments HTML&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;attr()&lt;/strong&gt; est utilisée pour définir un attribut HTML et sa valeur à un élément. Un attribut HTML est n’importe quelle paire clé/valeur que vous pourriez inclure entre les balises &lt;strong&gt;&amp;lt;&amp;gt;&lt;/strong&gt; d’un élément. Par exemple, ces éléments HTML&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;select&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;country&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;

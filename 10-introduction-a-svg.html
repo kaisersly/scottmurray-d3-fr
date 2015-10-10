@@ -54,9 +54,9 @@
   <article>
     <hr />
 
-<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/an-svg-primer">http://alignedleft.com/tutorials/d3/an-svg-primer</a></em></p>
-
-<hr />
+<p><em>Lien vers le tutoriel original : <a href="http://alignedleft.com/tutorials/d3/an-svg-primer">http://alignedleft.com/tutorials/d3/an-svg-primer</a></em>
+²
+———-</p>
 
 <h2 id="introduction--svg">Introduction à SVG</h2>
 
@@ -228,7 +228,7 @@
   <li>Vous pouvez spécifier un style une fois et l’appliquer à plusieurs éléments.</li>
   <li>Le code CSS est généralement plus facile à lire que les attributs en ligne.</li>
   <li>Pour ces raisons, l’approche CSS est plus maintenable et permet d’implémenter plus rapidement des changements de style. 
-Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. <strong>fill</strong>, <strong>stroke</strong>, et <strong>stroke-width</strong>, ne sont, après tout, <em>pas</em> des propriétés CSS. (Les équivalents CSS les plus proches sont <strong>background-color</strong> et <strong>border</strong>.) Si ça peut vous aider à vous rappeler quelles règles sont spécifiques à SVG dans votre feuille de style, vous pouvez les inclure <strong>svg</strong> dans ces sélecteurs :</li>
+Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. <strong>fill</strong>, <strong>stroke</strong>, et <strong>stroke-width</strong>, ne sont, après tout, <em>pas</em> des propriétés CSS. (Les équivalents CSS les plus proches sont <strong>background-color</strong> et <strong>border</strong>.) Si ça peut vous aider à vous rappeler quelles règles sont spécifiques à SVG dans votre feuille de style, vous pouvez inclure <strong>svg</strong> dans ces sélecteurs :</li>
 </ol>
 
 <div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">svg</span> <span class="nc">.pumpkin</span> <span class="p">{</span>
@@ -267,7 +267,7 @@ Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. <stron
 
 <p>Il y a deux moyens d’appliquer une transparence : utilisez une couleur RGB avec alpha, ou définir une valeur d’opacité <strong>opacity</strong>.</p>
 
-<p>Vous pouvez utiliser <strong>rgba()</strong> n’importe où pour spécifier une couleur, comme avec <strong>fill</strong> ou <strong>stroke</strong>. <strong>rgba()</strong> attends trois valeurs entre 0 et 255 pour le rouge, le vert et le bleu, plus une valeur alpha (transparence) entre 0.0 et 1.0.</p>
+<p>Vous pouvez utiliser <strong>rgba()</strong> n’importe où pour spécifier une couleur, comme avec <strong>fill</strong> ou <strong>stroke</strong>. <strong>rgba()</strong> attend trois valeurs entre 0 et 255 pour le rouge, le vert et le bleu, plus une valeur alpha (transparence) entre 0.0 et 1.0.</p>
 
 <div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;circle</span> <span class="na">cx=</span><span class="s">"25"</span> <span class="na">cy=</span><span class="s">"25"</span> <span class="na">r=</span><span class="s">"20"</span> <span class="na">fill=</span><span class="s">"rgba(128, 0, 128, 1.0)"</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;circle</span> <span class="na">cx=</span><span class="s">"50"</span> <span class="na">cy=</span><span class="s">"25"</span> <span class="na">r=</span><span class="s">"20"</span> <span class="na">fill=</span><span class="s">"rgba(0, 0, 255, 0.75)"</span><span class="nt">/&gt;</span>
@@ -347,7 +347,7 @@ Utiliser CSS pour appliquer des styles SVG peut en déconcerter certains. <stron
     <circle cx="105" cy="25" r="20" fill="rgba(128, 0, 128, 0.75)" stroke="rgba(0, 255, 0, 0.25)" stroke-width="10" opacity="0.2"></circle>
 </svg>
 
-<p>Notez que l’opacité <strong>opacity</strong> du troisième cercle est égale à <strong>0.2</strong> or 20%. Et pourtant son remplissage violet a déjà une valeur alpha de <strong>0.75</strong> ou 75%. La zone violette a donc une transparence finale de 0.2 fois 0.75 = 0.15 ou 15%.</p>
+<p>Notez que l’opacité <strong>opacity</strong> du troisième cercle est égale à <strong>0.2</strong> soit 20%. Et pourtant son remplissage violet a déjà une valeur alpha de <strong>0.75</strong> ou 75%. La zone violette a donc une transparence finale de 0.2 fois 0.75 = 0.15 ou 15%.</p>
 
 <blockquote>
   <p>Pour plus d’informations sur SVG — notamment les chemins paths, clip-paths, masks, et filters — voir “<a href="http://www.w3.org/Graphics/SVG/IG/resources/svgprimer.html">An SVG Primer for Today’s Browsers</a>” de <a href="http://srufaculty.sru.edu/david.dailey/">David Dailey</a>.</p>
